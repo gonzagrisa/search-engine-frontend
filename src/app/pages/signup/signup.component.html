@@ -1,0 +1,74 @@
+<div class="container mt-5 mb-5">
+    <div class="text-center">
+        <img src="assets/logo-blue.svg" class="img-fluid" width="150">
+        <h1 class="font-weight-bold"><strong >Crear Cuenta</strong></h1>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-4 col-sm-12 mx-auto">
+            <form [formGroup]="form" (ngSubmit)="signup()">
+                <div>
+                    <label for="username"><strong>Nombre de Usuario</strong></label>
+                    <input id="username" type="text" class="form-control" formControlName="username" autocomplete="off"
+                        placeholder="usuario123">
+                    <small class="invalid-input"
+                        *ngIf="username.invalid && username.touched && username.value == ''">Ingrese un Nombre de
+                        Usuario</small>
+                    <small class="invalid-input"
+                        *ngIf="username.errors?.usernameTaken">El nombre de usuario ya se encuentra en uso</small>
+                </div>
+                <div>
+                    <label class="mt-2" for="name">
+                        <strong>Nombre</strong>
+                    </label>
+                    <input id="name" type="text" class="form-control" formControlName="firstName" autocomplete="off"
+                        placeholder="Pablo">
+                    <small class="invalid-input"
+                        *ngIf="firstName.invalid && firstName.touched && firstName.value == ''">Ingrese su
+                        Nombre</small>
+                </div>
+                <div>
+                    <label class="mt-2" for="last-name">
+                        <strong>Apellido</strong>
+                    </label>
+                    <input id="last-name" type="text" class="form-control" formControlName="lastName" autocomplete="off"
+                        placeholder="Martínez">
+                    <small class="invalid-input"
+                        *ngIf="lastName.invalid && lastName.touched && lastName.value == ''">Ingrese su Apellido</small>
+                </div>
+                <div>
+                    <label class="mt-2" for="password">
+                        <strong>Contraseña</strong>
+                    </label>
+                    <input id="password" type="password" class="form-control" formControlName="password"
+                        placeholder="•••••••••••••">
+                    <small class="invalid-input"
+                        *ngIf="password.invalid && password.touched && password.value == ''">Ingrese una
+                        Contraseña</small>
+                </div>
+                <div>
+                    <label class="mt-2" for="confirm-password">
+                        <strong>Confirmar Contraseña</strong>
+                    </label>
+                    <input id="confirm-password" type="password" class="form-control" formControlName="passwordConfirm"
+                        placeholder="•••••••••••••">
+                    <small class="invalid-input" *ngIf="passwordConfirm.dirty && !passwordMatch()">Las contraseñas no
+                        coinciden</small>
+                </div>
+
+                <br>
+                <span>Al hacer click en crear cuenta, usted acepta los <a [routerLink]="['/terms']" class="font-weight-bold">Términos y Condiciones de Uso</a> </span>
+                <button type="submit" class="btn btn-primary btn-block mt-4"
+                    [disabled]="this.form.invalid || !this.passwordMatch() || this.form.pending">
+                    <strong>Crear Cuenta</strong>
+                </button>
+            </form>
+            <hr>
+            <div class="text-center">
+                <span>
+                    ¿Ya tenés una cuenta? <br> <a [routerLink]="['/login']"><strong>Ingresá aquí</strong></a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>

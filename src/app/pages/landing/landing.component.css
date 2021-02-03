@@ -1,0 +1,9 @@
+.features{
+    text-align: right;
+}
+
+@media (max-width: 767px) {
+    .features{
+        text-align: center;
+    }
+}

@@ -1,0 +1,114 @@
+<form [formGroup]="formRow">
+    <table class="table table-hover shadow-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Nombre de Usuario</th>
+                <th scope="col">Contraseña</th>
+                <!-- <th scope="col">Estado</th> -->
+                <th scope="col" style="width:  11%">Cambiar de Perfil</th>
+                <th scope="col" style="width:  9%" class="text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="editId == null">
+                <td>
+                    <input type="text" class="form-control" formControlName="firstName">
+                    <!-- <small class="invalid-input"
+                        *ngIf="firstName.invalid && firstName.touched && firstName.value == ''">Ingrese
+                        el Nombre del Usuario</small> -->
+                </td>
+                <td> <input type="text" class="form-control" formControlName="lastName">
+                    <!-- <small class="invalid-input"
+                        *ngIf="lastName.invalid && lastName.touched && lastName.value == ''">Ingrese
+                        el Apellido del Usuario</small> -->
+                </td>
+                <td> <input type="text" class="form-control" formControlName="username">
+                    <!-- <small class="invalid-input"
+                        *ngIf="username.invalid && username.touched && username.value == ''">Ingrese
+                        una contraseña para el Usuario</small>
+                    <small class="invalid-input"
+                        *ngIf="!usernameValid">Nombre de Usuario no disponible</small> -->
+                </td>
+                <td> <input type="password" class="form-control" formControlName="password">
+                    <!-- <small class="invalid-input"
+                        *ngIf="password.invalid && password.touched && password.value == ''">Ingrese
+                        una contraseña para el Usuario</small> -->
+                </td>
+                <td>
+
+                </td>
+                <td>
+                   <!--  <button type="button" class="btn btn-success" (click)="createAccount()"
+                            [disabled]="formRow.invalid || !usernameValid">
+                        <fa-icon [icon]="faNewUser"></fa-icon>
+                        Usuario
+                    </button> -->
+                </td>
+            </tr>
+            <tr *ngFor="let user of usersPage; let i = index">
+                <ng-container *ngIf="editId == user.user_id">
+                    <!-- <td>
+                        <input type="text" class="form-control" formControlName="firstName">
+                        <small class="invalid-input"
+                            *ngIf="firstName.invalid && firstName.touched && firstName.value == ''">Ingrese
+                            el Nombre del Usuario</small>
+                    </td>
+                    <td> <input type="text" class="form-control" formControlName="lastName">
+                        <small class="invalid-input"
+                            *ngIf="lastName.invalid && lastName.touched && lastName.value == ''">Ingrese
+                            el Apellido del Usuario</small>
+                    </td>
+                    <td> <input type="text" class="form-control" formControlName="username">
+                        <small class="invalid-input"
+                            *ngIf="username.invalid && username.touched && username.value == ''">Ingrese
+                            una contraseña para el Usuario</small>
+                        <small class="invalid-input"
+                            *ngIf="!usernameValid">Nombre de Usuario no disponible</small>
+                    </td>
+                    <td> <input type="password" class="form-control" formControlName="password">
+                        <small class="invalid-input"
+                            *ngIf="password.invalid && password.touched && password.value == ''">Ingrese
+                            una contraseña para el Usuario</small>
+                    </td> -->
+                </ng-container>
+                <ng-container *ngIf="editId != user.user_id">
+                    <td>
+                        <ngb-highlight [result]="user.firstName" [term]="searchTerm"></ngb-highlight>
+                    </td>
+                    <td>
+                        <ngb-highlight [result]="user.lastName" [term]="searchTerm"></ngb-highlight>
+                    </td>
+                    <td>
+                        <ngb-highlight [result]="user.username" [term]="searchTerm"></ngb-highlight>
+                    </td>
+                    <td> ••••••••••••• </td>
+                </ng-container>
+                <td>
+                   <!--  <button class="btn btn-primary btn-block"
+                        (click)="impersonate(user.user_id)">Seleccionar</button> -->
+                </td>
+                <td class="text-center">
+                    <!-- <ng-template [ngIf]="editId != user.user_id">
+                        <button class="btn btn-primary m-1" (click)="edit(user)">
+                            <fa-icon [icon]="faUserEdit"></fa-icon>
+                        </button>
+                        <button class="btn btn-danger" (click)="deleteUser(user)">
+                            <fa-icon [icon]="faUserSlash"></fa-icon>
+                        </button>
+                    </ng-template>
+                    <ng-template [ngIf]="editId == user.user_id">
+                        <button class="btn btn-success m-1" (click)="updateUser()"
+                            [disabled]="formRow.invalid">
+                            <fa-icon [icon]="faUpdate"></fa-icon>
+                        </button>
+                        <button class="btn btn-danger m-1" (click)="resetForm()">
+                            <fa-icon [icon]="faCancel"></fa-icon>
+                        </button>
+                    </ng-template> -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>

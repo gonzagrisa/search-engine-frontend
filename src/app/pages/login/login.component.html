@@ -1,0 +1,30 @@
+<div class="container mt-5 mb-5">
+    <div class="text-center">
+        <img src="assets/logo-blue.svg" class="img-fluid" width="150">
+        <h1 class="font-weight-bold"><strong>Login</strong></h1>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-4 col-sm-12 mx-auto">
+            <form [formGroup]="form" (ngSubmit)="login()">
+                <div>
+                    <label for="username"><strong>Nombre de Usuario</strong></label>
+                    <input id="username" type="text" class="form-control" formControlName="username" autocomplete="off"
+                        placeholder="usuario123" spellcheck="false">
+                    <small class="invalid-input"
+                        *ngIf="username.invalid && username.touched && username.value == ''">Ingrese su Nombre de
+                        Usuario</small>
+                </div>
+
+                <label class="mt-3" for="password"><strong>Contraseña</strong></label>
+                <input id="password" type="password" class="form-control" formControlName="password"
+                    placeholder="•••••••••••••">
+                <small class="invalid-input" *ngIf="password.invalid && password.touched">Ingrese su contraseña</small>
+                <button type="submit" class="btn btn-primary btn-block mt-4" [disabled]="this.form.invalid" >Ingresar</button>
+            </form>
+            <hr>
+            <div class="text-center">
+                <span>¿No tenés una cuenta? <br> <a [routerLink]="['/signup']"><strong>Creá una aquí</strong></a></span>
+            </div>
+        </div>
+    </div>
+</div>
