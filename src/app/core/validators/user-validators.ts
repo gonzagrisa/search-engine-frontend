@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { AbstractControl, AsyncValidatorFn, FormGroup } from "@angular/forms";
-import { Observable, of, timer } from "rxjs";
-import { catchError, debounceTime, map, switchMap } from "rxjs/operators";
-import { UserResourceService } from "src/app/api/resources/user-resource.service";
+import { Injectable } from '@angular/core';
+import { AbstractControl, AsyncValidatorFn, FormGroup } from '@angular/forms';
+import { Observable, of, timer } from 'rxjs';
+import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
+import { UserResourceService } from 'src/app/api/resources/user-resource.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,10 +13,11 @@ export class UserValidators {
     username(field?: string, userId?: number): AsyncValidatorFn {
         return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
             let id: number;
-            if (field)
+            if (field){
                 id = control.parent.get(field).value;
-            else
+            } else {
                 id = userId;
+            }
             return timer(500).pipe(switchMap(() => {
                 return this.api.checkUsername({userId: id, username: control.value })
                     .pipe(debounceTime(1000))
@@ -25,20 +26,21 @@ export class UserValidators {
                             return null;
                         }),
                         catchError(() => {
-                            return of({ usernameTaken: true })
+                            return of({ usernameTaken: true });
                         })
-                    )
-            }))
-        }
+                    );
+            }));
+        };
     }
 
     password(field?: string, userId?: number): AsyncValidatorFn {
         return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
             let id: number;
-            if (field)
+            if (field){
                 id = control.parent.get(field).value;
-            else
+            } else {
                 id = userId;
+            }
             return timer(500).pipe(switchMap(() => {
                 return this.api.checkPassword({userId: id, password: control.value})
                     .pipe(debounceTime(1000))
@@ -47,13 +49,13 @@ export class UserValidators {
                             return null;
                         }),
                         catchError(() => {
-                            return of({ notOgPassword: true })
+                            return of({ notOgPassword: true });
                         })
-                    )
-            }))
-        }
+                    );
+            }));
+        };
     }
-    
+
     /* Custom Validator (not a function validator)
     username(control: AbstractControl, userId: number): Observable<{ [key: string]: any }> {
         if (!control.value) {

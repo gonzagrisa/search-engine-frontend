@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserResourceService } from 'src/app/api/resources/user-resource.service';
 import { UserValidators } from 'src/app/core/validators/user-validators';
@@ -15,9 +15,9 @@ export class SignupComponent implements OnInit {
   form: FormGroup;
 
   constructor(private fb: FormBuilder,
-    private api: UserResourceService,
-    private router: Router,
-    private userValidator: UserValidators) { }
+              private api: UserResourceService,
+              private router: Router,
+              private userValidator: UserValidators) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -27,9 +27,9 @@ export class SignupComponent implements OnInit {
       password: ['', [Validators.required]],
       passwordConfirm: ['', [Validators.required]]
     });
-  };
+  }
 
-  signup() {
+  signup(): void {
     this.api.signup(this.form.value).subscribe(
       () => {
         Swal.fire({
@@ -37,32 +37,32 @@ export class SignupComponent implements OnInit {
           showConfirmButton: false,
           icon: 'success',
           timer: 2000
-        }).then(() => this.router.navigate(['login']))
+        }).then(() => this.router.navigate(['login']));
       }
-    )
+    );
   }
 
-  passwordMatch() {
+  passwordMatch(): boolean {
     return this.password.value === this.passwordConfirm.value;
   }
 
-  get username() {
+  get username(): AbstractControl {
     return this.form.get('username');
   }
 
-  get firstName() {
+  get firstName(): AbstractControl {
     return this.form.get('firstName');
   }
 
-  get lastName() {
+  get lastName(): AbstractControl {
     return this.form.get('lastName');
   }
 
-  get password() {
+  get password(): AbstractControl {
     return this.form.get('password');
   }
 
-  get passwordConfirm() {
+  get passwordConfirm(): AbstractControl {
     return this.form.get('passwordConfirm');
   }
 }

@@ -13,55 +13,55 @@ export class AuthService {
   role$ = this.role.asObservable();
 
   constructor() {
-    console.log("ASDASD")
     if (this.getToken()){
       this.role.next(this.getUserToken().role);
     } else{
-      this.role.next(null); 
+      this.role.next(null);
     }
   }
 
-  setToken(token: string){
+  setToken(token: string): void {
     localStorage.setItem('token', token);
     this.role.next(this.getUserToken().role);
   }
-  
-  getToken(){
+
+  getToken(): string {
     return localStorage.getItem('token');
   }
 
-  isLoggedIn(){
+  isLoggedIn(): boolean {
     return this.getToken() != null;
   }
 
-  isAdmin(){
-    if (this.isLoggedIn())
-      return this.getUserToken().role === "ADMIN";
+  isAdmin(): boolean {
+    if (this.isLoggedIn()) {
+      return this.getUserToken().role === 'ADMIN';
+    }
     return false;
   }
 
-  getDecodedToken(){
+  getDecodedToken(): unknown{
     return jwtDecode(this.getToken());
   }
 
   getUserToken(): IUser{
-    let decoded = jwtDecode(this.getToken());
-    let user: IUser = {
+    const decoded = jwtDecode(this.getToken());
+    const user: IUser = {
       userId: decoded['id'],
       username: decoded['username'],
       role: decoded['role']
-    }
+    };
     return user;
   }
 
-  isImpresonator(){
+  isImpresonator(): boolean {
     if (this.isLoggedIn()){
-      return this.getDecodedToken()['impersonator'] != null
+      return this.getDecodedToken()['impersonator'] != null;
     }
     return false;
   }
 
-  deleteToken(){
+  deleteToken(): void{
     localStorage.removeItem('token');
     this.role.next(null);
   }

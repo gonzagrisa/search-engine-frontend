@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IUser } from 'src/app/api/models/i-user';
 import { UserResourceService } from 'src/app/api/resources/user-resource.service';
@@ -17,6 +17,8 @@ export class ProfileComponent implements OnInit {
   formPassword: FormGroup;
   user: IUser;
 
+  RESOLVER_FIELD = 'user';
+
   constructor(
     private route: ActivatedRoute,
     public authService: AuthService,
@@ -25,7 +27,7 @@ export class ProfileComponent implements OnInit {
     private userValidator: UserValidators) { }
 
   ngOnInit(): void {
-    this.user = this.route.snapshot.data['user'];
+    this.user = this.route.snapshot.data[this.RESOLVER_FIELD];
 
     this.formData = this.fb.group({
       username: [this.user.username, [Validators.required], [this.userValidator.username(null, this.user.userId).bind(this)]],
@@ -40,7 +42,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  updateInfo() {
+  updateInfo(): void {
     this.api.updateInfo(this.newPassword.value).subscribe({
       next: () => {
         Swal.fire({
@@ -53,7 +55,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  updatePassword() {
+  updatePassword(): void {
     this.api.updatePassword({password: this.newPassword.value}).subscribe({
       next: () => {
         Swal.fire({
@@ -67,10 +69,10 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  deleteAccount(){
+  deleteAccount(): void{
     Swal.fire({
       title: 'Estás Seguro?',
-      text: "Esta acción no se puede deshacer",
+      text: 'Esta acción no se puede deshacer',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -82,36 +84,36 @@ export class ProfileComponent implements OnInit {
           'Cuenta Eliminada 😢',
           'Un gusto haberte conocido ' + this.user.username,
           'success'
-        )
+        );
       }
-    })
+    });
   }
 
-  passwordMatch() {
-    return this.newPassword.value === this.newPasswordConfirm.value
+  passwordMatch(): boolean {
+    return this.newPassword.value === this.newPasswordConfirm.value;
   }
 
-  get username() {
+  get username(): AbstractControl {
     return this.formData.get('username');
   }
 
-  get firstName() {
+  get firstName(): AbstractControl {
     return this.formData.get('firstName');
   }
 
-  get lastName() {
+  get lastName(): AbstractControl {
     return this.formData.get('lastName');
   }
 
-  get oldPassword() {
+  get oldPassword(): AbstractControl {
     return this.formPassword.get('oldPassword');
   }
 
-  get newPassword() {
+  get newPassword(): AbstractControl {
     return this.formPassword.get('newPassword');
   }
 
-  get newPasswordConfirm() {
+  get newPasswordConfirm(): AbstractControl {
     return this.formPassword.get('newPasswordConfirm');
   }
 }

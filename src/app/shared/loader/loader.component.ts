@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Loader, LoaderService } from 'src/app/services/loader.service';
 
@@ -7,9 +7,9 @@ import { Loader, LoaderService } from 'src/app/services/loader.service';
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.css']
 })
-export class LoaderComponent implements OnInit {
+export class LoaderComponent implements OnInit, OnDestroy {
   private _subscription: Subscription;
-  private _loaded: boolean = false;
+  private _loaded = false;
 
   constructor(private _service: LoaderService) { }
 

@@ -16,10 +16,10 @@ export class LoaderService {
   }
 
   public start(): void {
-    this._subject.next(<Loader>{ loaded: true });
+    this._subject.next({ loaded: true } as Loader);
   }
 
   public complete(): void {
-    this._subject.next(<Loader>{ loaded: false });
+    this._subject.next({ loaded: false } as Loader);
   }
 }

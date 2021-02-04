@@ -18,7 +18,4 @@ export class NotFoundComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
   }
-
-  ngOn
-
 }

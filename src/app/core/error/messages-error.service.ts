@@ -31,9 +31,9 @@ export class MessagesErrorService implements ErrorHandler {
         message = { text: error.body.message, num: error.status };
       }
       else {
-        if (error.status == 0) {
-          message = { text: "Error al conectarse al servicio", num: error.status };
-        } else if (error.status == 401){
+        if (error.status === 0) {
+          message = { text: 'Error al conectarse al servicio', num: error.status };
+        } else if (error.status === 401){
           message = { text: error.body, num: error.status };
           this.auth.deleteToken();
           this._ngZone.run(() => this.router.navigateByUrl('/login'));
@@ -49,7 +49,7 @@ export class MessagesErrorService implements ErrorHandler {
       message = { text: error, num: error.status };
     }
 
-    !environment.production ? console.log(error) : null;
+    /* !environment.production ? console.log(error) : null; */
 
     this._ngZone.run(() => this._service.showMessage(message), 0);
   }

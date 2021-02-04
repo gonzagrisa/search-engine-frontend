@@ -11,8 +11,8 @@ export class AppComponent {
   constructor(private router: Router) {}
 
 
-  enable(){
-    return this.router.url != '/404';
+  enable(): boolean{
+    return this.router.url !== '/404';
   }
 
 }

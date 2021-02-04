@@ -19,84 +19,84 @@ export class NavbarComponent implements OnInit {
 
   authLinks: ILink[] = [
     {
-      link: "/login",
-      text: "🔑 Iniciar Sesión"
+      link: '/login',
+      text: '🔑 Iniciar Sesión'
     },
     {
-      link: "/signup",
-      text: "✎ Crear Cuenta"
+      link: '/signup',
+      text: '✎ Crear Cuenta'
     }
-  ]
+  ];
 
   commonLinks: ILink[] = [
     {
-      link: "/dashboard",
-      text: "📋 Dashboard",
+      link: '/dashboard',
+      text: '📋 Dashboard',
     },
     {
-      link: "/profile",
-      text: "📃 Perfil",
+      link: '/profile',
+      text: '📃 Perfil',
     }
-  ]
+  ];
 
   userLinks: ILink[] = [
     ...this.commonLinks,
     {
-      link: "/websites",
-      text: "Páginas Web"
+      link: '/websites',
+      text: 'Páginas Web'
     },
     {
-      link: "/services",
-      text: "Servicios"
+      link: '/services',
+      text: 'Servicios'
     }
-  ]
+  ];
 
   adminLinks: ILink[] = [
     ...this.commonLinks,
     {
-      link: "/users",
-      text: "Usuarios",
+      link: '/users',
+      text: 'Usuarios',
       icon: faUsers
     }
-  ]
+  ];
 
   faUsers = faUsers;
   faLogOut = faSignOutAlt;
   faBackwards = faBackward;
 
-  links: ILink[]
+  links: ILink[];
 
   constructor(public auth: AuthService,
-    private router: Router,
-    private api: UserResourceService) {
+              private router: Router,
+              private api: UserResourceService) {
   }
 
   ngOnInit(): void {
-    this.auth.role$.subscribe((role) => this.updateLinks(role))
+    this.auth.role$.subscribe((role) => this.updateLinks(role));
   }
 
-  updateLinks(role: string) {
-    if (role == null)
+  updateLinks(role: string): void {
+    if (role == null) {
       this.links = this.authLinks;
-    else if (role == "ADMIN") {
+    } else if (role === 'ADMIN') {
       this.links = this.adminLinks;
     } else {
       this.links = this.userLinks;
     }
   }
 
-  logOut() {
+  logOut(): void {
     this.auth.deleteToken();
     this.router.navigate(['']);
   }
 
-  returnAccount() {
-    let id = this.auth.getDecodedToken()['impersonator']
-    this.api.returnAccount({ id: id }).subscribe(
+  returnAccount(): void {
+    const id = this.auth.getDecodedToken()['impersonator'];
+    this.api.returnAccount({ id }).subscribe(
       (res) => {
         this.auth.setToken(res);
         this.router.navigate(['dashboard']);
       }
-    )
+    );
   }
 }

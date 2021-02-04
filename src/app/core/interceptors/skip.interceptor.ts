@@ -14,7 +14,7 @@ export class SkipInterceptor implements HttpInterceptor {
   constructor(private loaderService: LoaderService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (request.headers.has("skip")) {
+    if (request.headers.has('skip')) {
       request = request.clone({
         headers: request.headers.delete('skip')
       });
