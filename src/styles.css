@@ -3,6 +3,25 @@ app-root{
     /* width: 100vw; */
 }
 
+input {
+    /* border-radius: 0.5rem!important; */
+    border-radius: 8px!important;
+}
+
+button {
+    /* border-radius: 0.4rem!important; */
+    border-radius: 8px!important;
+}
+
+input:hover{
+    color: #212529;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.20rem rgba(13, 110, 253, 0.25);
+
+}
+
 .invalid-input{
     color: red;
     font-weight: bold;
