@@ -28,7 +28,7 @@
                         <tbody>
                             <tr *ngIf="editId == null">
                                 <td>
-                                    <input type="text" class="form-control" formControlName="firstName">
+                                    <input type="text" class="form-control rounded" formControlName="firstName">
                                     <small class="invalid-input"
                                         *ngIf="firstName.invalid && firstName.touched && firstName.value == ''">Ingrese
                                         el Nombre del Usuario</small>
@@ -51,9 +51,7 @@
                                         *ngIf="password.invalid && password.touched && password.value == ''">Ingrese
                                         una contraseña para el Usuario</small>
                                 </td>
-                                <td>
-
-                                </td>
+                                <td> </td>
                                 <td>
                                     <button type="button" class="btn btn-success" (click)="createAccount()"
                                         [disabled]="formRow.invalid || formRow.pending">
@@ -62,8 +60,21 @@
                                     </button>
                                 </td>
                             </tr>
+                            <tr *ngIf="editId != null">
+                                <td> <input type="text" class="form-control" disabled> </td>
+                                <td> <input type="text" class="form-control" disabled> </td>
+                                <td> <input type="text" class="form-control" disabled> </td>
+                                <td> <input type="password" class="form-control" disabled></td>
+                                <td> </td>
+                                <td>
+                                    <button type="button" class="btn btn-success" disabled>
+                                        <fa-icon [icon]="faNewUser"></fa-icon>
+                                        Usuario
+                                    </button>
+                                </td>
+                            </tr>
                             <tr *ngFor="let user of usersPage; let i = index">
-                                <ng-container *ngIf="editId == user.user_id">
+                                <ng-container *ngIf="editId == user.userId">
                                     <td>
                                         <input type="text" class="form-control" formControlName="firstName">
                                         <small class="invalid-input"
@@ -89,7 +100,7 @@
                                             una contraseña para el Usuario</small>
                                     </td>
                                 </ng-container>
-                                <ng-container *ngIf="editId != user.user_id">
+                                <ng-container *ngIf="editId != user.userId">
                                     <td>
                                         <ngb-highlight [result]="user.firstName" [term]="searchTerm"></ngb-highlight>
                                     </td>
@@ -103,10 +114,10 @@
                                 </ng-container>
                                 <td>
                                     <button class="btn btn-primary btn-block"
-                                        (click)="impersonate(user.user_id)">Seleccionar</button>
+                                        (click)="impersonate(user.userId)">Seleccionar</button>
                                 </td>
                                 <td class="text-center">
-                                    <ng-template [ngIf]="editId != user.user_id">
+                                    <ng-template [ngIf]="editId != user.userId">
                                         <button class="btn btn-primary m-1" (click)="edit(user)">
                                             <fa-icon [icon]="faUserEdit"></fa-icon>
                                         </button>
@@ -114,7 +125,7 @@
                                             <fa-icon [icon]="faUserSlash"></fa-icon>
                                         </button>
                                     </ng-template>
-                                    <ng-template [ngIf]="editId == user.user_id">
+                                    <ng-template [ngIf]="editId == user.userId">
                                         <button class="btn btn-success m-1" (click)="updateUser()"
                                             [disabled]="formRow.invalid">
                                             <fa-icon [icon]="faUpdate"></fa-icon>
@@ -140,7 +151,8 @@
         </div>
 
         <div class="col-md-6 col-12">
-            <select class="custom-select float-md-right" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshUsers()">
+            <select class="custom-select float-md-right" style="width: auto" [(ngModel)]="pageSize"
+                (ngModelChange)="refreshUsers()">
                 <option [ngValue]="10">10 Usuarios por página</option>
                 <option [ngValue]="50">50 Usuarios por página</option>
                 <option [ngValue]="100">100 Usuarios por página</option>

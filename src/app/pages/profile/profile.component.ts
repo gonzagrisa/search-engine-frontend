@@ -28,13 +28,13 @@ export class ProfileComponent implements OnInit {
     this.user = this.route.snapshot.data['user'];
 
     this.formData = this.fb.group({
-      username: [this.user.username, [Validators.required], [this.userValidator.username(null, this.user.user_id).bind(this)]],
+      username: [this.user.username, [Validators.required], [this.userValidator.username(null, this.user.userId).bind(this)]],
       firstName: [this.user.firstName, [Validators.required]],
       lastName: [this.user.lastName, [Validators.required]],
     });
 
     this.formPassword = this.fb.group({
-      oldPassword: ['', [Validators.required], [this.userValidator.password(null, this.user.user_id).bind(this)]],
+      oldPassword: ['', [Validators.required], [this.userValidator.password(null, this.user.userId).bind(this)]],
       newPassword: ['', [Validators.required]],
       newPasswordConfirm: ['', [Validators.required]]
     });

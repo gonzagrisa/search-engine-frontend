@@ -18,7 +18,7 @@ export class UserValidators {
             else
                 id = userId;
             return timer(500).pipe(switchMap(() => {
-                return this.api.checkUsername({user_id: id, username: control.value })
+                return this.api.checkUsername({userId: id, username: control.value })
                     .pipe(debounceTime(1000))
                     .pipe(
                         map(() => {
@@ -40,7 +40,7 @@ export class UserValidators {
             else
                 id = userId;
             return timer(500).pipe(switchMap(() => {
-                return this.api.checkPassword({user_id: id, password: control.value})
+                return this.api.checkPassword({userId: id, password: control.value})
                     .pipe(debounceTime(1000))
                     .pipe(
                         map(() => {

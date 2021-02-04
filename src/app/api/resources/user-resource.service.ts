@@ -55,7 +55,7 @@ export class UserResourceService extends Resource {
     headers: {skip:"true"},
     asResourceResponse: true
   })
-  checkPassword: IResourceMethodObservable<{user_id: number, password: string}, Response>;
+  checkPassword: IResourceMethodObservable<{userId: number, password: string}, Response>;
 
   @ResourceAction({
     method: ResourceRequestMethod.Put,

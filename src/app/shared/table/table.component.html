@@ -48,7 +48,7 @@
                 </td>
             </tr>
             <tr *ngFor="let user of usersPage; let i = index">
-                <ng-container *ngIf="editId == user.user_id">
+                <ng-container *ngIf="editId == user.userId">
                     <!-- <td>
                         <input type="text" class="form-control" formControlName="firstName">
                         <small class="invalid-input"
@@ -73,7 +73,7 @@
                             una contraseña para el Usuario</small>
                     </td> -->
                 </ng-container>
-                <ng-container *ngIf="editId != user.user_id">
+                <ng-container *ngIf="editId != user.userId">
                     <td>
                         <ngb-highlight [result]="user.firstName" [term]="searchTerm"></ngb-highlight>
                     </td>
@@ -87,10 +87,10 @@
                 </ng-container>
                 <td>
                    <!--  <button class="btn btn-primary btn-block"
-                        (click)="impersonate(user.user_id)">Seleccionar</button> -->
+                        (click)="impersonate(user.userId)">Seleccionar</button> -->
                 </td>
                 <td class="text-center">
-                    <!-- <ng-template [ngIf]="editId != user.user_id">
+                    <!-- <ng-template [ngIf]="editId != user.userId">
                         <button class="btn btn-primary m-1" (click)="edit(user)">
                             <fa-icon [icon]="faUserEdit"></fa-icon>
                         </button>
@@ -98,7 +98,7 @@
                             <fa-icon [icon]="faUserSlash"></fa-icon>
                         </button>
                     </ng-template>
-                    <ng-template [ngIf]="editId == user.user_id">
+                    <ng-template [ngIf]="editId == user.userId">
                         <button class="btn btn-success m-1" (click)="updateUser()"
                             [disabled]="formRow.invalid">
                             <fa-icon [icon]="faUpdate"></fa-icon>

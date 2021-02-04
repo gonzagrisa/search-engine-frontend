@@ -45,10 +45,10 @@ export class UsersComponent implements OnInit {
     this.users = this.route.snapshot.data['users'];
     this.refreshUsers();
     this.formRow = this.fb.group({
-      user_id: [null],
+      userId: [null],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      username: ['', [Validators.required], [this.userValidator.username('user_id').bind(this)]],
+      username: ['', [Validators.required], [this.userValidator.username('userId').bind(this)]],
       password: ['', [Validators.required]]
     });
   }
@@ -87,8 +87,8 @@ export class UsersComponent implements OnInit {
 
   edit(user: IUser) {
     this.formRow.reset()
-    this.editId = user.user_id;
-    this.userId.patchValue(user.user_id)
+    this.editId = user.userId;
+    this.userId.patchValue(user.userId)
     this.firstName.patchValue(user.firstName)
     this.lastName.patchValue(user.lastName)
     this.username.patchValue(user.username)
@@ -141,7 +141,7 @@ export class UsersComponent implements OnInit {
       confirmButtonText: 'Sí, eliminar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.api.deleteUser({ id: user.user_id }).subscribe(
+        this.api.deleteUser({ id: user.userId }).subscribe(
           () => {
             Swal.fire('Eliminado!', 'El usuario ha sido eliminado', 'success')
             this.updateListUsers();
@@ -152,7 +152,7 @@ export class UsersComponent implements OnInit {
   }
 
   get userId() {
-    return this.formRow?.get('user_id');
+    return this.formRow?.get('userId');
   }
 
   get firstName() {

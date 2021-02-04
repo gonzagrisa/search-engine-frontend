@@ -47,7 +47,7 @@ export class AuthService {
   getUserToken(): IUser{
     let decoded = jwtDecode(this.getToken());
     let user: IUser = {
-      user_id: decoded['id'],
+      userId: decoded['id'],
       username: decoded['username'],
       role: decoded['role']
     }
