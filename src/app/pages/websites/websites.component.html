@@ -3,57 +3,122 @@
         <h1 class="display-4">Listado de Páginas Web</h1>
     </div>
 </div>
-<div class="container mt-5">
+
+<div class="container mt-5 mb-5">
     <div class="row">
-        <table class="table table-hover shadow-sm">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">URL</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Reindexar</th>
-                </tr>
-            </thead>
-            <tbody class="rounded">
-                <tr>
-                    <td scope="col">URL</td>
-                    <td scope="col">A Indexar</td>
-                    <td scope="col">Reindexar</td>
-                </tr>
-                <tr>
-                    <td scope="col">URL</td>
-                    <td scope="col">A Indexar</td>
-                    <td scope="col"></td>
-                </tr>
-                <tr>
-                    <td scope="col">URL</td>
-                    <td scope="col">A Indexar</td>
-                    <td scope="col"></td>
-                </tr>
-                <tr>
-                    <td scope="col">URL</td>
-                    <td scope="col">A Indexar</td>
-                    <td scope="col"></td>
-                </tr>
-                <tr>
-                    <td scope="col">URL</td>
-                    <td scope="col">Indexado</td>
-                    <td scope="col">
-                        <button class="btn btn-primary rounded-pill shadow">Reindexar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td scope="col">URL</td>
-                    <td scope="col">Indexado</td>
-                    <td scope="col">
-                        <button class="btn btn-primary rounded-pill">Reindexar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td scope="col">URL</td>
-                    <td scope="col">Estado</td>
-                    <td scope="col">Reindexar</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="col-md-10 col-12 mx-auto rounded">
+            <div class="col-md-5 col-12 mb-5">
+                <label for="search" class="lead font-weight-bold">Buscar Página:</label>
+                <input id="search" class="form-control" type="text" placeholder="google.com" (keyup)="search()"
+                    name="searchTerm" [(ngModel)]="searchTerm" />
+            </div>
+            <form [formGroup]="formRow">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">URL</th>
+                                <th scope="col" class="text-center">Estado</th>
+                                <th scope="col" class="text-center"></th>
+                                <th scope="col"> </th>
+                            </tr>
+                        </thead>
+                        <tbody class="shadow-sm ">
+                            <tr *ngIf="editId == null">
+                                <td colspan="2" width="60%">
+                                    <input type="text" class="form-control" formControlName="url"
+                                        placeholder="http://www.pagina.com">
+                                    <small class="invalid-input" *ngIf="url.invalid && url.touched && url.value == ''">
+                                        Ingrese la URL de la Página
+                                    </small>
+                                    <small class="invalid-input" *ngIf="url.errors?.pattern">
+                                        Ingrese una URL con el siguiente patrón: http:// o https://...
+                                    </small>
+                                    <small class="invalid-input" *ngIf="url.errors?.registeredDomain">
+                                        El dominio ya se encuentra registrado en tu lista de páginas web
+                                    </small>
+                                </td>
+                                <td colspan="2" class="text-center px-5">
+                                    <button class="btn btn-success btn-block" (click)="addWebsite()"
+                                        [disabled]="formRow.invalid || formRow.pending">
+                                        Insertar Página
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="editId != null">
+                                <td colspan="2">
+                                    <input type="text" class="form-control rounded" disabled
+                                        placeholder="http://www.pagina.com">
+                                </td>
+                                <td colspan="2" class="text-center px-5">
+                                    <button class="btn btn-success btn-block" disabled>
+                                        Insertar Página
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let website of websitesPage">
+                                <ng-container *ngIf="editId != website.websiteId">
+                                    <td>
+                                        <ngb-highlight [result]="website.url" [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <!-- <td scope="col" class="align-middle"> {{website.url}} </td> -->
+                                    <td scope="col" class="text-center align-middle">
+                                        <h5>
+                                            <span class="badge badge-pill"
+                                                [ngClass]="website.indexed ? 'badge-success' : 'badge-info'">
+                                                {{website.indexed ? 'Indexado' : 'A Indexar'}}
+                                            </span>
+                                        </h5>
+                                    </td>
+                                    <td scope="col" class="mx-auto text-center">
+                                        <button class="btn btn-primary shadow-sm" (click)="reindex(website)"
+                                            [disabled]="website.reindex">
+                                            Reindexar
+                                        </button>
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-primary m-1" (click)="edit(website)">
+                                            <fa-icon [icon]="faPen"></fa-icon>
+                                        </button>
+                                        <button class="btn btn-danger" (click)="deleteWebsite(website)">
+                                            <fa-icon [icon]="faDelete"></fa-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container *ngIf="editId == website.websiteId">
+                                    <td colspan="2" width="60%">
+                                        <input type="text" class="form-control" formControlName="url">
+                                        <small class="invalid-input"
+                                            *ngIf="url.invalid && url.touched && url.value == ''">
+                                            Ingrese la URL de la Página
+                                        </small>
+                                        <small class="invalid-input" *ngIf="url.errors?.pattern">
+                                            Ingrese una URL con el siguiente patrón: http:// o https://...
+                                        </small>
+                                        <small class="invalid-input" *ngIf="url.errors?.registeredDomain">
+                                            El dominio ya se encuentra registrado en tu lista de páginas web
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success btn-block" (click)="updateWebsite(website)"
+                                            [disabled]="formRow.invalid || formRow.pending">
+                                            <fa-icon [icon]="faUpdate"></fa-icon>
+                                            Actualizar
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-block" (click)="cancelEdit()">
+                                            <fa-icon [icon]="faCancel"></fa-icon>
+                                            Cancelar
+                                        </button>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
