@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
@@ -8,15 +7,13 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class AdminGuard implements CanActivate {
 
-  constructor(private authService: AuthService) {}
+  constructor(private router: Router ,private authService: AuthService) { }
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): boolean {
-      if (this.authService.getToken) {
-        
-      }
-    return true;
+  canActivate(): boolean {
+    if (this.authService.isAdmin()) {
+      return true;
+    }
+    this.router.navigateByUrl('/');
+    return false;
   }
-  
 }

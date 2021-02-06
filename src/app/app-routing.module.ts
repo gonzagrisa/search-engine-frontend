@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TableFormComponent } from './aux/table-form/table-form.component';
+import { AdminGuard } from './core/guards/admin.guard';
 import { AuthGuard } from './core/guards/auth.guard';
+import { LoggedInGuard } from './core/guards/logged-in.guard';
 import { InfoResolver } from './core/resolvers/info-resolver';
 import { UsersResolver } from './core/resolvers/users-resolver';
+import { WebsitesResolver } from './core/resolvers/websites-resolver';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -17,13 +20,13 @@ import { WebsitesComponent } from './pages/websites/websites.component';
 
 const routes: Routes = [
   {path: '', component: LandingComponent},
-  {path: 'login', component: LoginComponent, canActivate: [AuthGuard]},
-  {path: 'signup', component: SignupComponent, canActivate: [AuthGuard]},
+  {path: 'login', component: LoginComponent, canActivate: [LoggedInGuard]},
+  {path: 'signup', component: SignupComponent, canActivate: [LoggedInGuard]},
   {path: 'profile', component: ProfileComponent, resolve: {user: InfoResolver}},
-  {path: 'dashboard', component: DashboardComponent},
-  {path: 'users', component: UsersComponent, resolve: {users: UsersResolver}},
-  {path: 'websites', component: WebsitesComponent},
-  {path: 'services', component: ServicesComponent},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  {path: 'users', component: UsersComponent, canActivate: [AdminGuard], resolve: {users: UsersResolver}},
+  {path: 'websites', component: WebsitesComponent, resolve: {websites: WebsitesResolver}},
+  {path: 'services', component: ServicesComponent, canActivate: [AuthGuard]},
   {path: '404', component: NotFoundComponent},
   {path: 'table', component: TableFormComponent},
   {path: 'terms', component: TermsComponent},
