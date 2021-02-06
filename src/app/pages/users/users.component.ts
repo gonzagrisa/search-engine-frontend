@@ -42,7 +42,9 @@ export class UsersComponent implements OnInit {
     private userValidator: UserValidators) { }
 
   ngOnInit(): void {
-    this.users = this.route.snapshot.data['users'];
+    this.route.data.subscribe((data) => {
+      this.users = data.users;
+    });
     this.refreshUsers();
     this.formRow = this.fb.group({
       userId: [null],
@@ -76,25 +78,16 @@ export class UsersComponent implements OnInit {
       || user.lastName.toLocaleLowerCase().includes(term);
   }
 
-  impersonate(id: number): void {
-    this.api.impersonate({id}).subscribe(
-      (res) => {
-        this.authService.setToken(res);
-        this.router.navigate(['dashboard']);
-      }
-    );
-  }
-
   edit(user: IUser): void {
-    this.formRow.reset();
     this.editId = user.userId;
-    this.userId.patchValue(user.userId);
-    this.firstName.patchValue(user.firstName);
-    this.lastName.patchValue(user.lastName);
-    this.username.patchValue(user.username);
+    this.password.setValue('');
+    this.lastName.setValue(user.lastName);
+    this.firstName.setValue(user.firstName);
+    this.userId.setValue(user.userId);
+    this.username.setValue(user.username);
   }
 
-  resetForm(): void {
+  cancelEdit(): void {
     this.editId = null;
     this.formRow.reset();
   }
@@ -115,21 +108,20 @@ export class UsersComponent implements OnInit {
     this.api.signup(this.formRow.value).subscribe(
       () => {
         Swal.fire('Cuenta Creada!', '', 'success');
-        this.resetForm();
+        this.cancelEdit();
         this.updateListUsers();
       }
     );
   }
 
   updateUser(): void {
-    console.log(this.userId.value);
     this.api.updateUser(this.formRow.value, null, { id: this.userId.value }).subscribe(
       () => {
         Swal.fire('Operación Exitosa', 'Usuario Actualizado', 'success');
         this.updateListUsers();
       }
     );
-    this.resetForm();
+    this.cancelEdit();
   }
 
   deleteUser(user: IUser): void {
@@ -149,6 +141,15 @@ export class UsersComponent implements OnInit {
         );
       }
     });
+  }
+
+  impersonate(id: number): void {
+    this.api.impersonate({id}).subscribe(
+      (res) => {
+        this.authService.setToken(res);
+        this.router.navigate(['dashboard']);
+      }
+    );
   }
 
   get userId(): AbstractControl {
