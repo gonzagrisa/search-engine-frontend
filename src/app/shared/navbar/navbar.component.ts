@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faBackward, faSignOutAlt, faUsers, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faBackward, faSignOutAlt, faUsers, IconDefinition, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { UserResourceService } from 'src/app/api/resources/user-resource.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -43,11 +43,12 @@ export class NavbarComponent implements OnInit {
     ...this.commonLinks,
     {
       link: '/websites',
-      text: 'Páginas Web'
+      text: '📰 Páginas Web'
     },
     {
       link: '/services',
-      text: 'Servicios'
+      text: 'Servicios',
+      icon: faPaperPlane
     }
   ];
 
@@ -63,6 +64,7 @@ export class NavbarComponent implements OnInit {
   faUsers = faUsers;
   faLogOut = faSignOutAlt;
   faBackwards = faBackward;
+  faPaperPlane = faPaperPlane;
 
   links: ILink[];
 

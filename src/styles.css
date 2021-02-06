@@ -1,5 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-app-root{
+
+body {
+    padding-top: 70px;
+}
+
+app-root {
     /* width: 100vw; */
 }
 
@@ -13,17 +18,28 @@ button {
     border-radius: 8px!important;
 }
 
-input:hover{
+input:hover {
     color: #212529;
     background-color: #fff;
     border-color: #86b7fe;
     outline: 0;
     box-shadow: 0 0 0 0.20rem rgba(13, 110, 253, 0.25);
-
 }
 
-.invalid-input{
+.invalid-input {
     color: red;
     font-weight: bold;
 }
-  
+
+table.table-fit {
+    width: auto !important;
+    table-layout: auto !important;
+}
+
+table.table-fit thead th, table.table-fit tfoot th {
+    width: auto !important;
+}
+
+table.table-fit tbody td, table.table-fit tfoot td {
+    width: auto !important;
+}
