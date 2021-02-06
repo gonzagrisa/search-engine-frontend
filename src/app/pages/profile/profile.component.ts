@@ -43,7 +43,7 @@ export class ProfileComponent implements OnInit {
   }
 
   updateInfo(): void {
-    this.api.updateInfo(this.newPassword.value).subscribe({
+    this.api.updateInfo(this.formData.value).subscribe({
       next: () => {
         Swal.fire({
           icon: 'success',
