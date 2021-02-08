@@ -30,6 +30,9 @@ import { TermsComponent } from './pages/terms/terms.component';
 import { WebsitesComponent } from './pages/websites/websites.component';
 import { ServicesComponent } from './pages/services/services.component';
 import { TableComponent } from './shared/table/table.component';
+import { WebsiteFormComponent } from './aux/website-form/website-form.component';
+import { MetadataComponent } from './pages/metadata/metadata.component';
+import { PreferencesComponent } from './pages/preferences/preferences.component';
 
 
 @NgModule({
@@ -50,7 +53,10 @@ import { TableComponent } from './shared/table/table.component';
     TermsComponent,
     WebsitesComponent,
     ServicesComponent,
-    TableComponent
+    TableComponent,
+    WebsiteFormComponent,
+    MetadataComponent,
+    PreferencesComponent
   ],
   imports: [
     BrowserModule,

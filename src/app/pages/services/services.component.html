@@ -3,22 +3,186 @@
         <h1 class="display-4">Listado de Servicios</h1>
     </div>
 </div>
-<div class="container mt-5">
-    <div class="row">
-        <table class="table table-hover shadow-sm">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido</th>
-                    <th scope="col">Nombre de Usuario</th>
-                    <th scope="col">Contraseña</th>
-                    <!-- <th scope="col">Estado</th> -->
-                    <th scope="col" style="width:  11%">Cambiar de Perfil</th>
-                    <th scope="col" style="width:  9%" class="text-center"></th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+
+<div class="container-fluid mt-5 mb-5">
+    <div class="row mt-4">
+        <div class="col-md-12 col-12 mx-auto">
+            <div class="col-md-3">
+                <label for="search" class="lead font-weight-bold">Buscar Servicio:</label>
+                <input id="search" class="form-control" type="text" placeholder="api/paginas" (keyup)="search()"
+                    name="searchTerm" [(ngModel)]="searchTerm" />
+            </div>
+            <div class="table-responsive mt-4 col-md-12 col-12">
+                <form [formGroup]="formRow">
+                    <table class="table table-hover shadow">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">URL Ping</th>
+                                <th scope="col">URL Recurso</th>
+                                <th scope="col" style="width:  8%" class="text-center">Protocolo</th>
+                                <th scope="col" style="width:  5%" class="text-center">Estado</th>
+                                <th scope="col" style="width:  10%"> </th>
+                            </tr>
+                        </thead>
+                        <tbody class="align-middle">
+                            <tr *ngIf="editId == null">
+                                <td>
+                                    <input type="text" class="form-control" formControlName="URLPing"
+                                        placeholder="http://www.pagina.com/api/ping">
+                                    <small class="invalid-input"
+                                        *ngIf="URLPing.invalid && URLPing.touched && URLPing.value == ''">
+                                        Ingrese la URL de ping
+                                    </small>
+                                    <small class="invalid-input" *ngIf="URLPing.errors?.pattern">
+                                        Ingrese una URL válida
+                                    </small>
+                                    <small class="invalid-input" *ngIf="URLPing.errors?.pingFailed">
+                                        No se pudo hacer ping al servicio
+                                    </small>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" formControlName="URLResource"
+                                        placeholder="http://www.pagina.com/api/paginas">
+                                    <small class="invalid-input"
+                                        *ngIf="URLResource.invalid && URLResource.touched && URLResource.value == ''">
+                                        Ingrese la URL del Recurso
+                                    </small>
+                                    <small class="invalid-input" *ngIf="URLResource.errors?.pattern">
+                                        Ingrese una URL válida
+                                    </small>
+                                </td>
+                                <td>
+                                    <select class="form-control" formControlName="protocol">
+                                        <option value="REST">REST</option>
+                                        <option value="SOAP">SOAP</option>
+                                    </select>
+                                </td>
+                                <td scope="col"></td>
+                                <td>
+                                    <button class="btn btn-success m-1" (click)="addService()"
+                                        [disabled]="formRow.invalid || formRow.pending">
+                                        <ng-template [ngIf]="formRow.pending">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                        </ng-template>
+                                        <ng-template [ngIf]="!formRow.pending">
+                                            <fa-icon [icon]="faPlus"></fa-icon>
+                                        </ng-template>
+                                        Servicio
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="editId != null">
+                                <td><input type="text" class="form-control" disabled></td>
+                                <td><input type="text" class="form-control" disabled></td>
+                                <td><select class="form-control" disabled></select></td>
+                                <td scope="col" class="text-center align-middle"></td>
+                                <td>
+                                    <button class="btn btn-success m-1" disabled>
+                                        <fa-icon [icon]="faPlus"></fa-icon>
+                                        Servicio
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let service of servicesPage">
+                                <ng-container *ngIf="editId == service.serviceId">
+                                    <td>
+                                        <input type="text" class="form-control" formControlName="URLPing">
+                                        <small class="invalid-input"
+                                            *ngIf="URLPing.invalid && URLPing.touched && URLPing.value == ''">
+                                            Ingrese la URL de ping
+                                        </small>
+                                        <small class="invalid-input" *ngIf="URLPing.errors?.pattern">
+                                            Ingrese una URL válida
+                                        </small>
+                                        <small class="invalid-input" *ngIf="URLPing.errors?.pingFailed">
+                                            No se pudo hacer ping al servicio
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" formControlName="URLResource">
+                                        <small class="invalid-input"
+                                            *ngIf="URLResource.invalid && URLResource.touched && URLResource.value == ''">
+                                            Ingrese la URL del Recurso
+                                        </small>
+                                        <small class="invalid-input" *ngIf="URLResource.errors?.pattern">
+                                            Ingrese una URL válida
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" formControlName="protocol">
+                                            <option value="REST">REST</option>
+                                            <option value="SOAP">SOAP</option>
+                                        </select>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <button class="btn btn-success m-1" (click)="updateService()"
+                                            [disabled]="formRow.invalid || formRow.pending">
+                                            <ng-template [ngIf]="formRow.pending">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                            </ng-template>
+                                            <ng-template [ngIf]="!formRow.pending">
+                                                <fa-icon [icon]="faUpdate"></fa-icon>
+                                            </ng-template>
+                                        </button>
+                                        <button class="btn btn-danger m-1" (click)="cancelEdit()">
+                                            <fa-icon [icon]="faCancel"></fa-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <ng-container *ngIf="editId != service.serviceId">
+                                    <td>
+                                        <ngb-highlight [result]="service.URLPing" [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="service.URLResource" [term]="searchTerm">
+                                        </ngb-highlight>
+                                    </td>
+                                    <td>
+                                        {{service.protocol}}
+                                    </td>
+                                    <td class="text-center">
+                                        <ng-container *ngIf="service.indexed">
+                                            <h5>
+                                                <span class="badge badge-pill badge-success">
+                                                    Indexado
+                                                </span>
+                                            </h5>
+                                            <button class="btn btn-primary btn-sm"
+                                                (click)="reindex(service)">Reindexar</button>
+                                        </ng-container>
+                                        <ng-container *ngIf="!service.indexed">
+                                            <h5>
+                                                <span class="badge badge-pill badge-info">
+                                                    A indexar
+                                                </span>
+                                            </h5>
+                                        </ng-container>
+                                        <ng-container *ngIf="!service.isUp">
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger">
+                                                    Servicio Caído
+                                                </span>
+                                            </h5>
+                                        </ng-container>
+
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary m-1" (click)="edit(service)">
+                                            <fa-icon [icon]="faPen"></fa-icon>
+                                        </button>
+                                        <button class="btn btn-danger" (click)="deleteService(service)">
+                                            <fa-icon [icon]="faDelete"></fa-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

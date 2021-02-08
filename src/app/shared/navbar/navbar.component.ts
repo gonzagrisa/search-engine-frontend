@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { faBackward, faSignOutAlt, faUsers, IconDefinition, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { UserResourceService } from 'src/app/api/resources/user-resource.service';
@@ -49,6 +49,14 @@ export class NavbarComponent implements OnInit {
       link: '/services',
       text: 'Servicios',
       icon: faPaperPlane
+    },
+    {
+      link: '/metadata',
+      text: 'Metadata'
+    },
+    {
+      link: '/preferences',
+      text: 'Buscador ✨'
     }
   ];
 
@@ -101,4 +109,17 @@ export class NavbarComponent implements OnInit {
       }
     );
   }
+
+  @ViewChild('navbarToggler') navbarToggler:ElementRef;
+
+  navBarTogglerIsVisible() {
+    return this.navbarToggler.nativeElement.offsetParent !== null;
+  }
+
+  collapseNav() {
+    if (this.navBarTogglerIsVisible()) {
+      this.navbarToggler.nativeElement.click();
+    }
+  }
+
 }

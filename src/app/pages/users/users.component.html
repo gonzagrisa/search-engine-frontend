@@ -28,7 +28,7 @@
                         <tbody>
                             <tr *ngIf="editId == null">
                                 <td>
-                                    <input type="text" class="form-control rounded" formControlName="firstName">
+                                    <input type="text" class="form-control" formControlName="firstName">
                                     <small class="invalid-input"
                                         *ngIf="firstName.invalid && firstName.touched && firstName.value == ''">Ingrese
                                         el Nombre del Usuario</small>

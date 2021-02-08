@@ -2,19 +2,23 @@
     <div class="cards" *ngIf="!authService.isAdmin()">
         <div class="row">
             <div class="col-md-4 col-sm-12 col-12 mt-4">
-                <div id="card-1" class="card" routerLink="/websites">
-                    <h3>Agregá Páginas a Indexar</h3>
-                </div>
+                <a routerLink="/websites">
+                    <div id="card-1" class="card">
+                        <h3>Agregá Páginas a Indexar</h3>
+                    </div>
+                </a>
             </div>
 
             <div class="col-md-4 col-sm-12 col-12 mt-4">
-                <div id="card-2" class="card" routerLink="/services">
-                    <h3>Agregá Servicios a Indexar</h3>
-                </div>
+                <a routerLink="/services">
+                    <div id="card-2" class="card">
+                        <h3>Agregá Servicios a Indexar</h3>
+                    </div>
+                </a>
             </div>
 
             <div class="col-md-4 col-sm-12 col-12 mt-4">
-                <div id="card-3" class="card" >
+                <div id="card-3" class="card">
                     <h3>Personalizá tu Buscador</h3>
                 </div>
             </div>
@@ -25,7 +29,7 @@
             <h1>Estadísticas</h1>
             <hr>
         </div>
-        <div class="card-columns">
+        <div class="card-columns container">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>

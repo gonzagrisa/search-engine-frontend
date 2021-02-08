@@ -22,7 +22,8 @@ export class WebsitesComponent implements OnInit {
   faUpdate = faCheck;
   
   editId: number;
-  regex = new RegExp("^(?![^\\n]*\\.$)(?:https?:\\/\\/)(?:(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[1-9])(?:\\.(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[0-9])){3}(?::\\d{4})?|[a-z\\-]+(?:\\.[a-z\\-]+){1,}).*");
+  regex = new RegExp("^(?![^\\n]*\\.$)(?:https?:\\/\\/)(?:(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[1-9])(?:\\.(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[0-9])){3}(?::\\d{4})?|localhost(?::\\d{4})?|[a-z\\-]+(?:\\.[a-z\\\-]+){1,}).*");
+  //regexv2 = new RegExp("^(?![^\\n]*\\.$)(?:https?:\\/\\/)(?:(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[1-9])(?:\\.(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[0-9])){3}(?::\\d{4})?|[a-z\\-]+(?:\\.[a-z\\-]+){1,}).*");
   //OG: regex = new RegExp("^(?![^\\n]*\\.$)(?:https?:\\/\\/)(?:(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[1-9])(?:\\.(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[0-9])){3}(?::\\d{4})?|[a-z\\-]+(?:\\.[a-z\\-]+){2,}).*");
   
   websites: IWebsite[];
@@ -52,13 +53,13 @@ export class WebsitesComponent implements OnInit {
   addWebsite(): void {
     this.api.addWebsite(this.formRow.value).subscribe(
       () => {
+        this.updateListWebsites();
         Swal.fire({
           icon: 'success',
           title: 'Página Añadida con Éxito',
           showConfirmButton: false,
           timer: 1500
         });
-        this.updateListWebsites();
       }
     )
   }
@@ -66,13 +67,13 @@ export class WebsitesComponent implements OnInit {
   reindex(website: IWebsite): void {
     this.api.reindex(null, null, { id: website.websiteId }).subscribe(
       () => {
+        this.updateListWebsites();
         Swal.fire({
           icon: 'success',
           title: 'Página Actualizada con Éxito',
           showConfirmButton: false,
           timer: 1500
         });
-        this.updateListWebsites();
       }
     )
   }
@@ -80,14 +81,14 @@ export class WebsitesComponent implements OnInit {
   updateWebsite(website: IWebsite): void {
     this.api.updateWebsite({ websiteId: website.websiteId, url: this.url.value }).subscribe(
       () => {
+        /* this.updateListWebsites();
+        this.cancelEdit(); */
         Swal.fire({
           icon: 'success',
           title: 'Página Actualizada con Éxito',
           showConfirmButton: false,
           timer: 1500
         });
-        this.updateListWebsites();
-        this.cancelEdit();
       }
     )
   }
@@ -104,8 +105,8 @@ export class WebsitesComponent implements OnInit {
       if (result.isConfirmed) {
         this.api.deleteWebsite({ websiteId: website.websiteId }).subscribe(
           () => {
-            Swal.fire('Eliminada!', 'La Página ha sido eliminada', 'success');
             this.updateListWebsites();
+            Swal.fire('Eliminada!', 'La Página ha sido eliminada', 'success');
           }
         );
       }

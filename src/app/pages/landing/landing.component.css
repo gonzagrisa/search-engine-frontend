@@ -1,9 +1,45 @@
-.features{
+.features {
     text-align: right;
 }
 
 @media (max-width: 767px) {
-    .features{
+    .features {
         text-align: center;
     }
+}
+
+#rocket{
+    visibility: hidden;
+}
+
+.btn-1 {
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 2em;
+    font-weight: 500;
+    padding: 1.5rem;
+    padding-left: 2em;
+    border: 0;
+    transition: all 0.5s;
+    border-radius: 10px;
+    width: auto;
+    position: relative;
+}
+
+.btn-1:hover {
+    background: #2b2bff;
+    font-weight: 600;
+    padding-left: 3em;
+    padding-right: 3em;
+    transition: all 0.5s;
+    box-shadow: 0px 6px 15px #0000ff61;
+}
+
+.btn-1:hover #rocket {
+    visibility: visible;
+}
+
+.btn-1:hover::after {
+    opacity: 1;
+    transition: all 0.1s;
 }

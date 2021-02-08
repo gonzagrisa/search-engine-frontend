@@ -1,0 +1,8 @@
+@media (max-width: 1000px) {
+    input.form-control {
+        width: auto;
+    }
+    select.form-control {
+        width: auto;
+    }
+}
