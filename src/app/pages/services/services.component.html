@@ -28,7 +28,7 @@
                             <tr *ngIf="editId == null">
                                 <td>
                                     <input type="text" class="form-control" formControlName="URLPing"
-                                        placeholder="http://www.pagina.com/api/ping">
+                                        placeholder="http://www.pagina.com/api/ping" (change)="checkType($event.target.value)">
                                     <small class="invalid-input"
                                         *ngIf="URLPing.invalid && URLPing.touched && URLPing.value == ''">
                                         Ingrese la URL de ping

@@ -37,6 +37,9 @@
                                     <small class="invalid-input" *ngIf="url.errors?.registeredDomain">
                                         El dominio ya se encuentra registrado en tu lista de páginas web
                                     </small>
+                                    <small class="invalid-input" *ngIf="url.errors?.pingURLFailed">
+                                        La página no existe o está caída
+                                    </small>
                                 </td>
                                 <td colspan="2" class="text-center px-5">
                                     <button class="btn btn-success btn-block" (click)="addWebsite()"
@@ -61,7 +64,6 @@
                                     <td>
                                         <ngb-highlight [result]="website.url" [term]="searchTerm"></ngb-highlight>
                                     </td>
-                                    <!-- <td scope="col" class="align-middle"> {{website.url}} </td> -->
                                     <td scope="col" class="text-center align-middle">
                                         <h5>
                                             <span class="badge badge-pill"
@@ -72,7 +74,7 @@
                                     </td>
                                     <td scope="col" class="mx-auto text-center">
                                         <button class="btn btn-primary shadow-sm" (click)="reindex(website)"
-                                            [disabled]="website.reindex">
+                                            [disabled]="!website.indexed">
                                             Reindexar
                                         </button>
                                     </td>
