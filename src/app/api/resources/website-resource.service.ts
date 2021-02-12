@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Query } from '@angular/core';
 import { IResourceMethodObservable, IResourceMethodObservableStrict, Resource, ResourceAction, ResourceParams, ResourceRequestBodyType, ResourceRequestMethod, ResourceResponseBodyType } from '@ngx-resource/core';
 import { environment } from 'src/environments/environment';
 import { IWebsite } from '../models/i-website';
@@ -47,8 +47,14 @@ export class WebsiteResourceService extends Resource{
   @ResourceAction({
     method: ResourceRequestMethod.Put,
     path: '/{!id}/reindex',
-    requestBodyType: ResourceRequestBodyType.JSON
   })
   reindex: IResourceMethodObservableStrict<void, void, {id: number}, void>;
+
+  @ResourceAction({
+    method: ResourceRequestMethod.Get,
+    path: '/check',
+    headers: { skip: 'true' }
+  })
+  pingUrl: IResourceMethodObservableStrict<void, {url: string} , void, void>;
 
 }
