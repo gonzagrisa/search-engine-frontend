@@ -5,6 +5,7 @@ import { AdminGuard } from './core/guards/admin.guard';
 import { AuthGuard } from './core/guards/auth.guard';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
 import { InfoResolver } from './core/resolvers/info-resolver';
+import { MetadataResolver } from './core/resolvers/metadata-resolver';
 import { ServicesResolver } from './core/resolvers/services-resolver';
 import { UsersResolver } from './core/resolvers/users-resolver';
 import { WebsitesResolver } from './core/resolvers/websites-resolver';
@@ -30,7 +31,8 @@ const routes: Routes = [
   {path: 'users',     component: UsersComponent,     canActivate: [AdminGuard], resolve: {users: UsersResolver}},
   {path: 'websites',  component: WebsitesComponent,  canActivate: [AuthGuard],  resolve: {websites: WebsitesResolver}},
   {path: 'services',  component: ServicesComponent,  canActivate: [AuthGuard],  resolve: {services: ServicesResolver}},
-  {path: 'metadata',  component: MetadataComponent,  canActivate: [AuthGuard]},
+  {path: 'metadata',  component: MetadataComponent,  canActivate: [AuthGuard], resolve: {metadata: MetadataResolver}},
+  // TODO: implementar resolver de preferencias
   {path: 'preferences',  component: PreferencesComponent,  canActivate: [AuthGuard]},
   {path: '404',       component: NotFoundComponent},
   {path: 'table',     component: TableFormComponent},
