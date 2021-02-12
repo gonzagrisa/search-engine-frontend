@@ -1,0 +1,9 @@
+.tags ::ng-deep input {
+    margin-top: 1em !important;
+}
+
+.tags ::ng-deep input:focus {
+    border-color: transparent;
+    background: transparent;
+    box-shadow:none;
+}
