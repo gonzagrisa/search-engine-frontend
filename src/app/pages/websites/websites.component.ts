@@ -22,17 +22,15 @@ export class WebsitesComponent implements OnInit {
   faUpdate = faCheck;
   
   editId: number;
-  regex = new RegExp("^(?![^\\n]*\\.$)(?:https?:\\/\\/)(?:(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[1-9])(?:\\.(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[0-9])){3}(?::\\d{4})?|localhost(?::\\d{4})?|[a-z\\-]+(?:\\.[a-z\\\-]+){1,}).*");
-  //regexv2 = new RegExp("^(?![^\\n]*\\.$)(?:https?:\\/\\/)(?:(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[1-9])(?:\\.(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[0-9])){3}(?::\\d{4})?|[a-z\\-]+(?:\\.[a-z\\-]+){1,}).*");
-  //OG: regex = new RegExp("^(?![^\\n]*\\.$)(?:https?:\\/\\/)(?:(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[1-9])(?:\\.(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[0-9])){3}(?::\\d{4})?|[a-z\\-]+(?:\\.[a-z\\-]+){2,}).*");
   
+  regex = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*((\\.([a-z]{2,5}))(:[0-9]{1,5})?|(:[0-9]{1,5}))(\\/.*)?$");
   websites: IWebsite[];
   websitesPage: IWebsite[];
   page = 1;
   pageSize = 10;
   total: number;
   searchTerm = '';
-
+  
   constructor(
     private route: ActivatedRoute,
     private api: WebsiteResourceService,
@@ -46,7 +44,7 @@ export class WebsitesComponent implements OnInit {
     this.refreshWebsites();
     this.formRow = this.fb.group({
       websiteId: [null],
-      url: ['', [Validators.required, Validators.pattern(this.regex)], [this.urlValidator.unique('websiteId').bind(this)]]
+      url: ['', [Validators.required, Validators.pattern(this.regex)], [this.urlValidator.unique('websiteId').bind(this), this.urlValidator.pingURL().bind(this)]]
     });
   }
 
@@ -56,7 +54,7 @@ export class WebsitesComponent implements OnInit {
         this.updateListWebsites();
         Swal.fire({
           icon: 'success',
-          title: 'Página Añadida con Éxito',
+          title: 'Página Agregada con Éxito',
           showConfirmButton: false,
           timer: 1500
         });
@@ -70,7 +68,7 @@ export class WebsitesComponent implements OnInit {
         this.updateListWebsites();
         Swal.fire({
           icon: 'success',
-          title: 'Página Actualizada con Éxito',
+          title: 'La página será reindexada en unos instantes',
           showConfirmButton: false,
           timer: 1500
         });
@@ -162,7 +160,7 @@ export class WebsitesComponent implements OnInit {
     this.editId = null;
     this.formRow.reset();
   }
-
+  
   get websiteId(): AbstractControl {
     return this.formRow.get('websiteId');
   }

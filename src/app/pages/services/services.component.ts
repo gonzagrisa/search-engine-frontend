@@ -23,7 +23,7 @@ export class ServicesComponent implements OnInit {
   faUpdate = faCheck;
   faPlus = faPlus;
 
-  regex = new RegExp("^(?![^\\n]*\\.$)(?:https?:\\/\\/)(?:(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[1-9])(?:\\.(?:[2][1-4]\\d|25[1-5]|1\\d{2}|[1-9]\\d|[0-9])){3}(?::\\d{4})?|localhost(?::\\d{4})?|[a-z\\-]+(?:\\.[a-z\\\-]+){1,}).*");
+  regex = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*((\\.([a-z]{2,5}))(:[0-9]{1,5})?|(:[0-9]{1,5}))(\\/.*)?$");
   services: IService[];
   servicesPage: IService[];
   page = 1;
@@ -112,6 +112,15 @@ export class ServicesComponent implements OnInit {
         this.updateListServices();
       }
     )
+  }
+
+  checkType(url: string): void{
+    console.log("ASDASD")
+    if (url.toLocaleLowerCase().includes("?wsdl")){
+      this.protocol.setValue('SOAP');
+    } else{
+      this.protocol.setValue('REST');
+    }
   }
 
   private updateListServices(): void{
