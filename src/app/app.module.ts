@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ErrorHandler, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +34,7 @@ import { TableComponent } from './shared/table/table.component';
 import { WebsiteFormComponent } from './aux/website-form/website-form.component';
 import { MetadataComponent } from './pages/metadata/metadata.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
+import { TagInputModule } from 'ngx-chips';
 
 
 @NgModule({
@@ -59,6 +61,8 @@ import { PreferencesComponent } from './pages/preferences/preferences.component'
     PreferencesComponent
   ],
   imports: [
+    TagInputModule,
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,
