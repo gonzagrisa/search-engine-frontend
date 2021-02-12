@@ -1,7 +1,6 @@
-export interface IWebsite {
+import { IStatus } from "./i-status";
+
+export interface IWebsite extends IStatus {
     websiteId?: number;
-    userId?: number;
     url?: string;
-    reindex?: boolean;
-    indexed?: boolean;
 }
