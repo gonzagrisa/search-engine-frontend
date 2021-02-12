@@ -49,6 +49,23 @@ export class UrlValidator {
         };
     }
 
+    pingURL(): AsyncValidatorFn {
+        return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
+            return timer(500).pipe(switchMap(() => {
+                return this.apiWebsite.pingUrl(null, {url: control.value} , null)
+                    .pipe(debounceTime(1000))
+                    .pipe(
+                        map(() => {
+                            return null;
+                        }),
+                        catchError(() => {
+                            return of({ pingURLFailed: true });
+                        })
+                    );
+            }));
+        };
+    }
+
 
     /*  checkPing(control: AbstractControl): Observable<{ [key: string]: any }> {
          console.log(control.value)
