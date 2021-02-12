@@ -1,0 +1,60 @@
+<div class="container">
+    <p>
+        {{form.value |json}}
+    </p>
+    
+    <form [formGroup]="form">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col"> </th>
+                    <th scope="col">Country</th>
+                    <th scope="col">Area</th>
+                    <th scope="col">Population</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col"> </th>
+                </tr>
+            </thead>
+            <tbody> 
+
+                <tr *ngFor="let country of pageControls; index as i" [formGroupName]="getActualIndex(i)">
+                    <td> <input type="checkbox" value=""> </td>
+                    <ng-container *ngIf="editingIndex == getActualIndex(i)">
+                        <td>
+                            <input type="text" class="form-control" formControlName="name">
+                        </td>
+                        <td> <input type="number" class="form-control" formControlName="area"> </td>
+                        <td> <input type="number" class="form-control" formControlName="population"> </td>
+                    </ng-container>
+                    <ng-container *ngIf="editingIndex != getActualIndex(i)">
+                        <td> {{country.get('name').value}} </td>
+                        <td> {{country.get('area').value}} </td>
+                        <td> {{country.get('population').value}} </td>
+                    </ng-container>
+                    <td>
+                        <div *ngIf="editingIndex == getActualIndex(i)">
+                            <button class="btn btn-primary" (click)="cancel(i)">Cancelar</button>
+                        </div>
+                        <div *ngIf="editingIndex != getActualIndex(i)">
+                            <button class="btn btn-primary" (click)="edit(i)">Editar</button>
+                        </div>
+                    </td>
+                    <td> <button class="btn btn-primary" (click)="send(country.value)">Enviar</button> </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </form>
+
+    <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+            (pageChange)="refreshControls()">
+        </ngb-pagination>
+
+        <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshControls()">
+            <option [ngValue]="2">2 items per page</option>
+            <option [ngValue]="4">4 items per page</option>
+            <option [ngValue]="6">6 items per page</option>
+        </select>
+    </div>
+</div>

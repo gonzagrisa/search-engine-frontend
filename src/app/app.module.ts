@@ -26,12 +26,12 @@ import { UsersComponent } from './pages/users/users.component';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { TableFormComponent } from './aux/table-form/table-form.component';
+import { TableFormComponent } from './aux-pages/table-form/table-form.component';
 import { TermsComponent } from './pages/terms/terms.component';
 import { WebsitesComponent } from './pages/websites/websites.component';
 import { ServicesComponent } from './pages/services/services.component';
 import { TableComponent } from './shared/table/table.component';
-import { WebsiteFormComponent } from './aux/website-form/website-form.component';
+import { WebsiteFormComponent } from './aux-pages/website-form/website-form.component';
 import { MetadataComponent } from './pages/metadata/metadata.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
 import { TagInputModule } from 'ngx-chips';
