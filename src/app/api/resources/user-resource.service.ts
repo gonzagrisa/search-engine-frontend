@@ -86,6 +86,12 @@ export class UserResourceService extends Resource {
   deleteUser: IResourceMethodObservable<{id: number}, void>;
 
   @ResourceAction({
+    method: ResourceRequestMethod.Delete,
+    path: '/me'
+  })
+  deleteOwnUser: IResourceMethodObservable<void, void>;
+
+  @ResourceAction({
     method: ResourceRequestMethod.Post,
     path: '/impersonate/{!id}',
     responseBodyType: ResourceResponseBodyType.Text

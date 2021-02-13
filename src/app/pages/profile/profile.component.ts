@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { IUser } from 'src/app/api/models/i-user';
 import { UserResourceService } from 'src/app/api/resources/user-resource.service';
 import { UserValidators } from 'src/app/core/validators/user-validators';
@@ -21,6 +22,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     public authService: AuthService,
     private fb: FormBuilder,
     private api: UserResourceService,
@@ -80,11 +82,16 @@ export class ProfileComponent implements OnInit {
       confirmButtonText: 'Sí, eliminar cuenta!'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Cuenta Eliminada 😢',
-          'Un gusto haberte conocido ' + this.user.username,
-          'success'
-        );
+        this.api.deleteOwnUser().subscribe({
+          next: () => {
+            Swal.fire(
+              'Cuenta Eliminada 😢',
+              'Un gusto haberte conocido ' + this.user.username,
+              'success'
+            );
+            this.router.navigate(['']);
+          }
+        });
       }
     });
   }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TableFormComponent } from './aux/table-form/table-form.component';
+import { TableFormComponent } from './aux-pages/table-form/table-form.component';
 import { AdminGuard } from './core/guards/admin.guard';
 import { AuthGuard } from './core/guards/auth.guard';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
