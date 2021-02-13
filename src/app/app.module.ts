@@ -35,7 +35,8 @@ import { WebsiteFormComponent } from './aux-pages/website-form/website-form.comp
 import { MetadataComponent } from './pages/metadata/metadata.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
 import { TagInputModule } from 'ngx-chips';
-
+import { DocsComponent } from './pages/docs/docs.component';
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { TagInputModule } from 'ngx-chips';
     TableComponent,
     WebsiteFormComponent,
     MetadataComponent,
-    PreferencesComponent
+    PreferencesComponent,
+    DocsComponent
   ],
   imports: [
     TagInputModule,
@@ -72,9 +74,11 @@ import { TagInputModule } from 'ngx-chips';
     ResourceModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HighlightModule
   ],
   providers: [
+    { provide: HIGHLIGHT_OPTIONS, useValue: {fullLibraryLoader: () => import('highlight.js')}},
     { provide: HTTP_INTERCEPTORS, useClass: SkipInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: ErrorHandler, useClass: MessagesErrorService }

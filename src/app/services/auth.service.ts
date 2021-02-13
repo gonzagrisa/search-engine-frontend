@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import jwtDecode from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
 import { IUser } from '../api/models/i-user';
+import { UserResourceService } from '../api/resources/user-resource.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ export class AuthService {
   private role = new BehaviorSubject(null);
   role$ = this.role.asObservable();
 
-  constructor() {
+  constructor(private api: UserResourceService, private router: Router) {
     if (this.getToken()){
       this.role.next(this.getUserToken().role);
     } else{
@@ -52,6 +54,18 @@ export class AuthService {
       role: decoded['role']
     };
     return user;
+  }
+
+  login(user: IUser): void {
+    this.api.login(user).subscribe((token) => {
+      this.setToken(token);
+      this.router.navigate(['dashboard']);
+    });
+  }
+
+  logOut(): void {
+    this.deleteToken();
+    this.router.navigate(['']);
   }
 
   isImpresonator(): boolean {

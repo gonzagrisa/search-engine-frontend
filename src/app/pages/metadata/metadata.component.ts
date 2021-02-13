@@ -13,7 +13,6 @@ import Swal from 'sweetalert2';
 })
 export class MetadataComponent implements OnInit {
 
-
   form: FormArray;
 
   faPen = faPen;
@@ -21,12 +20,13 @@ export class MetadataComponent implements OnInit {
   faCancel = faWindowClose;
   faCheck = faCheck;
 
-  metadata: IMetadata[];
+  metadata: IMetadata[] = [];
   metadataPage: IMetadata[];
   page = 1;
   pageSize = 10;
   total: number;
 
+  checked = false;
   editingControl: AbstractControl;
   editingIndex: number;
 
@@ -42,10 +42,24 @@ export class MetadataComponent implements OnInit {
     this.form = this.fb.array([]);
     for (let web of this.metadata) {
       this.form.push(this.fb.group({
+        selected: [false],
         id: web.id,
         title: [web.title, [Validators.required]],
         tags: [[]]
       }))
+    }
+  }
+
+  getSelected(): number {
+    return this.form.controls.filter(control => control.get('selected').value == true).length;
+  }
+
+  selectAll(): void {
+    if (this.checked)
+      this.form.controls.map(control => control.get('selected').setValue(true));
+    else{
+      this.form.controls.map(control => control.get('selected').setValue(false));
+
     }
   }
 

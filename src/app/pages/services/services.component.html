@@ -11,6 +11,7 @@
                 <label for="search" class="lead font-weight-bold">Buscar Servicio:</label>
                 <input id="search" class="form-control" type="text" placeholder="api/paginas" (keyup)="search()"
                     name="searchTerm" [(ngModel)]="searchTerm" />
+                <p class="mt-2">Alguna duda? Visita la <a routerLink="/docs"><strong>documentación</strong></a></p>
             </div>
             <div class="table-responsive mt-4 col-md-12 col-12">
                 <form [formGroup]="formRow">
@@ -28,7 +29,8 @@
                             <tr *ngIf="editId == null">
                                 <td>
                                     <input type="text" class="form-control" formControlName="URLPing"
-                                        placeholder="http://www.pagina.com/api/ping" (change)="checkType($event.target.value)">
+                                        placeholder="http://www.pagina.com/api/ping"
+                                        (change)="checkProtocol($event.target.value)">
                                     <small class="invalid-input"
                                         *ngIf="URLPing.invalid && URLPing.touched && URLPing.value == ''">
                                         Ingrese la URL de ping
@@ -87,7 +89,8 @@
                             <tr *ngFor="let service of servicesPage">
                                 <ng-container *ngIf="editId == service.serviceId">
                                     <td>
-                                        <input type="text" class="form-control" formControlName="URLPing">
+                                        <input type="text" class="form-control"
+                                            (change)="checkProtocol($event.target.value)" formControlName="URLPing">
                                         <small class="invalid-input"
                                             *ngIf="URLPing.invalid && URLPing.touched && URLPing.value == ''">
                                             Ingrese la URL de ping
@@ -144,22 +147,18 @@
                                         {{service.protocol}}
                                     </td>
                                     <td class="text-center">
-                                        <ng-container *ngIf="service.indexed">
+                                        <ng-template [ngIf]="service.isUp">
                                             <h5>
-                                                <span class="badge badge-pill badge-success">
-                                                    Indexado
+                                                <span class="badge badge-pill"
+                                                    [ngClass]="service.indexed ? 'badge-success' : 'badge-info'">
+                                                    {{service.indexed ? 'Indexado' : 'A Indexar'}}
                                                 </span>
                                             </h5>
-                                            <button class="btn btn-primary btn-sm"
-                                                (click)="reindex(service)">Reindexar</button>
-                                        </ng-container>
-                                        <ng-container *ngIf="!service.indexed">
-                                            <h5>
-                                                <span class="badge badge-pill badge-info">
-                                                    A indexar
-                                                </span>
-                                            </h5>
-                                        </ng-container>
+                                            <ng-template [ngIf]="service.indexed">
+                                                <button class="btn btn-primary btn-sm"
+                                                    (click)="reindex(service)">Reindexar</button>
+                                            </ng-template>
+                                        </ng-template>
                                         <ng-container *ngIf="!service.isUp">
                                             <h5>
                                                 <span class="badge badge-pill badge-danger">
@@ -183,6 +182,23 @@
                     </table>
                 </form>
             </div>
+        </div>
+
+    </div>
+    <div class="row pt-2 mb-5 mx-auto">
+        <div class="col-md-6 col-12">
+            <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="pageSize" [maxSize]="5"
+                [boundaryLinks]="true" (pageChange)="refreshServices()">
+            </ngb-pagination>
+        </div>
+
+        <div class="col-md-6 col-12">
+            <select class="custom-select float-md-right" style="width: auto" [(ngModel)]="pageSize"
+                (ngModelChange)="refreshServices()">
+                <option [ngValue]="10">10 servicios por página</option>
+                <option [ngValue]="50">50 servicios por página</option>
+                <option [ngValue]="100">100 servicios por página</option>
+            </select>
         </div>
     </div>
 </div>

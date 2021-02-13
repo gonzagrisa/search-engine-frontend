@@ -6,7 +6,7 @@
 
 <div class="container mt-5 mb-5">
     <div class="row">
-        <div class="col-md-10 col-12 mx-auto rounded">
+        <div class="col-md-12 col-12 mx-auto rounded">
             <div class="col-md-5 col-12 mb-5">
                 <label for="search" class="lead font-weight-bold">Buscar Página:</label>
                 <input id="search" class="form-control" type="text" placeholder="google.com" (keyup)="search()"
@@ -65,12 +65,21 @@
                                         <ngb-highlight [result]="website.url" [term]="searchTerm"></ngb-highlight>
                                     </td>
                                     <td scope="col" class="text-center align-middle">
-                                        <h5>
-                                            <span class="badge badge-pill"
-                                                [ngClass]="website.indexed ? 'badge-success' : 'badge-info'">
-                                                {{website.indexed ? 'Indexado' : 'A Indexar'}}
-                                            </span>
-                                        </h5>
+                                        <ng-template [ngIf]="website.isUp">
+                                            <h5>
+                                                <span class="badge badge-pill"
+                                                    [ngClass]="website.indexed ? 'badge-success' : 'badge-info'">
+                                                    {{website.indexed ? 'Indexado' : 'A Indexar'}}
+                                                </span>
+                                            </h5>
+                                        </ng-template>
+                                        <ng-template [ngIf]="!website.isUp">
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger">
+                                                    Servicio Caído
+                                                </span>
+                                            </h5>
+                                        </ng-template>
                                     </td>
                                     <td scope="col" class="mx-auto text-center">
                                         <button class="btn btn-primary shadow-sm" (click)="reindex(website)"
@@ -101,6 +110,9 @@
                                         <small class="invalid-input" *ngIf="url.errors?.registeredDomain">
                                             El dominio ya se encuentra registrado en tu lista de páginas web
                                         </small>
+                                        <small class="invalid-input" *ngIf="url.errors?.pingURLFailed">
+                                            La página no existe o está caída
+                                        </small>
                                     </td>
                                     <td>
                                         <button class="btn btn-success btn-block" (click)="updateWebsite(website)"
@@ -121,6 +133,22 @@
                     </table>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="row pt-2 mb-5 mx-auto">
+        <div class="col-md-6 col-12">
+            <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="pageSize" [maxSize]="5"
+                [boundaryLinks]="true" (pageChange)="refreshWebsites()">
+            </ngb-pagination>
+        </div>
+
+        <div class="col-md-6 col-12">
+            <select class="custom-select float-md-right" style="width: auto" [(ngModel)]="pageSize"
+                (ngModelChange)="refreshWebsites()">
+                <option [ngValue]="10">10 items por página</option>
+                <option [ngValue]="50">50 items por página</option>
+                <option [ngValue]="100">100 items por página</option>
+            </select>
         </div>
     </div>
 </div>

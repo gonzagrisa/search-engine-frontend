@@ -85,6 +85,7 @@ export class ProfileComponent implements OnInit {
           'Un gusto haberte conocido ' + this.user.username,
           'success'
         );
+        this.authService.logOut();
       }
     });
   }

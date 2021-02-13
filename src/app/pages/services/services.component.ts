@@ -31,10 +31,10 @@ export class ServicesComponent implements OnInit {
   total: number;
   searchTerm = '';
 
-  constructor(private api: ServicesResourceService, 
-              private fb: FormBuilder, 
-              private route: ActivatedRoute,
-              private urlValidator: UrlValidator) { }
+  constructor(private api: ServicesResourceService,
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private urlValidator: UrlValidator) { }
 
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
@@ -43,7 +43,7 @@ export class ServicesComponent implements OnInit {
     this.refreshServices();
     this.formRow = this.fb.group({
       serviceId: [null],
-      URLPing: ['', {updateOn: 'blur', validators:[Validators.required, Validators.pattern(this.regex)], asyncValidators: [this.urlValidator.checkPing('protocol').bind(this)]}],
+      URLPing: ['', { updateOn: 'blur', validators: [Validators.required, Validators.pattern(this.regex)], asyncValidators: [this.urlValidator.checkPing('protocol').bind(this)] }],
       URLResource: ['', [Validators.required, Validators.pattern(this.regex)]],
       protocol: ['REST', [Validators.required]]
     });
@@ -64,7 +64,19 @@ export class ServicesComponent implements OnInit {
     this.protocol.setValue('REST');
   }
 
+  checkSubmit(): boolean {
+    if ((this.URLResource.value.toLocaleLowerCase().includes("?wsdl") && this.protocol.value == "REST")
+      || (!this.URLResource.value.toLocaleLowerCase().includes("?wsdl") && this.protocol.value == "SOAP")) {
+      Swal.fire('Error', 'El recurso no coincide con el protocolo', 'error');
+      return false;
+    }
+    return true;
+  }
+
   addService(): void {
+    if (!this.checkSubmit()) {
+      return;
+    }
     this.api.addService(this.formRow.value).subscribe(
       () => {
         Swal.fire('Servicio Añadido!', '', 'success');
@@ -76,26 +88,50 @@ export class ServicesComponent implements OnInit {
 
   deleteService(service: IService): void {
     Swal.fire({
-      title: `Estás Seguro de querer eliminar el servicio?`,
-      text: `${service.URLResource}`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, eliminar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.api.deleteService({id: service.serviceId }).subscribe(
-          () => {
-            this.updateListServices();
-            this.cancelEdit();
-            Swal.fire('Servicio Eliminado!', '', 'success');
-          }
-        )
-      }
-    });
+      title: `Estás Seguro de querer eliminar el servicio?`, text: `${service.URLResource}`,
+      icon: 'warning', showCancelButton: true, confirmButtonText: 'Sí, eliminar'
+    })
+      .then((result) => {
+        if (service.indexed == false) {
+          this.api.deleteService(service, { keepWebsites: false }, { id: service.serviceId }).subscribe(
+            () => {
+              this.updateListServices();
+              this.cancelEdit();
+              Swal.fire('Servicio Eliminado!', '', 'success');
+            }
+          )
+        }
+        else if (result.isConfirmed) {
+          Swal.fire({
+            title: `Desea mantener las paginas indexadas provenientes del servicio?`,
+            icon: 'warning', showDenyButton: true,
+            confirmButtonText: 'Sí', denyButtonText: `No`
+          })
+            .then((result) => {
+              if (result.isConfirmed) {
+                this.api.deleteService(service, { keepWebsites: true }, { id: service.serviceId }).subscribe(
+                  () => {
+                    this.updateListServices();
+                    this.cancelEdit();
+                    Swal.fire('Servicio Eliminado!', '', 'success');
+                  }
+                )
+              } else {
+                this.api.deleteService(service, { keepWebsites: false }, { id: service.serviceId }).subscribe(
+                  () => {
+                    this.updateListServices();
+                    this.cancelEdit();
+                    Swal.fire('Servicio Eliminado!', '', 'success');
+                  }
+                )
+              }
+            })
+        }
+      });
   }
 
-  reindex(website: IService){
-    this.api.reindex({id: website.serviceId}).subscribe(
+  reindex(service: IService) {
+    this.api.reindexService(service).subscribe(
       () => {
         Swal.fire('Servicio Actualizado!', '', 'success');
         this.cancelEdit();
@@ -105,7 +141,10 @@ export class ServicesComponent implements OnInit {
   }
 
   updateService(): void {
-    this.api.updateService(this.formRow.value, null, {id: this.serviceId.value}).subscribe(
+    if (!this.checkSubmit()) {
+      return;
+    }
+    this.api.updateService(this.formRow.value, null, { id: this.serviceId.value }).subscribe(
       () => {
         Swal.fire('Servicio Actualizado!', '', 'success');
         this.cancelEdit();
@@ -114,21 +153,20 @@ export class ServicesComponent implements OnInit {
     )
   }
 
-  checkType(url: string): void{
-    console.log("ASDASD")
-    if (url.toLocaleLowerCase().includes("?wsdl")){
+  checkProtocol(url: string): void {
+    if (url.toLocaleLowerCase().includes("?wsdl")) {
       this.protocol.setValue('SOAP');
-    } else{
+    } else {
       this.protocol.setValue('REST');
     }
   }
 
-  private updateListServices(): void{
+  private updateListServices(): void {
     this.api.getServices().subscribe(
       (res) => {
         this.services = res;
         this.refreshServices();
-        if (this.searchTerm !== ''){
+        if (this.searchTerm !== '') {
           this.search();
         }
       }

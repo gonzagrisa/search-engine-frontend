@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IUser } from 'src/app/api/models/i-user';
 import { UserResourceService } from 'src/app/api/resources/user-resource.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -25,10 +26,11 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void{
-    this.api.login(this.form.value).subscribe((token) => {
+    this.authService.login(this.form.value as IUser);
+    /* this.api.login(this.form.value).subscribe((token) => {
       this.authService.setToken(token);
       this.router.navigate(['dashboard']);
-    });
+    }); */
   }
 
   get username(): AbstractControl {

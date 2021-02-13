@@ -33,11 +33,19 @@ export class ServicesResourceService extends Resource {
   updateService: IResourceMethodObservableStrict<IService, void, {id: number}, string>;
 
   @ResourceAction({
+    method: ResourceRequestMethod.Put,
+    requestBodyType: ResourceRequestBodyType.JSON,
+    responseBodyType: ResourceResponseBodyType.Text,
+    path: '/reindex'
+  })
+  reindexService: IResourceMethodObservable<IService, string>;
+
+  @ResourceAction({
     method: ResourceRequestMethod.Delete,
     responseBodyType: ResourceResponseBodyType.Text,
     path: '/{!id}'
   })
-  deleteService: IResourceMethodObservable<{id: number}, string>;
+  deleteService: IResourceMethodObservableStrict<IService, {keepWebsites: boolean} , {id: number},string>;
 
   @ResourceAction({
     method: ResourceRequestMethod.Post,
@@ -46,13 +54,5 @@ export class ServicesResourceService extends Resource {
     headers: { skip: 'true' }
   })
   testPing: IResourceMethodObservable<IService, void>;
-
-  @ResourceAction({
-    method: ResourceRequestMethod.Put,
-    requestBodyType: ResourceRequestBodyType.JSON,
-    responseBodyType: ResourceResponseBodyType.Text,
-    path: '/{!id}/reindex'
-  })
-  reindex: IResourceMethodObservable<{id: number}, string>;
 
 }

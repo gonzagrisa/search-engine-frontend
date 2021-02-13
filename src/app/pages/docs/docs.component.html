@@ -1,0 +1,119 @@
+<div class="container mt-5 text-justify">
+    <div class="row">
+        <div class="col-md-12 col-12">
+            <h1 class="text-center text-primary display-4">Documentación</h1>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-12">
+            <h2>Tabla de Contenidos</h2>
+            <ul>
+                <li>
+                    <h5><a [routerLink]="" (click)="scrollToElement(pages)">Paginas</a></h5>
+                </li>
+                <li>
+                    <h5><a [routerLink]="" (click)="scrollToElement(services)">Servicios</a></h5>
+                </li>
+                <li>
+                    <h5><a [routerLink]="" (click)="scrollToElement(status)">Estados</a></h5>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div #pages style="padding-top: 70px;"></div>
+
+    <div class="row mt-3">
+        <div class="col-md-12 col-12">
+            <h1 class="text-primary">Páginas</h1>
+            <hr>
+            <p>
+                Una de las posiblidades para indexar sitios web es el de cargar las paginas manualmente,
+                para esto tiene que ingresar a su cuenta e ir a la sección de páginas para empezar a cargar
+                las páginas manualmente, cabe aclarar que si la página no se encuentra disponible al momento
+                de la inserción, la misma no podrá ser ingresada para indexación.
+                Además no podrá poner 2 páginas que pertenezcan al mismo dominio, ya que los resultados de indexación
+                estarían repetidos.
+                <br>
+                <br>
+                <small>
+                    Si usted tiene un servicio registrado para el listado de páginas, y una de esas páginas es
+                    ejemplo.com, si ejemplo.com ya fue ingresada manualmente pero no fue indexada, es decir,
+                    su estado es 'A Indexar', esa página pasará a ser parte del servicio.
+                </small>
+            </p>
+        </div>
+    </div>
+    <div #services style="padding-top: 2em;"></div>
+    <div class="row mt-5">
+        <div class="col-md-12 col-12">
+            <h1 class="text-primary">Servicios</h1>
+            <hr>
+            <p>
+                DogDogGo también permite que las paginas a indexar provengan desde un servicio. Para esto, debe
+                proveernos de 2 URLs, una que es el endpoint de ping de su servicio y otra que es el endpoint
+                que contiene la lista de sitios web que desea indexar.
+                <br>
+                Se permite el uso de tanto servicios REST como servicios web (SOAP), cada uno debe cumplir las
+                siguientes condiciones para que puedan ser consumidos y utlizados de forma correcta:
+            </p>
+            <br>
+            <h3 class="text-primary">REST</h3>
+            <p>
+                Para el consumo correcto de su servicio REST, debe proveernos de 2 links: uno al endpoint de ping,
+                y otro al endpoint del recurso que contiene todas las páginas que desea indexar.
+            </p>
+            <h4 class="text-primary">Ejemplo:</h4>
+            <br>
+            <h5>Endpoint de Ping</h5>
+            <pre class="shadow rounded"><code [highlight]="'GET http://localhost:/8080/api/ping'"></code></pre>
+            <br>
+            <h5>Respuesta:</h5>
+            <pre class="shadow rounded"><code [highlight]="'pong!'"></code></pre>
+            <br>
+            <h5>Endpoint del Recurso</h5>
+            <pre class="shadow rounded"><code [highlight]="'GET http://localhost:/8080/api/paginas'"></code></pre>
+            <br>
+            <h5>Respuesta:</h5>
+            <pre class="shadow rounded"><code [highlight]="json"></code></pre>
+            <p>La respuesta de este recurso debe ser un array de strings</p>
+            <br>
+            <h3 class="text-primary">SOAP</h3>
+            <p>
+                La definición de su WSDL debe tener las siguientes operaciones:
+            </p>
+            <ul>
+                <li><strong>ping:</strong> método utilizado para realizarle un ping al servicio y comprobar su estado
+                </li>
+                <li><strong>getList:</strong> método utilizado para obtener el listado de páginas a indexar</li>
+            </ul>
+            <h5>Ejemplo de Definición de WSDL:</h5>
+            <pre class="shadow rounded"><code class="pl-3 pr-5 rounded" [highlight]="wsdl"></code></pre>
+        </div>
+    </div>
+    <div class="row mt-3 mb-5">
+        <div class="col-md-12 col-12">
+            <h1 #status class="text-primary">Estados</h1>
+            <hr>
+            <p>
+                En el portal, podrá verá los siguientes estados:
+            </p>
+            <h3><span class="badge badge-primary">A Indexar</span></h3>
+            <p>
+                Este estado indica que el servicio o página están marcados para ser indexados o reindexados
+                en la próxima ejecución del crawler
+            </p>
+            <h3><span class="badge badge-success">Indexado</span></h3>
+            <p>
+                Este estado indica que el servicio o página ya fueron indexados, lo que significa que los metadatos
+                generados a partir de ellos ya están disponibles para editar, eliminar o actualizar o que ya están
+                disponibles para la búsqueda
+            </p>
+            <h3><span class="badge badge-danger">Caído</span></h3>
+            <p>
+                Este estado indica que el servicio o página no está disponible, no pudiendo consumirlo para crawlear
+                la página definida u obtener el listado de sitios web a partir del servicio
+            </p>
+        </div>
+    </div>
+</div>

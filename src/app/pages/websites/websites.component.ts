@@ -79,8 +79,8 @@ export class WebsitesComponent implements OnInit {
   updateWebsite(website: IWebsite): void {
     this.api.updateWebsite({ websiteId: website.websiteId, url: this.url.value }).subscribe(
       () => {
-        /* this.updateListWebsites();
-        this.cancelEdit(); */
+        this.updateListWebsites();
+        this.cancelEdit();
         Swal.fire({
           icon: 'success',
           title: 'Página Actualizada con Éxito',

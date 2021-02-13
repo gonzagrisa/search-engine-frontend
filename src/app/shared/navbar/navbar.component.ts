@@ -96,8 +96,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut(): void {
-    this.auth.deleteToken();
-    this.router.navigate(['']);
+    this.auth.logOut();
   }
 
   returnAccount(): void {

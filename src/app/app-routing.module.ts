@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TableFormComponent } from './aux/table-form/table-form.component';
+import { TableFormComponent } from './aux-pages/table-form/table-form.component';
 import { AdminGuard } from './core/guards/admin.guard';
 import { AuthGuard } from './core/guards/auth.guard';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
@@ -10,6 +10,7 @@ import { ServicesResolver } from './core/resolvers/services-resolver';
 import { UsersResolver } from './core/resolvers/users-resolver';
 import { WebsitesResolver } from './core/resolvers/websites-resolver';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { DocsComponent } from './pages/docs/docs.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MetadataComponent } from './pages/metadata/metadata.component';
@@ -34,6 +35,7 @@ const routes: Routes = [
   {path: 'metadata',  component: MetadataComponent,  canActivate: [AuthGuard], resolve: {metadata: MetadataResolver}},
   // TODO: implementar resolver de preferencias
   {path: 'preferences',  component: PreferencesComponent,  canActivate: [AuthGuard]},
+  {path: 'docs',       component: DocsComponent},
   {path: '404',       component: NotFoundComponent},
   {path: 'table',     component: TableFormComponent},
   {path: 'terms',     component: TermsComponent},

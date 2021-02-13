@@ -1,9 +1,21 @@
 .tags ::ng-deep input {
-    margin-top: 1em !important;
+    /*margin-top: 1em !important;*/
 }
 
 .tags ::ng-deep input:focus {
     border-color: transparent;
     background: transparent;
-    box-shadow:none;
+    box-shadow: none;
+}
+
+td {
+    word-break: break-all;
+}
+
+.td-words{
+    word-break: normal;
+}
+
+input[type='checkbox'] {
+    transform: scale(1.2);
 }
