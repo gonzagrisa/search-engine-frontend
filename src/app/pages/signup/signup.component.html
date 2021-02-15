@@ -8,7 +8,7 @@
             <form [formGroup]="form" (ngSubmit)="signup()">
                 <div>
                     <label for="username"><strong>Nombre de Usuario</strong></label>
-                    <input id="username" type="text" class="form-control" formControlName="username" autocomplete="off"
+                    <input id="username" type="text" class="form-control custom-rounded" formControlName="username" autocomplete="off"
                         placeholder="usuario123">
                     <small class="invalid-input"
                         *ngIf="username.invalid && username.touched && username.value == ''">Ingrese un Nombre de
@@ -20,7 +20,7 @@
                     <label class="mt-2" for="name">
                         <strong>Nombre</strong>
                     </label>
-                    <input id="name" type="text" class="form-control" formControlName="firstName" autocomplete="off"
+                    <input id="name" type="text" class="form-control custom-rounded" formControlName="firstName" autocomplete="off"
                         placeholder="Pablo">
                     <small class="invalid-input"
                         *ngIf="firstName.invalid && firstName.touched && firstName.value == ''">Ingrese su
@@ -30,7 +30,7 @@
                     <label class="mt-2" for="last-name">
                         <strong>Apellido</strong>
                     </label>
-                    <input id="last-name" type="text" class="form-control" formControlName="lastName" autocomplete="off"
+                    <input id="last-name" type="text" class="form-control custom-rounded" formControlName="lastName" autocomplete="off"
                         placeholder="Martínez">
                     <small class="invalid-input"
                         *ngIf="lastName.invalid && lastName.touched && lastName.value == ''">Ingrese su Apellido</small>
@@ -39,7 +39,7 @@
                     <label class="mt-2" for="password">
                         <strong>Contraseña</strong>
                     </label>
-                    <input id="password" type="password" class="form-control" formControlName="password"
+                    <input id="password" type="password" class="form-control custom-rounded" formControlName="password"
                         placeholder="•••••••••••••">
                     <small class="invalid-input"
                         *ngIf="password.invalid && password.touched && password.value == ''">Ingrese una
@@ -49,7 +49,7 @@
                     <label class="mt-2" for="confirm-password">
                         <strong>Confirmar Contraseña</strong>
                     </label>
-                    <input id="confirm-password" type="password" class="form-control" formControlName="passwordConfirm"
+                    <input id="confirm-password" type="password" class="form-control custom-rounded" formControlName="passwordConfirm"
                         placeholder="•••••••••••••">
                     <small class="invalid-input" *ngIf="passwordConfirm.dirty && !passwordMatch()">Las contraseñas no
                         coinciden</small>

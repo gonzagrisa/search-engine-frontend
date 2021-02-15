@@ -1,6 +1,12 @@
-.footer p {
+.footer {
+    padding: 10px;
     margin-bottom: 0px;
     color: white;
     font-weight: normal;
     height: 100%;
+}
+
+a {
+    color: white;
+    text-decoration: none;
 }

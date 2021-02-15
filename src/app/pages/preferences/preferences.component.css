@@ -1,0 +1,24 @@
+
+input{
+    box-shadow: none;
+}
+
+.row{
+    justify-content: space-between;
+}
+
+input:hover{
+    box-shadow: none;
+}
+
+input:focus{
+    box-shadow: none;
+}
+
+#input {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+
+.btn:focus{
+    box-shadow: none;
+}

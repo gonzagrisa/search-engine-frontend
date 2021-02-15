@@ -9,9 +9,9 @@ app-root {
     min-height: 100vh;
 }
 
-input {
-    /* border-radius: 0.5rem!important; */
-    border-radius: 8px!important;
+
+.custom-rounded{
+    border-radius: 10px;
 }
 
 button {
@@ -19,7 +19,7 @@ button {
     border-radius: 8px!important;
 }
 
-input:hover {
+.custom-rounded:hover{
     color: #212529;
     background-color: #fff;
     border-color: #86b7fe;

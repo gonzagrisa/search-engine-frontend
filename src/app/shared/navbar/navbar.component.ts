@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { faSlackHash } from '@fortawesome/free-brands-svg-icons';
 import { faBackward, faSignOutAlt, faUsers, IconDefinition, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { UserResourceService } from 'src/app/api/resources/user-resource.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -52,11 +53,12 @@ export class NavbarComponent implements OnInit {
     },
     {
       link: '/metadata',
-      text: 'Metadata'
+      text: 'Metadata',
+      icon: faSlackHash
     },
     {
       link: '/preferences',
-      text: 'Buscador ✨'
+      text: '✨ Buscador'
     }
   ];
 
@@ -73,6 +75,7 @@ export class NavbarComponent implements OnInit {
   faLogOut = faSignOutAlt;
   faBackwards = faBackward;
   faPaperPlane = faPaperPlane;
+  faSlackHash = faSlackHash;
 
   links: ILink[];
 

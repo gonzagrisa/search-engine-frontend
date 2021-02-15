@@ -23,7 +23,7 @@ export class MetadataResourceService extends Resource {
     requestBodyType: ResourceRequestBodyType.JSON,
     responseBodyType: ResourceResponseBodyType.Text
   })
-  updateUrl: IResourceMethodObservable<IMetadata, string>;
+  updateMetadata: IResourceMethodObservable<IMetadata, string>;
 
   @ResourceAction({
     method: ResourceRequestMethod.Delete,
@@ -31,6 +31,22 @@ export class MetadataResourceService extends Resource {
     responseBodyType: ResourceResponseBodyType.Text,
     path: '/{!id}'
   })
-  deleteUrl: IResourceMethodObservable<{id: string}, string>;
+  deleteMetadata: IResourceMethodObservable<{id: string}, string>;
+
+  @ResourceAction({
+    method: ResourceRequestMethod.Put,
+    requestBodyType: ResourceRequestBodyType.JSON,
+    responseBodyType: ResourceResponseBodyType.Text,
+    path: '/selected'
+  })
+  updateBatch: IResourceMethodObservable<IMetadata[], string>;
+
+  @ResourceAction({
+    method: ResourceRequestMethod.Delete,
+    requestBodyType: ResourceRequestBodyType.JSON,
+    responseBodyType: ResourceResponseBodyType.Text,
+    path: '/selected'
+  })
+  deleteBatch: IResourceMethodObservable<IMetadata[], string>;
 
 }

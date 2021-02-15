@@ -28,17 +28,17 @@
                         <tbody>
                             <tr *ngIf="editId == null">
                                 <td>
-                                    <input type="text" class="form-control" formControlName="firstName">
+                                    <input type="text" class="form-control custom-rounded" formControlName="firstName">
                                     <small class="invalid-input"
                                         *ngIf="firstName.invalid && firstName.touched && firstName.value == ''">Ingrese
                                         el Nombre del Usuario</small>
                                 </td>
-                                <td> <input type="text" class="form-control" formControlName="lastName">
+                                <td> <input type="text" class="form-control custom-rounded" formControlName="lastName">
                                     <small class="invalid-input"
                                         *ngIf="lastName.invalid && lastName.touched && lastName.value == ''">Ingrese
                                         el Apellido del Usuario</small>
                                 </td>
-                                <td> <input type="text" class="form-control" formControlName="username">
+                                <td> <input type="text" class="form-control custom-rounded" formControlName="username">
                                     <small class="invalid-input"
                                         *ngIf="username.invalid && username.touched && username.value == ''">Ingrese
                                         un nombre de usuario para el Usuario</small>
@@ -61,9 +61,9 @@
                                 </td>
                             </tr>
                             <tr *ngIf="editId != null">
-                                <td> <input type="text" class="form-control" disabled> </td>
-                                <td> <input type="text" class="form-control" disabled> </td>
-                                <td> <input type="text" class="form-control" disabled> </td>
+                                <td> <input type="text" class="form-control custom-rounded" disabled> </td>
+                                <td> <input type="text" class="form-control custom-rounded" disabled> </td>
+                                <td> <input type="text" class="form-control custom-rounded" disabled> </td>
                                 <td> <input type="password" class="form-control" disabled></td>
                                 <td> </td>
                                 <td>
@@ -76,17 +76,17 @@
                             <tr *ngFor="let user of usersPage; let i = index">
                                 <ng-container *ngIf="editId == user.userId">
                                     <td>
-                                        <input type="text" class="form-control" formControlName="firstName">
+                                        <input type="text" class="form-control custom-rounded" formControlName="firstName">
                                         <small class="invalid-input"
                                             *ngIf="firstName.invalid && firstName.touched && firstName.value == ''">Ingrese
                                             el Nombre del Usuario</small>
                                     </td>
-                                    <td> <input type="text" class="form-control" formControlName="lastName">
+                                    <td> <input type="text" class="form-control custom-rounded" formControlName="lastName">
                                         <small class="invalid-input"
                                             *ngIf="lastName.invalid && lastName.touched && lastName.value == ''">Ingrese
                                             el Apellido del Usuario</small>
                                     </td>
-                                    <td> <input type="text" class="form-control" formControlName="username">
+                                    <td> <input type="text" class="form-control custom-rounded" formControlName="username">
                                         <small class="invalid-input"
                                             *ngIf="username.invalid && username.touched && username.value == ''">Ingrese
                                             un nombre de usuario para el Usuario</small>

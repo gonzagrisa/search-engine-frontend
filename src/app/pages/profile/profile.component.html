@@ -18,7 +18,7 @@
                     <form [formGroup]="formData" (ngSubmit)="updateInfo()">
                         <div>
                             <label for="username"><strong>Nombre de Usuario</strong></label>
-                            <input id="username" type="text" class="form-control" formControlName="username"
+                            <input id="username" type="text" class="form-control custom-rounded" formControlName="username"
                                 autocomplete="off" placeholder="usuario123">
                             <small class="invalid-input"
                                 *ngIf="username.invalid && username.touched && username.value == ''">
@@ -31,7 +31,7 @@
                             <label for="name">
                                 <strong>Nombre</strong>
                             </label>
-                            <input id="name" type="text" class="form-control" formControlName="firstName"
+                            <input id="name" type="text" class="form-control custom-rounded" formControlName="firstName"
                                 autocomplete="off" placeholder="Pablo">
                             <small class="invalid-input"
                                 *ngIf="firstName.invalid && firstName.touched && firstName.value == ''">
@@ -41,7 +41,7 @@
                             <label for="last-name">
                                 <strong>Apellido</strong>
                             </label>
-                            <input id="last-name" type="text" class="form-control" formControlName="lastName"
+                            <input id="last-name" type="text" class="form-control custom-rounded" formControlName="lastName"
                                 autocomplete="off" placeholder="Martínez">
                             <small class="invalid-input"
                                 *ngIf="lastName.invalid && lastName.touched && lastName.value == ''">Ingrese su
@@ -67,7 +67,7 @@
                     <form [formGroup]="formPassword" (ngSubmit)="updatePassword()">
                         <div>
                             <label for="oldPassword"><strong>Contraseña Actual</strong></label>
-                            <input id="oldPassword" type="password" class="form-control" formControlName="oldPassword"
+                            <input id="oldPassword" type="password" class="form-control custom-rounded" formControlName="oldPassword"
                                 autocomplete="off" placeholder="•••••••••••••">
                             <small class="invalid-input"
                                 *ngIf="oldPassword.invalid && oldPassword.touched && oldPassword.value == ''">Ingrese su
@@ -77,7 +77,7 @@
                         </div>
                         <div class="mt-3">
                             <label for="newPassword"><strong>Contraseña Nueva</strong></label>
-                            <input id="newPassword" type="password" class="form-control" formControlName="newPassword"
+                            <input id="newPassword" type="password" class="form-control custom-rounded" formControlName="newPassword"
                                 autocomplete="off">
                             <small class="invalid-input"
                                 *ngIf="newPassword.invalid && newPassword.touched && newPassword.value == ''">Ingrese
@@ -85,7 +85,7 @@
                         </div>
                         <div class="mt-3">
                             <label for="newPasswordConfirm"><strong>Confirmar Nueva Contraseña</strong></label>
-                            <input id="newPasswordConfirm" type="password" class="form-control"
+                            <input id="newPasswordConfirm" type="password" class="form-control custom-rounded"
                                 formControlName="newPasswordConfirm" autocomplete="off">
                             <small class="invalid-input" *ngIf="newPasswordConfirm.dirty && !passwordMatch()">Las
                                 Contraseñas no coinciden</small>

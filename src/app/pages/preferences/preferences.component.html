@@ -1,1 +1,116 @@
-<p>preferences works!</p>
+<div class="container mt-5">
+    <h1 class="display-4 text-center">Personalice su Búscador</h1>
+    <hr>
+    <form [formGroup]="form" (ngSubmit)="updatePreferences()">
+        <div class="row mt-5">
+            <div class="col-md-4 col-12">
+                <label for="formControlRange">Ancho del Borde: {{ borderWidth.value }}px</label>
+                <input type="range" class="form-control-range" min="0.0" max="2" step="0.1" id="formControlRange"
+                    formControlName="borderWidth">
+                <label for="formControlRange">Radio de Borde: {{ borderRadius.value }}px</label>
+                <input type="range" class="form-control-range" min="0" max="30" step="1" id="formControlRange"
+                    formControlName="borderRadius">
+                <label for="formControlRange">Tamaño de Imagen: {{ iconSize.value }}px</label>
+                <input type="range" class="form-control-range" min="10" max="100" step="1" id="formControlRange"
+                    formControlName="iconSize">
+                <label for="logo">Logo Url:</label>
+                <input type="text" class="form-control custom-rounded" id="logo" formControlName="iconURL">
+                <label for="logo">Placeholder:</label>
+                <input type="text" class="form-control custom-rounded" id="logo" formControlName="placeholder">
+                <label for="color">Color:</label>
+                <input type="color" class="form-control-range" id="color" formControlName="color"
+                    style="background-color: transparent; width: 4em;">
+            </div>
+            <div class="col-1">
+            </div>
+            <div class="col-md-6 col-12">
+                <h4>Resultado: </h4>
+                <hr>
+                <div class="shadow rounded pt-5 pr-4 pb-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-md-1 col-1 mx-auto">
+                                    <img [src]="iconURL.value" *ngIf="iconURL.value" style="align-self: center;"
+                                        [ngStyle]="{'height': iconSize.value+'px'}">
+                                </div>
+                                <div class="col-md-10 col-10">
+                                    <div class="form-group"
+                                        [ngStyle]="{'border-color': color.value, 'border-style': 'solid', 'border-width': borderWidth.value+'px', 'border-radius': borderRadius.value+'px'}">
+                                        <div class="input-group pl-2 pr-2 rounded-pill">
+                                            <input type="text" class="form-control border-0 rounded-pill"
+                                                [placeholder]="placeholder.value">
+                                            <button type="button" class="btn">
+                                                <fa-icon [icon]="faMic" transform="grow-5"></fa-icon>
+                                            </button>
+                                            <button type="button" class="btn">
+                                                <fa-icon [icon]="faSearch" transform="grow-4"
+                                                    [styles]="{'color': color.value}">
+                                                </fa-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="input-group pr-2">
+                                <div class="input-group-prepend">
+                                    <img [src]="logo.value" *ngIf="logo.value" style="align-self: center;"
+                                        [ngStyle]="{'height': logoSize.value+'px'}">
+                                </div>
+                                <input type="text" class="form-control border-0 rounded-pill"
+                                    [placeholder]="placeholder.value">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn">
+                                        <fa-icon [icon]="faMic" transform="grow-5"></fa-icon>
+                                    </button>
+                                    <button type="button" class="btn">
+                                        <fa-icon [icon]="faSearch" transform="grow-4" [styles]="{'color': color.value}">
+                                        </fa-icon>
+                                    </button>
+                                </div>
+                            </div> -->
+                            <hr>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-3">
+                        <div class="col-1"></div>
+                        <div class="col-11">
+                            <ul>
+                                <li>
+                                    <a href="google.com">Google</a>
+                                    <br>
+                                    <small class="text-muted">Búsqueda · Imágenes · Maps · Play · YouTube · Noticias
+                                        ·
+                                        Gmail
+                                        · Drive · Más · Calendar · Traductor · Móviles · Libros · Shopping · Blogger
+                                        ·
+                                        Fotos · Vídeos
+                                    </small>
+                                </li>
+                                <li>
+                                    <a href="google.com">YouTube</a>
+                                    <small class="text-muted">
+                                        Disfruta los videos y la música que te encantan, sube contenido original y
+                                        compártelo con tus amigos, familiares y el resto del mundo en YouTube
+                                    </small>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-12 col-12 text-center">
+                <button class="btn btn-outline-success btn-lg">Guardar Preferencias</button>
+            </div>
+        </div>
+        <div class="col-md-12 col-12 text-center mt-3 mb-5 pb-5">
+            <button class="btn btn-primary" (click)="getFile()">
+                Descargar archivo
+            </button>
+        </div>
+    </form>
+</div>

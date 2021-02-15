@@ -7,6 +7,7 @@ export interface IMetadata {
     type?: string;
     popularity?: 0;
     tags?: string[];
+    filters?: string[];
     approved?: boolean;
     topWords?: string[];
 }

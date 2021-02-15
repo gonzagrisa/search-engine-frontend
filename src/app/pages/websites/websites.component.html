@@ -9,7 +9,7 @@
         <div class="col-md-12 col-12 mx-auto rounded">
             <div class="col-md-5 col-12 mb-5">
                 <label for="search" class="lead font-weight-bold">Buscar Página:</label>
-                <input id="search" class="form-control" type="text" placeholder="google.com" (keyup)="search()"
+                <input id="search" class="form-control custom-rounded" type="text" placeholder="google.com" (keyup)="search()"
                     name="searchTerm" [(ngModel)]="searchTerm" />
             </div>
             <form [formGroup]="formRow">
@@ -26,7 +26,7 @@
                         <tbody class="shadow-sm ">
                             <tr *ngIf="editId == null">
                                 <td colspan="2" width="60%">
-                                    <input type="text" class="form-control" formControlName="url"
+                                    <input type="text" class="form-control custom-rounded" formControlName="url"
                                         placeholder="http://www.pagina.com">
                                     <small class="invalid-input" *ngIf="url.invalid && url.touched && url.value == ''">
                                         Ingrese la URL de la Página
@@ -72,11 +72,12 @@
                                                     {{website.indexed ? 'Indexado' : 'A Indexar'}}
                                                 </span>
                                             </h5>
+                                            <small *ngIf="website.indexDate"> Fecha Indexación: {{website.indexDate | date:'dd/MM/yyyy' }} </small>
                                         </ng-template>
                                         <ng-template [ngIf]="!website.isUp">
                                             <h5>
                                                 <span class="badge badge-pill badge-danger">
-                                                    Servicio Caído
+                                                    Página Caída
                                                 </span>
                                             </h5>
                                         </ng-template>
@@ -99,7 +100,7 @@
 
                                 <ng-container *ngIf="editId == website.websiteId">
                                     <td colspan="2" width="60%">
-                                        <input type="text" class="form-control" formControlName="url">
+                                        <input type="text" class="form-control custom-rounded" formControlName="url">
                                         <small class="invalid-input"
                                             *ngIf="url.invalid && url.touched && url.value == ''">
                                             Ingrese la URL de la Página
@@ -135,20 +136,22 @@
             </form>
         </div>
     </div>
-    <div class="row pt-2 mb-5 mx-auto">
-        <div class="col-md-6 col-12">
-            <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="pageSize" [maxSize]="5"
-                [boundaryLinks]="true" (pageChange)="refreshWebsites()">
-            </ngb-pagination>
-        </div>
+    <ng-template [ngIf]="total > 0">
+        <div class="row pt-2 mb-5 mx-auto">
+            <div class="col-md-6 col-12">
+                <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="pageSize" [maxSize]="5"
+                    [boundaryLinks]="true" (pageChange)="refreshWebsites()">
+                </ngb-pagination>
+            </div>
 
-        <div class="col-md-6 col-12">
-            <select class="custom-select float-md-right" style="width: auto" [(ngModel)]="pageSize"
-                (ngModelChange)="refreshWebsites()">
-                <option [ngValue]="10">10 items por página</option>
-                <option [ngValue]="50">50 items por página</option>
-                <option [ngValue]="100">100 items por página</option>
-            </select>
+            <div class="col-md-6 col-12">
+                <select class="custom-select float-md-right" style="width: auto" [(ngModel)]="pageSize"
+                    (ngModelChange)="refreshWebsites()">
+                    <option [ngValue]="10">10 items por página</option>
+                    <option [ngValue]="50">50 items por página</option>
+                    <option [ngValue]="100">100 items por página</option>
+                </select>
+            </div>
         </div>
-    </div>
+    </ng-template>
 </div>

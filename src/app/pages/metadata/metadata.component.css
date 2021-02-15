@@ -1,3 +1,22 @@
+@media (max-width: 1000px) {
+    input.form-control {
+        width: auto;
+    }
+    select.form-control {
+        width: auto;
+    }
+
+    th{
+        width: auto !important;
+    }
+
+    td{
+        width: auto !important;
+        word-break: unset !important;
+    }
+    
+}
+
 .tags ::ng-deep input {
     /*margin-top: 1em !important;*/
 }
@@ -13,7 +32,11 @@ td {
 }
 
 .td-words{
-    word-break: normal;
+    word-break: break-word;
+}
+
+.td-title{
+    word-break: break-word;
 }
 
 input[type='checkbox'] {

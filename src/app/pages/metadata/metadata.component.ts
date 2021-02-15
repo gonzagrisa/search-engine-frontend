@@ -26,11 +26,14 @@ export class MetadataComponent implements OnInit {
   pageSize = 10;
   total: number;
 
-  checked = false;
+  checked: boolean = false;
+
   editingControl: AbstractControl;
   editingIndex: number;
 
-  constructor(private fb: FormBuilder,
+
+  constructor(
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private api: MetadataResourceService) { }
 
@@ -43,23 +46,28 @@ export class MetadataComponent implements OnInit {
     for (let web of this.metadata) {
       this.form.push(this.fb.group({
         selected: [false],
-        id: web.id,
+        id: [web.id],
         title: [web.title, [Validators.required]],
-        tags: [[]]
-      }))
+        tags: [[]],
+        filters: [[]]
+      }));
     }
   }
 
-  getSelected(): number {
+  getSelected() {
+    return this.form.controls.filter(control => control.get('selected').value == true);
+  }
+
+  countSelected(): number {
     return this.form.controls.filter(control => control.get('selected').value == true).length;
   }
 
   selectAll(): void {
-    if (this.checked)
+    if (this.checked){
       this.form.controls.map(control => control.get('selected').setValue(true));
+    }
     else{
       this.form.controls.map(control => control.get('selected').setValue(false));
-
     }
   }
 
@@ -69,18 +77,10 @@ export class MetadataComponent implements OnInit {
     this.total = this.metadata.length;
   }
 
-  private updateListMetadata(): void {
-    this.api.getMetadata().subscribe(
-      (res) => {
-        this.metadata = res;
-        this.refresh();
-      }
-    );
-  }
-
   edit(index: number) {
-    if (this.editingControl != null)
+    if (this.editingControl != null){
       this.cancel();
+    }
     this.editingIndex = this.getActualIndex(index);
     this.editingControl = this.form.controls[this.editingIndex].value
   }
@@ -98,16 +98,17 @@ export class MetadataComponent implements OnInit {
   }
 
   deleteMetadata(id: string, index: number): void {
-    this.api.deleteUrl({ id: id }).subscribe(
+    this.api.deleteMetadata({ id: id }).subscribe(
       () => {
         this.form.removeAt(this.getActualIndex(index));
+        this.metadata.splice(this.getActualIndex(index), 1);
+        this.refresh();
         Swal.fire({
           icon: 'success',
           title: 'Metadato eliminado',
           showConfirmButton: false,
           timer: 1500
         });
-        this.updateListMetadata();
       }
     );
   }
@@ -119,18 +120,71 @@ export class MetadataComponent implements OnInit {
     const title = control.get('title').value;
     const tagsControl = control.get('tags').value;
     let tags = tagsControl.map(x => x.value);
-    this.api.updateUrl({id: id, title: title, tags: tags} as IMetadata).subscribe(
+    this.api.updateMetadata({id: id, title: title, tags: tags} as IMetadata).subscribe(
       () => {
         this.form.removeAt(index);
+        this.metadata.splice(index, 1);
+        this.refresh();
         Swal.fire({
           icon: 'success',
           title: 'Metadato aprobado',
           showConfirmButton: false,
           timer: 1500
         });
-        this.updateListMetadata();
+        this.cancel();
+      }
+    );
+  }
+
+  deleteBatch(): void {
+    Swal.fire({
+      icon: 'question',
+      title: 'Estás seguro de querer eliminar los metatados seleccionados?',
+      showConfirmButton: true,
+      showCancelButton: true
+    }).then((result) => {
+      if (result.isConfirmed){
+        const selected: IMetadata[] = this.form.value.filter(control => control['selected'] == true);
+        this.api.deleteBatch(selected).subscribe(
+          () => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Metadatos eliminados',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            this.refreshData(selected.length);
+          }
+        )
+      }
+    });
+  }
+
+  updateBatch(): void {
+    let selected: IMetadata[] = this.form.value.filter(control => control['selected'] == true);
+    selected.forEach(metadata => {
+      metadata.tags = metadata.tags.map(x => x['value']);
+      metadata.filters = metadata.filters.map(x => x['value'])
+    });
+    this.api.updateBatch(selected).subscribe(
+      () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Metadatos aprobados y actualizados',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        this.refreshData(selected.length);
       }
     )
   }
 
+  refreshData(size: number): void{
+    for (let index = 0; index < size; index++) {
+      let index = this.form.controls.findIndex(control => control.get('selected').value == true);
+      this.form.removeAt(index);
+      this.metadata.splice(index, 1);
+    }
+    this.refresh();
+  }
 }

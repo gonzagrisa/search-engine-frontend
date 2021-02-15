@@ -6,6 +6,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
 import { InfoResolver } from './core/resolvers/info-resolver';
 import { MetadataResolver } from './core/resolvers/metadata-resolver';
+import { PreferencesResolver } from './core/resolvers/preferences-resolver';
 import { ServicesResolver } from './core/resolvers/services-resolver';
 import { UsersResolver } from './core/resolvers/users-resolver';
 import { WebsitesResolver } from './core/resolvers/websites-resolver';
@@ -28,13 +29,13 @@ const routes: Routes = [
   {path: 'login',     component: LoginComponent,     canActivate: [LoggedInGuard]},
   {path: 'signup',    component: SignupComponent,    canActivate: [LoggedInGuard]},
   {path: 'profile',   component: ProfileComponent,   canActivate: [AuthGuard],  resolve: {user: InfoResolver}},
+  // TODO RESOLVER DE ESTADISTICAS
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: 'users',     component: UsersComponent,     canActivate: [AdminGuard], resolve: {users: UsersResolver}},
   {path: 'websites',  component: WebsitesComponent,  canActivate: [AuthGuard],  resolve: {websites: WebsitesResolver}},
   {path: 'services',  component: ServicesComponent,  canActivate: [AuthGuard],  resolve: {services: ServicesResolver}},
   {path: 'metadata',  component: MetadataComponent,  canActivate: [AuthGuard], resolve: {metadata: MetadataResolver}},
-  // TODO: implementar resolver de preferencias
-  {path: 'preferences',  component: PreferencesComponent,  canActivate: [AuthGuard]},
+  {path: 'preferences',  component: PreferencesComponent, canActivate: [AuthGuard], resolve: {preferences: PreferencesResolver}},
   {path: 'docs',       component: DocsComponent},
   {path: '404',       component: NotFoundComponent},
   {path: 'table',     component: TableFormComponent},
