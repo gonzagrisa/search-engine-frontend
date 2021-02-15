@@ -19,6 +19,13 @@ export class MetadataResourceService extends Resource {
   getMetadata: IResourceMethodObservable<void, IMetadata[]>;
 
   @ResourceAction({
+    method: ResourceRequestMethod.Get,
+    responseBodyType: ResourceResponseBodyType.Json,
+    path: '/indexed'
+  })
+  getMetadataIndexed: IResourceMethodObservable<void, IMetadata[]>;
+
+  @ResourceAction({
     method: ResourceRequestMethod.Put,
     requestBodyType: ResourceRequestBodyType.JSON,
     responseBodyType: ResourceResponseBodyType.Text
