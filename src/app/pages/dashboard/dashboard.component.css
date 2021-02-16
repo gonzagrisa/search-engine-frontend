@@ -58,3 +58,8 @@
 .cards a {
     text-decoration: none;
 }
+
+.card-text{
+    text-align: end;
+    font-size: 3rem;
+}

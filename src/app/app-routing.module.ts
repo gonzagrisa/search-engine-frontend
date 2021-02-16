@@ -11,6 +11,7 @@ import { PreferencesResolver } from './core/resolvers/preferences-resolver';
 import { ServicesResolver } from './core/resolvers/services-resolver';
 import { UsersResolver } from './core/resolvers/users-resolver';
 import { WebsitesResolver } from './core/resolvers/websites-resolver';
+import { StatsResolver } from './core/resolvers/stats-resolver';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DocsComponent } from './pages/docs/docs.component';
 import { LandingComponent } from './pages/landing/landing.component';
@@ -31,8 +32,7 @@ const routes: Routes = [
   {path: 'login',     component: LoginComponent,     canActivate: [LoggedInGuard]},
   {path: 'signup',    component: SignupComponent,    canActivate: [LoggedInGuard]},
   {path: 'profile',   component: ProfileComponent,   canActivate: [AuthGuard],  resolve: {user: InfoResolver}},
-  // TODO RESOLVER DE ESTADISTICAS
-  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], resolve: {stats: StatsResolver}},
   {path: 'users',     component: UsersComponent,     canActivate: [AdminGuard], resolve: {users: UsersResolver}},
   {path: 'websites',  component: WebsitesComponent,  canActivate: [AuthGuard],  resolve: {websites: WebsitesResolver}},
   {path: 'services',  component: ServicesComponent,  canActivate: [AuthGuard],  resolve: {services: ServicesResolver}},
