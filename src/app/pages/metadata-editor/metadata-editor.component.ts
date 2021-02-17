@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { faCheck, faEraser, faPen, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { IMetadata } from 'src/app/api/models/i-metadata';
@@ -39,14 +39,14 @@ export class MetadataEditorComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
       this.metadata = data.metadata;
-    })
+    });
     this.refresh();
     this.form = this.fb.array([]);
     for (let web of this.metadata) {
       this.form.push(this.fb.group({
         selected: [false],
         id: [web.id],
-        title: [web.title, [Validators.required]],
+        title: [web.title],
         tags: [web.tags],
         filters: [web.filters]
       }));
@@ -118,8 +118,10 @@ export class MetadataEditorComponent implements OnInit {
     const id = control.get('id').value
     const title = control.get('title').value;
     const tagsControl = control.get('tags').value;
-    let tags = tagsControl.map(x => x.value);
-    this.api.updateMetadata({id: id, title: title, tags: tags} as IMetadata).subscribe(
+    let tags = tagsControl.map(x => x.value == null ? x : x.value);
+    const filtersControl = control.get('filters').value;
+    let filters = filtersControl.map(x => x.value == null ? x : x.value);
+    this.api.updateMetadata({id: id, title: title, tags: tags, filters: filters} as IMetadata).subscribe(
       () => {
         Swal.fire({
           icon: 'success',
@@ -159,8 +161,8 @@ export class MetadataEditorComponent implements OnInit {
   updateBatch(): void {
     let selected: IMetadata[] = this.form.value.filter(control => control['selected'] == true);
     selected.forEach(metadata => {
-      metadata.tags = metadata.tags.map(x => x['value']);
-      metadata.filters = metadata.filters.map(x => x['value'])
+      metadata.tags = metadata.tags.map(x => x['value'] == null ? x : x['value']);
+      metadata.filters = metadata.filters.map(x => x['value'] == null ? x : x['value'])
     });
     this.api.updateBatch(selected).subscribe(
       () => {

@@ -52,23 +52,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="input-group pr-2">
-                                <div class="input-group-prepend">
-                                    <img [src]="logo.value" *ngIf="logo.value" style="align-self: center;"
-                                        [ngStyle]="{'height': logoSize.value+'px'}">
-                                </div>
-                                <input type="text" class="form-control border-0 rounded-pill"
-                                    [placeholder]="placeholder.value">
-                                <div class="input-group-append">
-                                    <button type="button" class="btn">
-                                        <fa-icon [icon]="faMic" transform="grow-5"></fa-icon>
-                                    </button>
-                                    <button type="button" class="btn">
-                                        <fa-icon [icon]="faSearch" transform="grow-4" [styles]="{'color': color.value}">
-                                        </fa-icon>
-                                    </button>
-                                </div>
-                            </div> -->
                             <hr>
                         </div>
                     </div>
@@ -107,10 +90,17 @@
                 <button class="btn btn-outline-success btn-lg">Guardar Preferencias</button>
             </div>
         </div>
-        <div class="col-md-12 col-12 text-center mt-3 mb-5 pb-5">
-            <button class="btn btn-primary" (click)="getFile()">
+        <div class="col-md-12 col-12 text-center mt-3 mb-5">
+            <button type="button" class="btn btn-primary" (click)="getFile()">
                 Descargar archivo
             </button>
         </div>
     </form>
+    <div class="row mb-5 pb-5">
+        <div class="col-12">
+            <h5 class="text-center">Para utilizar el componente descargue en archivo y luego <br> insertelo en su pagina html de la siguiente manera:</h5>
+            <br>
+            <pre class="shadow rounded"><code class="pl-3 pr-5 rounded" [highlight]="htmlExample"></code></pre>
+        </div>
+    </div>
 </div>

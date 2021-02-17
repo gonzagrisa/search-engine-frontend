@@ -58,11 +58,28 @@ export class PreferencesComponent implements OnInit {
     )
   }
 
+  htmlExample = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <script src="./search-box.js"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+  <body>
+      <search-box token="A13E8731-120F-4586-8466-BC11BD51BC49"></search-box>
+  </body>
+  </html>
+  `
+
   downloadFile(data: Blob) {
-    const blob = new Blob([data], { type: 'application/zip' });
+    const blob = new Blob([data], { type: 'application/javascript' });
     const url = window.URL.createObjectURL(blob);
     var anchor = document.createElement("a");
-    anchor.download = "myfile.zip";
+    anchor.download = "search-box.js";
     anchor.href = url;
     anchor.click();
   }

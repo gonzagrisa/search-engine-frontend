@@ -120,7 +120,9 @@ export class MetadataComponent implements OnInit {
     const title = control.get('title').value;
     const tagsControl = control.get('tags').value;
     let tags = tagsControl.map(x => x.value);
-    this.api.updateMetadata({id: id, title: title, tags: tags} as IMetadata).subscribe(
+    const filtersControl = control.get('filters').value;
+    let filters = filtersControl.map(x => x.value);
+    this.api.updateMetadata({id: id, title: title, tags: tags, filters: filters} as IMetadata).subscribe(
       () => {
         this.form.removeAt(index);
         this.metadata.splice(index, 1);

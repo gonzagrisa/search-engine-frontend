@@ -7,7 +7,7 @@ import { IPreferences } from '../models/i-preferences';
   providedIn: 'root'
 })
 @ResourceParams({
-  pathPrefix: `${environment.apiUrl}/settings`
+  pathPrefix: `${environment.apiUrl}/preferences`
 })
 export class PreferencesResourceService extends Resource{
 
