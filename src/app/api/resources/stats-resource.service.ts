@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IResourceMethodObservable, Resource, ResourceAction, ResourceParams, ResourceRequestMethod } from '@ngx-resource/core';
 import { environment } from 'src/environments/environment';
+import { IStats } from 'src/app/api/models/i-stats';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +28,8 @@ export class StatsResourceService extends  Resource{
   getWords: IResourceMethodObservable<void,void>;
 
   @ResourceAction({
-    method: ResourceRequestMethod.Get
+    method: ResourceRequestMethod.Get,
+    path: `${environment.apiUrl}/stats/quantities`
   })
-  getQuantities: IResourceMethodObservable<void,void>;
-  
+  getQuantities: IResourceMethodObservable<void, IStats>;
 }

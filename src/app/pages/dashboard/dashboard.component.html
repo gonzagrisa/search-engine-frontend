@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-4 col-sm-12 col-12 mt-4">
                 <a routerLink="/websites">
-                    <div id="card-1" class="card">
+                    <div id="card-1" class="card card-shadow">
                         <h3>Agregá Páginas a Indexar</h3>
                     </div>
                 </a>
@@ -11,130 +11,81 @@
 
             <div class="col-md-4 col-sm-12 col-12 mt-4">
                 <a routerLink="/services">
-                    <div id="card-2" class="card">
+                    <div id="card-2" class="card card-shadow">
                         <h3>Agregá Servicios a Indexar</h3>
                     </div>
                 </a>
             </div>
 
             <div class="col-md-4 col-sm-12 col-12 mt-4">
-                <div id="card-3" class="card">
-                    <h3>Personalizá tu Buscador</h3>
-                </div>
+                <a routerLink="/preferences">
+                    <div id="card-3" class="card card-shadow">
+                        <h3>Personalizá tu Buscador</h3>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
     <div class="row mt-5">
         <div class="col-md-12 col-12">
-            <h1>Indicadores de Uso del Navegador</h1>
+            <h1>Estadísticas de uso</h1>
             <hr>
         </div>
         <div class="card-columns container">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                        content.
-                    </p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <div class="card card-shadow">
+                <div class="card-body" id="color-1-text">
+                    <h3 class="card-title">Búsquedas totales</h3>
+                    <p class="card-text">{{stats.totales}}</p>
+                    <!-- <p class="card-text" id="totalCounter"><small class="text-muted">Last updated 3 mins ago</small></p> -->
                 </div>
             </div>
-            <div class="card">
-
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                        content.
-                    </p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <div class="card card-shadow">
+                <div class="card-body" id="color-2-text">
+                    <h3 class="card-title">Búsquedas de hoy</h3>
+                    <p class="card-text">{{stats.realizadasHoy}}</p>
+                    <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
                 </div>
             </div>
-            <div class="card">
-
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                        content.
-                    </p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <div class="card card-shadow">
+                <div class="card-body" id="color-3-text">
+                    <h3 class="card-title">Búsquedas con resultados</h3>
+                    <p class="card-text">{{stats.conResultados}}</p>
+                    <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
                 </div>
             </div>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                        content.
-                    </p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <div class="card card-shadow">
+                <div class="card-body" id="color-4-text">
+                    <h3 class="card-title">Búsquedas sin resultados</h3>
+                    <p class="card-text">{{stats.sinResultados}}</p>
+                    <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
                 </div>
             </div>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                        content.
-                    </p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <div class="card card-shadow">
+                <div class="card-body" id="color-1-text">
+                    <h3 class="card-title">Búsquedas por popularidad</h3>
+                    <p class="card-text">{{stats.popularidad}}</p>
+                    <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
                 </div>
             </div>
-            <div class="card">
-
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                        content.
-                    </p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <div class="card card-shadow">
+                <div class="card-body" id="color-2-text">
+                    <h3 class="card-title">Búsquedas por fecha</h3>
+                    <p class="card-text">{{stats.fecha}}</p>
+                    <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
                 </div>
             </div>
-            <div class="card">
-
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                        content.
-                    </p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <div class="card card-shadow">
+                <div class="card-body" id="color-3-text">
+                    <h3 class="card-title">Búsquedas en orden ascendente</h3>
+                    <p class="card-text">{{stats.ascendente}}</p>
+                    <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
                 </div>
             </div>
-            <div class="card">
-
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                        content.
-                    </p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-            </div>
-            <div class="card">
-
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                        content.
-                    </p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-            </div>
-            <div class="card">
-
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                        content.
-                    </p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-            </div>
-            <div class="card">
-
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                        content.
-                    </p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <div class="card card-shadow">
+                <div class="card-body" id="color-4-text">
+                    <h3 class="card-title">Búsquedas en orden descendente</h3>
+                    <p class="card-text">{{stats.descendente}}</p>
+                    <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
                 </div>
             </div>
         </div>

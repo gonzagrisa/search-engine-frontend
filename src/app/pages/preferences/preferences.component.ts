@@ -20,7 +20,7 @@ export class PreferencesComponent implements OnInit {
 
   preferences: IPreferences;
 
-  constructor(private api: PreferencesResourceService, private fb: FormBuilder, private route: ActivatedRoute,) { }
+  constructor(private api: PreferencesResourceService, private fb: FormBuilder, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.data.subscribe((data) =>{
@@ -109,4 +109,3 @@ export class PreferencesComponent implements OnInit {
   }
 
 }
-

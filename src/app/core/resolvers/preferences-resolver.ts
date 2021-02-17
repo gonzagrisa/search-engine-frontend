@@ -9,7 +9,7 @@ import { PreferencesResourceService } from "src/app/api/resources/preferences-re
 })
 export class PreferencesResolver implements Resolve<IPreferences> {
     constructor(private api: PreferencesResourceService) { }
-    
+
     resolve(): IPreferences | Observable<IPreferences> | Promise<IPreferences> {
         return this.api.getPreferences();
     }
