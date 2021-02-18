@@ -33,10 +33,6 @@ export class NavbarComponent implements OnInit {
     {
       link: '/dashboard',
       text: '📋 Dashboard',
-    },
-    {
-      link: '/profile',
-      text: '📃 Perfil',
     }
   ];
 

@@ -38,7 +38,7 @@ const routes: Routes = [
   {path: 'services',  component: ServicesComponent,  canActivate: [AuthGuard],  resolve: {services: ServicesResolver}},
   {path: 'metadata',  component: MetadataComponent,  canActivate: [AuthGuard], resolve: {metadata: MetadataResolver}},
   {path: 'metadata/indexed', component: MetadataEditorComponent,  canActivate: [AuthGuard], resolve: {metadata: MetadataIndexedResolver}},
-  {path: 'preferences',  component: PreferencesComponent, canActivate: [AuthGuard], resolve: {preferences: PreferencesResolver}},
+  {path: 'preferences',  component: PreferencesComponent, canActivate: [AuthGuard], resolve: {preferences: PreferencesResolver, user: InfoResolver}},
   {path: 'docs',       component: DocsComponent},
   {path: '404',       component: NotFoundComponent},
   {path: 'table',     component: TableFormComponent},

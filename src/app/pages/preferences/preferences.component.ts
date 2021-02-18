@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { faMicrophone, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { IPreferences } from 'src/app/api/models/i-preferences';
+import { IUser } from 'src/app/api/models/i-user';
 import { PreferencesResourceService } from 'src/app/api/resources/preferences-resource.service';
 import Swal from 'sweetalert2';
 
@@ -19,12 +20,15 @@ export class PreferencesComponent implements OnInit {
   faMic = faMicrophone;
 
   preferences: IPreferences;
+  user: IUser;
+  htmlExample: string;
 
   constructor(private api: PreferencesResourceService, private fb: FormBuilder, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.route.data.subscribe((data) =>{
+    this.route.data.subscribe((data) => {
       this.preferences = data.preferences;
+      this.user = data.user;
     });
     this.form = this.fb.group({
       borderRadius: [this.preferences.borderRadius],
@@ -34,6 +38,22 @@ export class PreferencesComponent implements OnInit {
       placeholder: [this.preferences.placeholder],
       color: [this.preferences.color]
     });
+    this.htmlExample = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Document</title>
+          <script src="./search-box.js"></script>
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      </head>
+      <body>
+          <search-box token="${this.user.token}"></search-box>
+      </body>
+      </html>
+  `
   }
 
   getFile(): void {
@@ -58,22 +78,7 @@ export class PreferencesComponent implements OnInit {
     )
   }
 
-  htmlExample = `
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <script src="./search-box.js"></script>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  </head>
-  <body>
-      <search-box token="A13E8731-120F-4586-8466-BC11BD51BC49"></search-box>
-  </body>
-  </html>
-  `
+
 
   downloadFile(data: Blob) {
     const blob = new Blob([data], { type: 'application/javascript' });

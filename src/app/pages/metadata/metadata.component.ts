@@ -133,7 +133,6 @@ export class MetadataComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         });
-        this.cancel();
       }
     );
   }

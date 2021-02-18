@@ -13,12 +13,15 @@ export class AuthService {
   token: string;
   private role = new BehaviorSubject(null);
   role$ = this.role.asObservable();
+  private username = new BehaviorSubject(null);
+  username$ = this.username.asObservable();
 
   constructor(private api: UserResourceService, private router: Router) {
     if (this.getToken()){
       this.role.next(this.getUserToken().role);
-    } else{
+    } else {
       this.role.next(null);
+      this.username.next(null);
     }
   }
 
@@ -46,7 +49,7 @@ export class AuthService {
     return jwtDecode(this.getToken());
   }
 
-  getUserToken(): IUser{
+  getUserToken(): IUser {
     const decoded = jwtDecode(this.getToken());
     const user: IUser = {
       userId: decoded['id'],
