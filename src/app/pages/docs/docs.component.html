@@ -52,7 +52,7 @@
             <hr>
             <p>
                 DogDogGo también permite que las paginas a indexar provengan desde un servicio. Para esto, debe
-                proveernos de 2 URLs, una que es el endpoint de ping de su servicio y otra que es el endpoint
+                proveernos de la url del recurso, y nuestro sistema se encargará de buscar los endpoints correspondientes, uno que es el endpoint de ping de su servicio y otro que es el endpoint
                 que contiene la lista de sitios web que desea indexar.
                 <br>
                 Se permite el uso de tanto servicios REST como servicios web (SOAP), cada uno debe cumplir las
@@ -61,8 +61,8 @@
             <br>
             <h3 class="text-primary">REST</h3>
             <p>
-                Para el consumo correcto de su servicio REST, debe proveernos de 2 links: uno al endpoint de ping,
-                y otro al endpoint del recurso que contiene todas las páginas que desea indexar.
+                Para el consumo correcto de su servicio REST, debe proveernos sólo del link del servicio, nuestro sistema se encargará de agregar
+                los endpoints de ping y list como se muestra a continuación, suponiendo que http://localhost:/8080/api/ es la URL de su servicio.
             </p>
             <h4 class="text-primary">Ejemplo:</h4>
             <br>
@@ -73,7 +73,7 @@
             <pre class="shadow rounded"><code [highlight]="'pong!'"></code></pre>
             <br>
             <h5>Endpoint del Recurso</h5>
-            <pre class="shadow rounded"><code [highlight]="'GET http://localhost:/8080/api/paginas'"></code></pre>
+            <pre class="shadow rounded"><code [highlight]="'GET http://localhost:/8080/api/list'"></code></pre>
             <br>
             <h5>Respuesta:</h5>
             <pre class="shadow rounded"><code [highlight]="json"></code></pre>
