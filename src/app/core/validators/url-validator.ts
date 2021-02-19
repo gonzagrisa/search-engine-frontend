@@ -34,7 +34,7 @@ export class UrlValidator {
         return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
             let protocol = control.parent.get(field).value;
             return timer(500).pipe(switchMap(() => {
-                return this.apiService.testPing({ protocol: protocol, URLPing: control.value.trim() })
+                return this.apiService.testPing({ protocol: protocol, url: control.value.trim() })
                     .pipe(debounceTime(1000))
                     .pipe(
                         map(() => {
@@ -84,4 +84,3 @@ export class UrlValidator {
          }
      } */
 }
-

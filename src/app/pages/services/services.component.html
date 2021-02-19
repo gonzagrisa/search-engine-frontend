@@ -18,8 +18,7 @@
                     <table class="table table-hover shadow">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">URL Ping</th>
-                                <th scope="col">URL Recurso</th>
+                                <th scope="col">URL</th>
                                 <th scope="col" style="width:  8%" class="text-center">Protocolo</th>
                                 <th scope="col" style="width:  5%" class="text-center">Estado</th>
                                 <th scope="col" style="width:  10%"> </th>
@@ -28,29 +27,18 @@
                         <tbody class="align-middle">
                             <tr *ngIf="editId == null">
                                 <td>
-                                    <input type="text" class="form-control custom-rounded" formControlName="URLPing"
+                                    <input type="text" class="form-control custom-rounded" formControlName="url"
                                         placeholder="http://www.pagina.com/api/ping"
                                         (change)="checkProtocol($event.target.value)">
                                     <small class="invalid-input"
-                                        *ngIf="URLPing.invalid && URLPing.touched && URLPing.value == ''">
-                                        Ingrese la URL de ping
+                                        *ngIf="url.invalid && url.touched && url.value == ''">
+                                        Ingrese la URL del servicio
                                     </small>
-                                    <small class="invalid-input" *ngIf="URLPing.errors?.pattern">
+                                    <small class="invalid-input" *ngIf="url.errors?.pattern">
                                         Ingrese una URL válida
                                     </small>
-                                    <small class="invalid-input" *ngIf="URLPing.errors?.pingFailed">
+                                    <small class="invalid-input" *ngIf="url.errors?.pingFailed">
                                         No se pudo hacer ping al servicio
-                                    </small>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control custom-rounded" formControlName="URLResource"
-                                        placeholder="http://www.pagina.com/api/paginas">
-                                    <small class="invalid-input"
-                                        *ngIf="URLResource.invalid && URLResource.touched && URLResource.value == ''">
-                                        Ingrese la URL del Recurso
-                                    </small>
-                                    <small class="invalid-input" *ngIf="URLResource.errors?.pattern">
-                                        Ingrese una URL válida
                                     </small>
                                 </td>
                                 <td>
@@ -90,27 +78,16 @@
                                 <ng-container *ngIf="editId == service.serviceId">
                                     <td>
                                         <input type="text" class="form-control custom-rounded"
-                                            (change)="checkProtocol($event.target.value)" formControlName="URLPing">
+                                            (change)="checkProtocol($event.target.value)" formControlName="url">
                                         <small class="invalid-input"
-                                            *ngIf="URLPing.invalid && URLPing.touched && URLPing.value == ''">
+                                            *ngIf="url.invalid && url.touched && url.value == ''">
                                             Ingrese la URL de ping
                                         </small>
-                                        <small class="invalid-input" *ngIf="URLPing.errors?.pattern">
+                                        <small class="invalid-input" *ngIf="url.errors?.pattern">
                                             Ingrese una URL válida
                                         </small>
-                                        <small class="invalid-input" *ngIf="URLPing.errors?.pingFailed">
+                                        <small class="invalid-input" *ngIf="url.errors?.pingFailed">
                                             No se pudo hacer ping al servicio
-                                        </small>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control custom-rounded"
-                                            formControlName="URLResource">
-                                        <small class="invalid-input"
-                                            *ngIf="URLResource.invalid && URLResource.touched && URLResource.value == ''">
-                                            Ingrese la URL del Recurso
-                                        </small>
-                                        <small class="invalid-input" *ngIf="URLResource.errors?.pattern">
-                                            Ingrese una URL válida
                                         </small>
                                     </td>
                                     <td>
@@ -138,11 +115,7 @@
                                 </ng-container>
                                 <ng-container *ngIf="editId != service.serviceId">
                                     <td>
-                                        <ngb-highlight [result]="service.URLPing" [term]="searchTerm"></ngb-highlight>
-                                    </td>
-                                    <td>
-                                        <ngb-highlight [result]="service.URLResource" [term]="searchTerm">
-                                        </ngb-highlight>
+                                        <ngb-highlight [result]="service.url" [term]="searchTerm"></ngb-highlight>
                                     </td>
                                     <td>
                                         {{service.protocol}}

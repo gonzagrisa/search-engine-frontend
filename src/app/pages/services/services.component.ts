@@ -43,8 +43,7 @@ export class ServicesComponent implements OnInit {
     this.refreshServices();
     this.formRow = this.fb.group({
       serviceId: [null],
-      URLPing: ['', { updateOn: 'blur', validators: [Validators.required, Validators.pattern(this.regex)], asyncValidators: [this.urlValidator.checkPing('protocol').bind(this)] }],
-      URLResource: ['', [Validators.required, Validators.pattern(this.regex)]],
+      url: ['', { updateOn: 'blur', validators: [Validators.required, Validators.pattern(this.regex)], asyncValidators: [this.urlValidator.checkPing('protocol').bind(this)] }],
       protocol: ['REST', [Validators.required]]
     });
   }
@@ -52,9 +51,7 @@ export class ServicesComponent implements OnInit {
   edit(service: IService): void {
     this.editId = service.serviceId;
     this.serviceId.setValue(service.serviceId);
-    this.URLPing.setValue(service.URLPing);
-    this.URLResource.setValue(service.URLResource);
-    this.URLPing.setValue(service.URLPing);
+    this.url.setValue(service.url);
     this.protocol.setValue(service.protocol);
   }
 
@@ -65,8 +62,8 @@ export class ServicesComponent implements OnInit {
   }
 
   checkSubmit(): boolean {
-    if ((this.URLResource.value.toLocaleLowerCase().includes("?wsdl") && this.protocol.value == "REST")
-      || (!this.URLResource.value.toLocaleLowerCase().includes("?wsdl") && this.protocol.value == "SOAP")) {
+    if ((this.url.value.toLocaleLowerCase().includes("?wsdl") && this.protocol.value == "REST")
+      || (!this.url.value.toLocaleLowerCase().includes("?wsdl") && this.protocol.value == "SOAP")) {
       Swal.fire('Error', 'El recurso no coincide con el protocolo', 'error');
       return false;
     }
@@ -88,7 +85,7 @@ export class ServicesComponent implements OnInit {
 
   deleteService(service: IService): void {
     Swal.fire({
-      title: `Estás Seguro de querer eliminar el servicio?`, text: `${service.URLResource}`,
+      title: `Estás Seguro de querer eliminar el servicio?`, text: `${service.url}`,
       icon: 'warning', showCancelButton: true, confirmButtonText: 'Sí, eliminar'
     })
       .then((result) => {
@@ -191,20 +188,15 @@ export class ServicesComponent implements OnInit {
 
   private matches(service: IService, term: string): boolean {
     term = term.toLocaleLowerCase();
-    return service.URLResource.toLowerCase().includes(term)
-      || service.URLPing.toLocaleLowerCase().includes(term);
+    return service.url.toLowerCase().includes(term);
   }
 
   get serviceId(): AbstractControl {
     return this.formRow.get('serviceId');
   }
 
-  get URLPing(): AbstractControl {
-    return this.formRow.get('URLPing');
-  }
-
-  get URLResource(): AbstractControl {
-    return this.formRow.get('URLResource');
+  get url(): AbstractControl {
+    return this.formRow.get('url');
   }
 
   get protocol(): AbstractControl {

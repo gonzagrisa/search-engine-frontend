@@ -72,7 +72,7 @@
                                                     {{website.indexed ? 'Indexado' : 'A Indexar'}}
                                                 </span>
                                             </h5>
-                                            <small *ngIf="website.indexDate"> Fecha Indexación: {{website.indexDate | date:'dd/MM/yyyy' }} </small>
+                                            <small *ngIf="website.indexDate"> Fecha de indexado: {{website.indexDate | date:'dd/MM/yyyy' }} </small>
                                         </ng-template>
                                         <ng-template [ngIf]="!website.isUp">
                                             <h5>
