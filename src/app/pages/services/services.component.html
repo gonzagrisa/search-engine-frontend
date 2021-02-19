@@ -28,7 +28,7 @@
                             <tr *ngIf="editId == null">
                                 <td>
                                     <input type="text" class="form-control custom-rounded" formControlName="url"
-                                        placeholder="http://www.pagina.com/api/ping"
+                                        placeholder="http://www.pagina.com/api/"
                                         (change)="checkProtocol($event.target.value)">
                                     <small class="invalid-input"
                                         *ngIf="url.invalid && url.touched && url.value == ''">
