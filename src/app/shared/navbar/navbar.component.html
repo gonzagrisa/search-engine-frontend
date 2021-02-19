@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
 
-    <button #navbarToggler class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
-        aria-expanded="false" aria-label="Toggle navigation">
+    <button #navbarToggler class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+        aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand ml-5" routerLink="/">
@@ -14,7 +14,7 @@
             <ng-template [ngIf]="auth.isImpresonator()">
                 <li class="nav-item mr-2">
                     <a class="nav-link btn btn-primary shadow-none" (click)="collapseNav(); returnAccount()">
-                        <fa-icon [icon]="faBackwards"></fa-icon> Volver
+                        <fa-icon [icon]="faBackwards"></fa-icon> Desconectar
                     </a>
                 </li>
             </ng-template>
@@ -27,11 +27,18 @@
                     {{link.text}}
                 </a>
             </li>
-
-            <li class="nav-item" *ngIf="auth.isLoggedIn()">
-                <a class="nav-link btn btn-primary shadow-none" routerLinkActive="active" (click)="collapseNav(); logOut()">
-                    <fa-icon [icon]="faLogOut"></fa-icon> Cerrar Sesión
+            <li class="nav-item dropdown" *ngIf="auth.isLoggedIn()">
+                <a class="nav-link dropdown-toggle nav-link btn btn-primary shadow-none mr-2" href="#" id="navbarDropdownMenuLink" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    😀 Hola {{ auth.getUserToken().username }}!
                 </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" routerLink="/profile" (click)="collapseNav()">📃 Perfil</a>
+                    <a class="dropdown-item" href="#" (click)="collapseNav(); logOut()">
+                        <fa-icon [icon]="faLogOut"></fa-icon>
+                        Cerrar Sesión
+                    </a>
+                </div>
             </li>
         </ul>
     </div>

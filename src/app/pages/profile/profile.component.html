@@ -100,7 +100,7 @@
         </div>
     </div>
     <div class="row mb-5">
-        <div class="col-md-3 col-6 mx-auto">
+        <div class="col-md-3 col-6 mx-auto" *ngIf="!authService.isAdmin()">
             <button class="btn btn-danger btn-block" (click)="deleteAccount()">Eliminar Cuenta</button>
         </div>
     </div>
