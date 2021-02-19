@@ -31,7 +31,8 @@ export class ServicesComponent implements OnInit {
   total: number;
   searchTerm = '';
 
-  constructor(private api: ServicesResourceService,
+  constructor(
+    private api: ServicesResourceService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private urlValidator: UrlValidator) { }
@@ -43,8 +44,11 @@ export class ServicesComponent implements OnInit {
     this.refreshServices();
     this.formRow = this.fb.group({
       serviceId: [null],
-      url: ['', { updateOn: 'blur', validators: [Validators.required, Validators.pattern(this.regex)], asyncValidators: [this.urlValidator.checkPing('protocol').bind(this)] }],
-      protocol: ['REST', [Validators.required]]
+      //url: ['', { updateOn: 'blur', validators: [Validators.required, Validators.pattern(this.regex)], asyncValidators: [this.urlValidator.checkPing('protocol').bind(this)]}],
+      url: ['', { updateOn: 'blur', validators: [Validators.required, Validators.pattern(this.regex)] }],
+      protocol: ['REST', [Validators.required]],
+      pingTested: [false],
+      checkingPing: [false]
     });
   }
 
@@ -53,6 +57,8 @@ export class ServicesComponent implements OnInit {
     this.serviceId.setValue(service.serviceId);
     this.url.setValue(service.url);
     this.protocol.setValue(service.protocol);
+    this.pingTested.setValue(false);
+    this.checkingPing.setValue(false);
   }
 
   cancelEdit(): void {
@@ -83,46 +89,59 @@ export class ServicesComponent implements OnInit {
     )
   }
 
+  addDeletedService(service: IService): void {
+    this.api.addService(service).subscribe(
+      () => {
+        Swal.fire('Servicio dado de alta!', '', 'success');
+        this.updateListServices();
+      }
+    )
+  }
+
   deleteService(service: IService): void {
     Swal.fire({
       title: `Estás Seguro de querer eliminar el servicio?`, text: `${service.url}`,
       icon: 'warning', showCancelButton: true, confirmButtonText: 'Sí, eliminar'
     })
       .then((result) => {
-        if (service.indexed == false) {
-          this.api.deleteService(service, { keepWebsites: false }, { id: service.serviceId }).subscribe(
-            () => {
-              this.updateListServices();
-              this.cancelEdit();
-              Swal.fire('Servicio Eliminado!', '', 'success');
-            }
-          )
+        if (result.isDismissed) {
+          return;
         }
-        else if (result.isConfirmed) {
-          Swal.fire({
-            title: `Desea mantener las paginas indexadas provenientes del servicio?`,
-            icon: 'warning', showDenyButton: true,
-            confirmButtonText: 'Sí', denyButtonText: `No`
-          })
-            .then((result) => {
-              if (result.isConfirmed) {
-                this.api.deleteService(service, { keepWebsites: true }, { id: service.serviceId }).subscribe(
-                  () => {
-                    this.updateListServices();
-                    this.cancelEdit();
-                    Swal.fire('Servicio Eliminado!', '', 'success');
-                  }
-                )
-              } else {
-                this.api.deleteService(service, { keepWebsites: false }, { id: service.serviceId }).subscribe(
-                  () => {
-                    this.updateListServices();
-                    this.cancelEdit();
-                    Swal.fire('Servicio Eliminado!', '', 'success');
-                  }
-                )
+        if (result.isConfirmed) {
+          if (service.indexed == false) {
+            this.api.deleteService(service, { keepWebsites: false }, { id: service.serviceId }).subscribe(
+              () => {
+                this.updateListServices();
+                this.cancelEdit();
+                Swal.fire('Servicio Eliminado!', '', 'success');
               }
+            )
+          } else {
+            Swal.fire({
+              title: `Desea mantener las paginas indexadas provenientes del servicio?`,
+              icon: 'warning', showDenyButton: true,
+              confirmButtonText: 'Sí', denyButtonText: `No`
             })
+              .then((result) => {
+                if (result.isConfirmed) {
+                  this.api.deleteService(service, { keepWebsites: true }, { id: service.serviceId }).subscribe(
+                    () => {
+                      this.updateListServices();
+                      this.cancelEdit();
+                      Swal.fire('Servicio Eliminado!', '', 'success');
+                    }
+                  )
+                } else {
+                  this.api.deleteService(service, { keepWebsites: false }, { id: service.serviceId }).subscribe(
+                    () => {
+                      this.updateListServices();
+                      this.cancelEdit();
+                      Swal.fire('Servicio Eliminado!', '', 'success');
+                    }
+                  )
+                }
+              })
+          }
         }
       });
   }
@@ -150,24 +169,34 @@ export class ServicesComponent implements OnInit {
     )
   }
 
-  checkProtocol(url: string): void {
+  checkURL(url: string): void {
+    url = url.trim();
+    this.pingTested.setValue(false);
+    this.url.setValue(url.trim());
     if (url.toLocaleLowerCase().includes("?wsdl")) {
       this.protocol.setValue('SOAP');
     } else {
+      if (!url.endsWith('/') && !this.url.invalid && url.length > 0) {
+        const validUrl = url.concat('/');
+        this.url.setValue(validUrl);
+      }
       this.protocol.setValue('REST');
     }
   }
 
-  private updateListServices(): void {
-    this.api.getServices().subscribe(
-      (res) => {
-        this.services = res;
-        this.refreshServices();
-        if (this.searchTerm !== '') {
-          this.search();
-        }
+  testPing(): void {
+    this.checkingPing.setValue(true);
+    this.api.testPing(this.formRow.value).subscribe(
+      () => {
+        this.checkingPing.setValue(false);
+        this.url.setErrors(null);
+        this.formRow.get('pingTested').setValue(true);
+      },
+      (err) => {
+        this.checkingPing.setValue(false);
+        this.url.setErrors({ pingFailed: true });
       }
-    );
+    )
   }
 
   search(): void {
@@ -186,6 +215,18 @@ export class ServicesComponent implements OnInit {
     this.total = this.services.length;
   }
 
+  private updateListServices(): void {
+    this.api.getServices().subscribe(
+      (res) => {
+        this.services = res;
+        this.refreshServices();
+        if (this.searchTerm !== '') {
+          this.search();
+        }
+      }
+    );
+  }
+
   private matches(service: IService, term: string): boolean {
     term = term.toLocaleLowerCase();
     return service.url.toLowerCase().includes(term);
@@ -202,4 +243,13 @@ export class ServicesComponent implements OnInit {
   get protocol(): AbstractControl {
     return this.formRow.get('protocol');
   }
+
+  get pingTested(): AbstractControl {
+    return this.formRow.get('pingTested');
+  }
+
+  get checkingPing(): AbstractControl {
+    return this.formRow.get('checkingPing');
+  }
+
 }

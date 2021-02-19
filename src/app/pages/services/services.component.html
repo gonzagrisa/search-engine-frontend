@@ -11,7 +11,8 @@
                 <label for="search" class="lead font-weight-bold">Buscar Servicio:</label>
                 <input id="search" class="form-control custom-rounded" type="text" placeholder="api/paginas"
                     (keyup)="search()" name="searchTerm" [(ngModel)]="searchTerm" />
-                <p class="mt-2">Para más información, visita la <a routerLink="/docs"><strong>documentación</strong></a>.</p>
+                <p class="mt-2">Para más información, visita la <a
+                        routerLink="/docs"><strong>documentación</strong></a>.</p>
             </div>
             <div class="table-responsive">
                 <form [formGroup]="formRow">
@@ -20,6 +21,7 @@
                             <tr>
                                 <th scope="col">URL</th>
                                 <th scope="col" style="width:  12%" class="text-center">Protocolo</th>
+                                <th scope="col" style="width:  12%" class="text-center">Probar</th>
                                 <th scope="col" style="width:  10%" class="text-center">Estado</th>
                                 <th scope="col" style="width:  15%"> </th>
                             </tr>
@@ -29,9 +31,8 @@
                                 <td>
                                     <input type="text" class="form-control custom-rounded" formControlName="url"
                                         placeholder="http://www.pagina.com/api/"
-                                        (change)="checkProtocol($event.target.value)">
-                                    <small class="invalid-input"
-                                        *ngIf="url.invalid && url.touched && url.value == ''">
+                                        (change)="checkURL($event.target.value)">
+                                    <small class="invalid-input" *ngIf="url.invalid && url.touched && url.value == ''">
                                         Ingrese la URL del servicio
                                     </small>
                                     <small class="invalid-input" *ngIf="url.errors?.pattern">
@@ -47,10 +48,21 @@
                                         <option value="SOAP">SOAP</option>
                                     </select>
                                 </td>
+                                <td scope="col" class="text-center">
+                                    <button class="btn btn-success" (click)="testPing()"
+                                        [disabled]="url.errors?.pattern || url.pristine">
+                                        <span class="spinner-border spinner-border-sm"
+                                            *ngIf="checkingPing.value"></span>
+                                        Ping
+                                    </button>
+                                    <br>
+                                    <small class="text-success"
+                                        *ngIf="pingTested.value && url.errors?.pingFailed == null">Ping exitoso</small>
+                                </td>
                                 <td scope="col"></td>
                                 <td>
                                     <button class="btn btn-success m-1" (click)="addService()"
-                                        [disabled]="formRow.invalid || formRow.pending">
+                                        [disabled]="formRow.invalid || !pingTested.value">
                                         <ng-template [ngIf]="formRow.pending">
                                             <span class="spinner-border spinner-border-sm" role="status"
                                                 aria-hidden="true"></span>
@@ -63,10 +75,15 @@
                                 </td>
                             </tr>
                             <tr *ngIf="editId != null">
-                                <td><input type="text" class="form-control custom-rounded" disabled></td>
-                                <td><input type="text" class="form-control custom-rounded" disabled></td>
+                                <td><input type="text" class="form-control custom-rounded" disabled
+                                        placeholder="http://www.pagina.com/api/"></td>
                                 <td><select class="form-control" disabled></select></td>
-                                <td scope="col" class="text-center align-middle"></td>
+                                <td scope="col" class="text-center">
+                                    <button class="btn btn-success" (click)="testPing()" disabled>
+                                        Ping
+                                    </button>
+                                </td>
+                                <td></td>
                                 <td>
                                     <button class="btn btn-success m-1" disabled>
                                         <fa-icon [icon]="faPlus"></fa-icon>
@@ -78,7 +95,7 @@
                                 <ng-container *ngIf="editId == service.serviceId">
                                     <td>
                                         <input type="text" class="form-control custom-rounded"
-                                            (change)="checkProtocol($event.target.value)" formControlName="url">
+                                            (change)="checkURL($event.target.value)" formControlName="url">
                                         <small class="invalid-input"
                                             *ngIf="url.invalid && url.touched && url.value == ''">
                                             Ingrese la URL de ping
@@ -95,6 +112,18 @@
                                             <option value="REST">REST</option>
                                             <option value="SOAP">SOAP</option>
                                         </select>
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-success" (click)="testPing()"
+                                            [disabled]="url.errors?.pattern">
+                                            <span class="spinner-border spinner-border-sm"
+                                                *ngIf="checkingPing.value"></span>
+                                            Ping
+                                        </button>
+                                        <br>
+                                        <small class="text-success"
+                                            *ngIf="pingTested.value && url.errors?.pingFailed == null">Ping
+                                            exitoso</small>
                                     </td>
                                     <td></td>
                                     <td>
@@ -113,12 +142,14 @@
                                         </button>
                                     </td>
                                 </ng-container>
-                                <ng-container *ngIf="editId != service.serviceId">
+                                <ng-container *ngIf="editId != service.serviceId && service.isActive">
                                     <td>
                                         <ngb-highlight [result]="service.url" [term]="searchTerm"></ngb-highlight>
                                     </td>
                                     <td>
                                         {{service.protocol}}
+                                    </td>
+                                    <td class="text-center">
                                     </td>
                                     <td class="text-center">
                                         <ng-template [ngIf]="service.isUp">
@@ -128,7 +159,9 @@
                                                     {{service.indexed ? 'Indexado' : 'A Indexar'}}
                                                 </span>
                                             </h5>
-                                            <small *ngIf="service.indexDate"> {{service.indexDate | date:'dd/MM/yyyy' }}</small>
+                                            <small *ngIf="service.indexDate"> 
+                                                {{service.indexDate | date:'dd/MM/yyyy'}}
+                                            </small>
                                             <ng-template [ngIf]="service.indexed">
                                                 <br>
                                                 <button class="btn btn-primary btn-sm"
@@ -142,7 +175,6 @@
                                                 </span>
                                             </h5>
                                         </ng-container>
-
                                     </td>
                                     <td>
                                         <button class="btn btn-primary m-1" (click)="edit(service)">
@@ -150,6 +182,28 @@
                                         </button>
                                         <button class="btn btn-danger" (click)="deleteService(service)">
                                             <fa-icon [icon]="faDelete"></fa-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <ng-container *ngIf="!service.isActive">
+                                    <td>
+                                        <ngb-highlight [result]="service.url" [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        {{service.protocol}}
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center">
+                                        <h5 class="status">
+                                            <span class="badge badge-pill badge-danger">
+                                                Dado de Baja
+                                            </span>
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary m-1" (click)="addDeletedService(service)">
+                                            Dar de Alta
                                         </button>
                                     </td>
                                 </ng-container>

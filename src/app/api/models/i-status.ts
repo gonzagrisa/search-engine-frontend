@@ -4,4 +4,5 @@ export interface IStatus {
     indexed?: boolean;
     indexDate?: string;
     isUp?: boolean;
+    isActive?: boolean;
 }
