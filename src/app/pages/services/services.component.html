@@ -4,24 +4,24 @@
     </div>
 </div>
 
-<div class="container-fluid mt-5 mb-5">
+<div class="container mt-5 mb-5">
     <div class="row mt-4">
         <div class="col-md-12 col-12 mx-auto">
-            <div class="col-md-3">
+            <div class="col-md-5">
                 <label for="search" class="lead font-weight-bold">Buscar Servicio:</label>
                 <input id="search" class="form-control custom-rounded" type="text" placeholder="api/paginas"
                     (keyup)="search()" name="searchTerm" [(ngModel)]="searchTerm" />
-                <p class="mt-2">Alguna duda? Visita la <a routerLink="/docs"><strong>documentación</strong></a></p>
+                <p class="mt-2">Para más información, visita la <a routerLink="/docs"><strong>documentación</strong></a>.</p>
             </div>
-            <div class="table-responsive mt-4 col-md-12 col-12">
+            <div class="table-responsive">
                 <form [formGroup]="formRow">
                     <table class="table table-hover shadow">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">URL</th>
-                                <th scope="col" style="width:  8%" class="text-center">Protocolo</th>
-                                <th scope="col" style="width:  5%" class="text-center">Estado</th>
-                                <th scope="col" style="width:  10%"> </th>
+                                <th scope="col" style="width:  12%" class="text-center">Protocolo</th>
+                                <th scope="col" style="width:  10%" class="text-center">Estado</th>
+                                <th scope="col" style="width:  15%"> </th>
                             </tr>
                         </thead>
                         <tbody class="align-middle">
