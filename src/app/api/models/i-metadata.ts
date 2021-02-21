@@ -1,5 +1,6 @@
 export interface IMetadata {
     id?: string;
+    index?: number;
     URL?: string;
     text?: string;
     textLength?: number;

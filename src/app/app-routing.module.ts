@@ -16,7 +16,6 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DocsComponent } from './pages/docs/docs.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { LoginComponent } from './pages/login/login.component';
-import { MetadataEditorComponent } from './pages/metadata-editor/metadata-editor.component';
 import { MetadataComponent } from './pages/metadata/metadata.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
@@ -36,8 +35,7 @@ const routes: Routes = [
   {path: 'users',     component: UsersComponent,     canActivate: [AdminGuard], resolve: {users: UsersResolver}},
   {path: 'websites',  component: WebsitesComponent,  canActivate: [AuthGuard],  resolve: {websites: WebsitesResolver}},
   {path: 'services',  component: ServicesComponent,  canActivate: [AuthGuard],  resolve: {services: ServicesResolver}},
-  {path: 'metadata',  component: MetadataComponent,  canActivate: [AuthGuard], resolve: {metadata: MetadataResolver}},
-  {path: 'metadata/indexed', component: MetadataEditorComponent,  canActivate: [AuthGuard], resolve: {metadata: MetadataIndexedResolver}},
+  {path: 'metadata',  component: MetadataComponent,  canActivate: [AuthGuard], resolve: {metadata: MetadataResolver, indexed: MetadataIndexedResolver}},
   {path: 'preferences',  component: PreferencesComponent, canActivate: [AuthGuard], resolve: {preferences: PreferencesResolver, user: InfoResolver}},
   {path: 'docs',       component: DocsComponent},
   {path: '404',       component: NotFoundComponent},

@@ -1,7 +1,7 @@
 @media (max-width: 1000px) {
-    input.form-control {
+    /* input.form-control {
         width: auto;
-    }
+    } */
     select.form-control {
         width: auto;
     }
@@ -15,6 +15,12 @@
         word-break: unset !important;
     }
     
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 .tags ::ng-deep input {

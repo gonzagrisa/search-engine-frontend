@@ -37,7 +37,6 @@ import { PreferencesComponent } from './pages/preferences/preferences.component'
 import { TagInputModule } from 'ngx-chips';
 import { DocsComponent } from './pages/docs/docs.component';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
-import { MetadataEditorComponent } from './pages/metadata-editor/metadata-editor.component';
 
 @NgModule({
   declarations: [
@@ -61,8 +60,7 @@ import { MetadataEditorComponent } from './pages/metadata-editor/metadata-editor
     WebsiteFormComponent,
     MetadataComponent,
     PreferencesComponent,
-    DocsComponent,
-    MetadataEditorComponent
+    DocsComponent
   ],
   imports: [
     TagInputModule,
