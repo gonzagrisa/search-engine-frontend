@@ -45,7 +45,7 @@ export class ServicesComponent implements OnInit {
     this.formRow = this.fb.group({
       serviceId: [null],
       //url: ['', { updateOn: 'blur', validators: [Validators.required, Validators.pattern(this.regex)], asyncValidators: [this.urlValidator.checkPing('protocol').bind(this)]}],
-      url: ['', { updateOn: 'blur', validators: [Validators.required, Validators.pattern(this.regex)] }],
+      url: ['', [Validators.required, Validators.pattern(this.regex)]],
       protocol: ['REST', [Validators.required]],
       pingTested: [false],
       checkingPing: [false]

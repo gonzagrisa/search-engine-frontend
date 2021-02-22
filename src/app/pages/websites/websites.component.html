@@ -69,10 +69,10 @@
                                             <h5>
                                                 <span class="badge badge-pill"
                                                     [ngClass]="website.indexed ? 'badge-success' : 'badge-info'">
-                                                    {{website.indexed ? 'Indexado' : 'A Indexar'}}
+                                                    {{website.indexed ? 'Indexada' : 'A Indexar'}}
                                                 </span>
                                             </h5>
-                                            <small *ngIf="website.indexDate"> Fecha de indexado: {{website.indexDate | date:'dd/MM/yyyy' }} </small>
+                                            <small *ngIf="website.indexDate">Indexada el: {{website.indexDate | date:'dd/MM/yyyy' }} </small>
                                         </ng-template>
                                         <ng-template [ngIf]="!website.isUp">
                                             <h5>

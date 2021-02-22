@@ -31,7 +31,6 @@ import { TermsComponent } from './pages/terms/terms.component';
 import { WebsitesComponent } from './pages/websites/websites.component';
 import { ServicesComponent } from './pages/services/services.component';
 import { TableComponent } from './shared/table/table.component';
-import { WebsiteFormComponent } from './aux-pages/website-form/website-form.component';
 import { MetadataComponent } from './pages/metadata/metadata.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
 import { TagInputModule } from 'ngx-chips';
@@ -57,7 +56,6 @@ import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
     WebsitesComponent,
     ServicesComponent,
     TableComponent,
-    WebsiteFormComponent,
     MetadataComponent,
     PreferencesComponent,
     DocsComponent
