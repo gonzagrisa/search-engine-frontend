@@ -16,13 +16,6 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(private loader: LoaderService, private authService: AuthService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    /* if (request.headers.has("skip")) {
-      request = request.clone({
-        headers: request.headers.delete('skip')
-      });
-      return next.handle(request);
-    } else {
-      this.loader.start(); */
     if (this.authService.getToken()) {
       request = request.clone({
         headers: request.headers.set('Authorization', `Bearer ${this.authService.getToken()}`)

@@ -23,6 +23,8 @@ export class ServicesComponent implements OnInit {
   faUpdate = faCheck;
   faPlus = faPlus;
 
+  serviceChecked: IService = null;
+
   regex = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*((\\.([a-z]{2,5}))(:[0-9]{1,5})?|(:[0-9]{1,5}))(\\/.*)?$");
   services: IService[];
   servicesPage: IService[];
@@ -34,8 +36,7 @@ export class ServicesComponent implements OnInit {
   constructor(
     private api: ServicesResourceService,
     private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private urlValidator: UrlValidator) { }
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
@@ -184,19 +185,36 @@ export class ServicesComponent implements OnInit {
     }
   }
 
-  testPing(): void {
-    this.checkingPing.setValue(true);
-    this.api.testPing(this.formRow.value).subscribe(
-      () => {
-        this.checkingPing.setValue(false);
-        this.url.setErrors(null);
-        this.formRow.get('pingTested').setValue(true);
-      },
-      (err) => {
-        this.checkingPing.setValue(false);
-        this.url.setErrors({ pingFailed: true });
-      }
-    )
+  testPing(service?: IService): void {
+    if (service) {
+      this.serviceChecked = service;
+      this.serviceChecked.checkingPing = true;
+      this.api.testPing(service).subscribe(
+        () => {
+          this.serviceChecked.checkingPing = false;
+          this.serviceChecked.pingOk = true;
+          service.isUp = true;
+        },
+        () => {
+          this.serviceChecked.checkingPing = false;
+          this.serviceChecked.pingOk = false;
+          service.isUp = false;
+        }
+      )
+    } else {
+      this.checkingPing.setValue(true);
+      this.api.testPing(this.formRow.value).subscribe(
+        () => {
+          this.checkingPing.setValue(false);
+          this.url.setErrors(null);
+          this.formRow.get('pingTested').setValue(true);
+        },
+        () => {
+          this.checkingPing.setValue(false);
+          this.url.setErrors({ pingFailed: true });
+        }
+      );
+    }
   }
 
   search(): void {

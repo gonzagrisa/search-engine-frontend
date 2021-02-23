@@ -78,8 +78,9 @@
                                     <td>
                                         <input type="text" class="form-control custom-rounded" formControlName="firstName">
                                         <small class="invalid-input"
-                                            *ngIf="firstName.invalid && firstName.touched && firstName.value == ''">Ingrese
-                                            el Nombre del Usuario</small>
+                                            *ngIf="firstName.invalid && firstName.touched && firstName.value == ''">
+                                            Ingrese el Nombre del Usuario
+                                        </small>
                                     </td>
                                     <td> <input type="text" class="form-control custom-rounded" formControlName="lastName">
                                         <small class="invalid-input"
@@ -90,14 +91,15 @@
                                         <small class="invalid-input"
                                             *ngIf="username.invalid && username.touched && username.value == ''">Ingrese
                                             un nombre de usuario para el Usuario</small>
-                                        <small class="invalid-input" *ngIf="username.errors?.usernameTaken">Nombre de
-                                            Usuario no
-                                            disponible</small>
+                                        <small class="invalid-input" *ngIf="username.errors?.usernameTaken">
+                                            Nombre de Usuario no disponible
+                                        </small>
                                     </td>
                                     <td> <input type="password" class="form-control" formControlName="password">
                                         <small class="invalid-input"
-                                            *ngIf="password.invalid && password.touched && password.value == ''">Ingrese
-                                            una contraseña para el Usuario</small>
+                                            *ngIf="password.invalid && password.touched && password.value == ''">
+                                            Ingrese una contraseña para el Usuario
+                                        </small>
                                     </td>
                                 </ng-container>
                                 <ng-container *ngIf="editId != user.userId">

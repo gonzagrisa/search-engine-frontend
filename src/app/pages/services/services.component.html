@@ -50,9 +50,8 @@
                                 </td>
                                 <td scope="col" class="text-center">
                                     <button class="btn btn-success" (click)="testPing()"
-                                        [disabled]="url.errors?.pattern || url.pristine">
-                                        <span class="spinner-border spinner-border-sm"
-                                            *ngIf="checkingPing.value"></span>
+                                        [disabled]="url.errors?.pattern || url.invalid">
+                                        <span class="spinner-border spinner-border-sm" *ngIf="checkingPing.value"></span>
                                         Ping
                                     </button>
                                     <br>
@@ -122,8 +121,9 @@
                                         </button>
                                         <br>
                                         <small class="text-success"
-                                            *ngIf="pingTested.value && url.errors?.pingFailed == null">Ping
-                                            exitoso</small>
+                                            *ngIf="pingTested.value && url.errors?.pingFailed == null">
+                                            <strong>Ping exitoso</strong>
+                                        </small>
                                     </td>
                                     <td></td>
                                     <td>
@@ -150,16 +150,23 @@
                                         {{service.protocol}}
                                     </td>
                                     <td class="text-center">
+                                        <button class="btn btn-success" (click)="testPing(service)">
+                                            <span class="spinner-border spinner-border-sm" *ngIf="serviceChecked?.serviceId == service.serviceId && serviceChecked?.checkingPing"></span>
+                                            Ping
+                                        </button>
+                                        <br>
+                                        <small class="text-success" *ngIf="serviceChecked?.serviceId == service.serviceId && serviceChecked?.pingOk"> <strong>Ping exitoso</strong> </small>
+                                        <small class="text-danger" *ngIf="serviceChecked?.serviceId == service.serviceId && serviceChecked?.pingOk == false"> <strong>Ping fallido</strong> </small>
                                     </td>
                                     <td class="text-center">
-                                        <ng-template [ngIf]="service.isUp">
+                                        <ng-template [ngIf]="service.isUp || service.indexed">
                                             <h5 class="status">
                                                 <span class="badge badge-pill"
                                                     [ngClass]="service.indexed ? 'badge-success' : 'badge-info'">
                                                     {{service.indexed ? 'Indexado' : 'A Indexar'}}
                                                 </span>
                                             </h5>
-                                            <small *ngIf="service.indexDate"> 
+                                            <small *ngIf="service.indexDate">
                                                 {{service.indexDate | date:'dd/MM/yyyy'}}
                                             </small>
                                             <ng-template [ngIf]="service.indexed">
@@ -168,7 +175,7 @@
                                                     (click)="reindex(service)">Reindexar</button>
                                             </ng-template>
                                         </ng-template>
-                                        <ng-container *ngIf="!service.isUp">
+                                        <ng-container *ngIf="!service.isUp && !service.indexed">
                                             <h5>
                                                 <span class="badge badge-pill badge-danger">
                                                     Servicio Caído

@@ -4,4 +4,6 @@ export interface IService extends IStatus {
     serviceId?: number;
     url?: string;
     protocol?: string;
+    checkingPing?: boolean;
+    pingOk?: boolean;
 }
