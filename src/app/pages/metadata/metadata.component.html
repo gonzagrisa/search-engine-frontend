@@ -43,8 +43,7 @@
                                 style="transform: scale(2);">
                             <ng-template [ngIf]="this.countSelected() > 0">
                                 <button class="btn btn-outline-success btn-sm shadow-sm mr-3" (click)="updateBatch()">
-                                    Actualizar/Aprobar {{this.countSelected() == metadata.length ? 'Todos' :
-                                    'Seleccionados' }}
+                                    {{selectApproved ? 'Actualizar' : 'Aprobar'}} {{this.countSelected() == metadata.length ? 'Todos' : 'Seleccionados'}}
                                 </button>
                                 <button class="btn btn-outline-danger btn-sm shadow-sm" (click)="deleteBatch()">
                                     Eliminar {{this.countSelected() == metadata.length ? 'Todos' : 'Seleccionados' }}

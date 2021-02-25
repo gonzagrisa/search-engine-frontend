@@ -81,6 +81,7 @@ export class UsersComponent implements OnInit {
   edit(user: IUser): void {
     this.editId = user.userId;
     this.password.setValue('');
+    this.password.setValidators(null);
     this.lastName.setValue(user.lastName);
     this.firstName.setValue(user.firstName);
     this.userId.setValue(user.userId);
@@ -88,8 +89,10 @@ export class UsersComponent implements OnInit {
   }
 
   cancelEdit(): void {
+    console.log("CANCELING EDIT");
     this.editId = null;
     this.formRow.reset();
+    this.password.setValidators([Validators.required]);
   }
 
   private updateListUsers(): void{
