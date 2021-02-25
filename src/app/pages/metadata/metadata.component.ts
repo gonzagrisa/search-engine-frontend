@@ -76,7 +76,10 @@ export class MetadataComponent implements OnInit {
     this.form.controls.map(control => control.get('selected').setValue(false));
   }
 
-  search(): void {
+  search(reset?: boolean): void {
+    if (reset){
+      this.page = 1;
+    }
     this.cancel(true);
     this.searching = true;
     let metadataResults;
@@ -92,7 +95,7 @@ export class MetadataComponent implements OnInit {
 
   private matches(metadata: IMetadata, term: string): boolean {
     term = term.toLocaleLowerCase();
-    return metadata.title.toLowerCase().includes(term)
+    return metadata.title?.toLowerCase().includes(term)
       || metadata.URL.toLocaleLowerCase().includes(term)
       || metadata.text.toLocaleLowerCase().includes(term);
   }

@@ -9,7 +9,7 @@
         <div class="col-md-12 col-12 mx-auto rounded">
             <div class="col-md-5 col-12 mb-5">
                 <label for="search" class="lead font-weight-bold">Buscar Página:</label>
-                <input id="search" class="form-control custom-rounded" type="text" placeholder="google.com" (keyup)="search()"
+                <input id="search" class="form-control custom-rounded" type="text" placeholder="google.com" (keyup)="search(true)"
                     name="searchTerm" [(ngModel)]="searchTerm" />
             </div>
             <form [formGroup]="formRow">

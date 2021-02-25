@@ -25,7 +25,7 @@
                 <div class="row text-center">
                     <div class="col-md-4 col-10 mx-auto">
                         <label for="search" class="lead font-weight-bold">Buscar:</label>
-                        <input id="search" class="form-control" type="text" name="searchTerm" (keyup)="search()"
+                        <input id="search" class="form-control" type="text" name="searchTerm" (keyup)="search(true)"
                             [(ngModel)]="searchTerm" />
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4 col-12 mb-3">
-                            <input type="checkbox" class="ml-1 mr-4 mt-1"
+                            <input type="checkbox" class="ml-1 mr-4 mt-1" [disabled]="metadataPage.length == 0"
                                 (click)="this.checked = !this.checked; selectAll()" ([ngModel])="checked"
                                 style="transform: scale(2);">
                             <ng-template [ngIf]="this.countSelected() > 0">
@@ -56,8 +56,8 @@
                             <span class="badge badge-pill badge-danger">&nbsp;</span> No Aprobado
                         </div>
                         <div class="col-md-4 col-12">
-                            <select class="custom-select float-md-right" style="width: auto" [(ngModel)]="selectApproved"
-                                (ngModelChange)="search()">
+                            <select class="custom-select float-md-right" style="width: auto"
+                                [(ngModel)]="selectApproved" (ngModelChange)="search()">
                                 <option [ngValue]="null">Todos</option>
                                 <option [ngValue]="false">No aprobados</option>
                                 <option [ngValue]="true">Aprobados</option>
@@ -65,113 +65,124 @@
                         </div>
                     </div>
                 </div>
-                <!-- TABLA -->
-                <form [formGroup]="form">
-                    <div class="table-responsive mt-4 col-md-12 col-12">
-                        <table class="table table-hover shadow-sm w-100">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col" style="width: 1%;"> </th>
-                                    <th scope="col" style="width: 25%;">URL</th>
-                                    <th scope="col" style="width: 15%;">Titulo</th>
-                                    <th scope="col" style="width: 15%;">Texto</th>
-                                    <th scope="col" style="width: 10%;">Top palabras</th>
-                                    <th scope="col" style="width: 5%;">Tipo</th>
-                                    <th scope="col" style="width: 20%;">Tags</th>
-                                    <th scope="col" style="width: 10%;"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let data of metadataPage; index as i"
-                                    [formGroupName]="getRealIndex(data.id)">
-                                    <!-- Checkbox -->
-                                    <td class="text-center">
-                                        <input type="checkbox" formControlName="selected">
-                                        <span class="badge badge-pill badge-success" *ngIf="data.approved">&nbsp;</span>
-                                        <span class="badge badge-pill badge-danger" *ngIf="!data.approved">&nbsp;</span>
-                                    </td>
-                                    <!-- URL -->
-                                    <td class="url-td"><a [href]="data.URL">
-                                            <ngb-highlight [result]="data.URL" [term]="searchTerm"></ngb-highlight>
-                                        </a></td>
-                                    <!-- EDITAR O NO EDITAR CAMPO TEXTO -->
-                                    <ng-container *ngIf="editingIndex == getRealIndex(data.id)">
-                                        <td><textarea rows="5" type="text" class="form-control"
-                                                formControlName="title"></textarea></td>
-                                    </ng-container>
-                                    <ng-container *ngIf="editingIndex != getRealIndex(data.id)">
-                                        <td class="td-title">
-                                            <ngb-highlight [result]="data.title" [term]="searchTerm"></ngb-highlight>
+                <ng-container *ngIf="metadataPage.length > 0">
+                    <!-- TABLA -->
+                    <form [formGroup]="form">
+                        <div class="table-responsive mt-4 col-md-12 col-12">
+                            <table class="table table-hover shadow-sm w-100">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col" style="width: 1%;"> </th>
+                                        <th scope="col" style="width: 25%;">URL</th>
+                                        <th scope="col" style="width: 15%;">Titulo</th>
+                                        <th scope="col" style="width: 15%;">Texto</th>
+                                        <th scope="col" style="width: 10%;">Top palabras</th>
+                                        <th scope="col" style="width: 5%;">Tipo</th>
+                                        <th scope="col" style="width: 20%;">Tags</th>
+                                        <th scope="col" style="width: 10%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of metadataPage; index as i"
+                                        [formGroupName]="getRealIndex(data.id)">
+                                        <!-- Checkbox -->
+                                        <td class="text-center">
+                                            <input type="checkbox" formControlName="selected">
+                                            <span class="badge badge-pill badge-success"
+                                                *ngIf="data.approved">&nbsp;</span>
+                                            <span class="badge badge-pill badge-danger"
+                                                *ngIf="!data.approved">&nbsp;</span>
                                         </td>
-                                    </ng-container>
-                                    <!-- Texto -->
-                                    <td>
-                                        <ngb-highlight [result]="data.text+'...'" [term]="searchTerm"></ngb-highlight>
-                                    </td>
-                                    <!-- Top Palabras -->
-                                    <td class="td-words">{{data.topWords.join(", ")}}</td>
-                                    <!-- Tipo -->
-                                    <td>{{data.type}}</td>
-                                    <!-- Tags y Filtros -->
-                                    <td class="tags">
-                                        <strong>Tags</strong>
-                                        <tag-input formControlName="tags" secondaryPlaceholder="+ Tag"
-                                            [separatorKeys]="[',']" [addOnBlur]="true" [editable]="true"
-                                            [modelAsStrings]="true"
-                                            [ngClass]="{'disabled': (data.approved && editingIndex != getRealIndex(data.id))}"
-                                            [animationDuration]="{enter: '250ms', leave: '300ms'}" theme='bootstrap'>
-                                        </tag-input>
-                                        <strong class="mt-1">Filtros</strong>
-                                        <tag-input formControlName="filters" secondaryPlaceholder="+ Filtro"
-                                            [separatorKeys]="[',']" [addOnBlur]="true" [editable]="true"
-                                            [modelAsStrings]="true"
-                                            [ngClass]="{'disabled': (data.approved && editingIndex != getRealIndex(data.id))}"
-                                            [animationDuration]="{enter: '250ms', leave: '300ms'}" theme='bootstrap'>
-                                        </tag-input>
-                                    </td>
-                                    <!-- Botones -->
-                                    <td class="mx-auto">
-                                        <div class="my-auto">
-                                            <ng-container *ngIf="editingIndex == getRealIndex(data.id)">
-                                                <button class="btn btn-success mb-1 btn-sm" (click)="approve(data)">
-                                                    <fa-icon [icon]="faCheck"></fa-icon> {{data.approved ? 'Actualizar'
-                                                    : 'Aprobar'}}
-                                                </button>
-                                                <br>
-                                                <button class="btn btn-danger mb-1 btn-sm" (click)="cancel(true)">
-                                                    <fa-icon [icon]="faCancel"></fa-icon> Cancelar
-                                                </button>
-                                            </ng-container>
-                                            <ng-container *ngIf="editingIndex != getRealIndex(data.id)">
-                                                <!-- APROBAR METADATA -->
-                                                <div *ngIf="!data.approved">
+                                        <!-- URL -->
+                                        <td class="url-td"><a [href]="data.URL">
+                                                <ngb-highlight [result]="data.URL" [term]="searchTerm"></ngb-highlight>
+                                            </a></td>
+                                        <!-- EDITAR O NO EDITAR CAMPO TEXTO -->
+                                        <ng-container *ngIf="editingIndex == getRealIndex(data.id)">
+                                            <td><textarea rows="5" type="text" class="form-control"
+                                                    formControlName="title"></textarea></td>
+                                        </ng-container>
+                                        <ng-container *ngIf="editingIndex != getRealIndex(data.id)">
+                                            <td class="td-title">
+                                                <ngb-highlight [result]="data?.title" [term]="searchTerm"
+                                                    *ngIf="data.title"></ngb-highlight>
+                                            </td>
+                                        </ng-container>
+                                        <!-- Texto -->
+                                        <td>
+                                            <ngb-highlight [result]="data.text+'...'" [term]="searchTerm">
+                                            </ngb-highlight>
+                                        </td>
+                                        <!-- Top Palabras -->
+                                        <td class="td-words">{{data.topWords.join(", ")}}</td>
+                                        <!-- Tipo -->
+                                        <td>{{data.type}}</td>
+                                        <!-- Tags y Filtros -->
+                                        <td class="tags">
+                                            <strong>Tags</strong>
+                                            <tag-input formControlName="tags" secondaryPlaceholder="+ Tag"
+                                                [separatorKeys]="[',']" [addOnBlur]="true" [editable]="true"
+                                                [modelAsStrings]="true"
+                                                [ngClass]="{'disabled': (data.approved && editingIndex != getRealIndex(data.id))}"
+                                                [animationDuration]="{enter: '250ms', leave: '300ms'}"
+                                                theme='bootstrap'>
+                                            </tag-input>
+                                            <strong class="mt-1">Filtros</strong>
+                                            <tag-input formControlName="filters" secondaryPlaceholder="+ Filtro"
+                                                [separatorKeys]="[',']" [addOnBlur]="true" [editable]="true"
+                                                [modelAsStrings]="true"
+                                                [ngClass]="{'disabled': (data.approved && editingIndex != getRealIndex(data.id))}"
+                                                [animationDuration]="{enter: '250ms', leave: '300ms'}"
+                                                theme='bootstrap'>
+                                            </tag-input>
+                                        </td>
+                                        <!-- Botones -->
+                                        <td class="mx-auto">
+                                            <div class="my-auto">
+                                                <ng-container *ngIf="editingIndex == getRealIndex(data.id)">
                                                     <button class="btn btn-success mb-1 btn-sm" (click)="approve(data)">
-                                                        <fa-icon [icon]="faCheck"></fa-icon> Aprobar
+                                                        <fa-icon [icon]="faCheck"></fa-icon> {{data.approved ?
+                                                        'Actualizar'
+                                                        : 'Aprobar'}}
                                                     </button>
                                                     <br>
-                                                </div>
-                                                <!-- EDITAR -->
-                                                <button class="btn btn-primary mb-1 btn-sm" (click)="edit(data)">
-                                                    <fa-icon [icon]="faPen"></fa-icon> Editar
-                                                </button>
-                                                <br>
-                                                <!-- BORRAR -->
-                                                <button class="btn btn-danger btn-sm" (click)="deleteMetadata(data)">
-                                                    <fa-icon [icon]="faDelete"></fa-icon> Eliminar
-                                                </button>
-                                            </ng-container>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
+                                                    <button class="btn btn-danger mb-1 btn-sm" (click)="cancel(true)">
+                                                        <fa-icon [icon]="faCancel"></fa-icon> Cancelar
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngIf="editingIndex != getRealIndex(data.id)">
+                                                    <!-- APROBAR METADATA -->
+                                                    <div *ngIf="!data.approved">
+                                                        <button class="btn btn-success mb-1 btn-sm"
+                                                            (click)="approve(data)">
+                                                            <fa-icon [icon]="faCheck"></fa-icon> Aprobar
+                                                        </button>
+                                                        <br>
+                                                    </div>
+                                                    <!-- EDITAR -->
+                                                    <button class="btn btn-primary mb-1 btn-sm" (click)="edit(data)">
+                                                        <fa-icon [icon]="faPen"></fa-icon> Editar
+                                                    </button>
+                                                    <br>
+                                                    <!-- BORRAR -->
+                                                    <button class="btn btn-danger btn-sm"
+                                                        (click)="deleteMetadata(data)">
+                                                        <fa-icon [icon]="faDelete"></fa-icon> Eliminar
+                                                    </button>
+                                                </ng-container>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </ng-container>
             </div>
         </div>
 
         <!-- PAGINACION -->
-        <div class="row pt-2 mb-5 mx-auto">
+        <div class="row pt-2 mb-5 mx-auto" *ngIf="metadataPage.length > 0">
             <div class="col-md-6 col-12">
                 <ngb-pagination [collectionSize]="totalSearch" [(page)]="page" [pageSize]="pageSize" [maxSize]="5"
                     [boundaryLinks]="true" (pageChange)="search()">
@@ -186,5 +197,15 @@
                 </select>
             </div>
         </div>
+        <ng-container *ngIf="metadataPage.length == 0">
+            <div class="mt-5">
+                <h3 class="text-center" *ngIf="searchTerm == ''">
+                    No hay metadatos {{this.selectApproved ? 'aprobados' : 'pendientes de aprobación'}}
+                </h3>
+                <h3 class="text-center" *ngIf="searchTerm != ''">
+                    No se encontraron resultados para {{searchTerm}}
+                </h3>
+            </div>
+        </ng-container>
     </div>
 </ng-container>

@@ -23,7 +23,8 @@ export class WebsitesComponent implements OnInit {
   
   editId: number;
   
-  regex = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*((\\.([a-z]{2,5}))(:[0-9]{1,5})?|(:[0-9]{1,5}))(\\/.*)?$");
+  //regex = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*((\\.([a-z]{2,5}))(:[0-9]{1,5})?|(:[0-9]{1,5}))(\\/.*)?$");
+  regex = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*((\\.([a-z]{2,5}))(:[0-9]{1,5})?|(:[0-9]{1,5})?)(\\/.*)?$");
   websites: IWebsite[];
   websitesPage: IWebsite[];
   page = 1;
@@ -52,6 +53,7 @@ export class WebsitesComponent implements OnInit {
     this.api.addWebsite(this.formRow.value).subscribe(
       () => {
         this.updateListWebsites();
+        this.formRow.reset();
         Swal.fire({
           icon: 'success',
           title: 'Página Agregada con Éxito',
@@ -129,13 +131,17 @@ export class WebsitesComponent implements OnInit {
     this.total = this.websites.length;
   }
 
-  search(): void {
-    this.websitesPage = this.websites.filter(user => this.matches(user, this.searchTerm));
-    this.websitesPage = this.websitesPage.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+  search(resetPage?: boolean): void {
+    if (resetPage){
+      this.page = 1;
+    }
+    let results = this.websites.filter(user => this.matches(user, this.searchTerm));
+    //this.websitesPage = this.websites.filter(user => this.matches(user, this.searchTerm));
+    this.websitesPage = results.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
     if (this.searchTerm === '') {
       this.total = this.websites.length;
     } else {
-      this.total = this.websitesPage.length;
+      this.total = results.length;
     }
   }
 
