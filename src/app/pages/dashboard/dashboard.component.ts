@@ -9,15 +9,13 @@ import { IStats } from 'src/app/api/models/i-stats';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
+  RESOLVER_FIELD = 'stats';
   stats: IStats;
 
   constructor(public authService: AuthService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.route.data.subscribe((data) =>{
-      this.stats = data.stats;
-    });
+    this.stats = this.route.snapshot.data[this.RESOLVER_FIELD];
   }
 
 }

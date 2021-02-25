@@ -50,7 +50,7 @@ export class AuthService {
   }
 
   getUserToken(): IUser {
-    const decoded = jwtDecode(this.getToken());
+    const decoded = this.getDecodedToken();
     const user: IUser = {
       userId: decoded['id'],
       username: decoded['username'],

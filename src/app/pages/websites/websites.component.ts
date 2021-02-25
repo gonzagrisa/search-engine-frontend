@@ -15,14 +15,14 @@ import Swal from 'sweetalert2';
 export class WebsitesComponent implements OnInit {
 
   formRow: FormGroup;
-  
+
   faPen = faPen;
   faDelete = faEraser;
   faCancel = faWindowClose;
   faUpdate = faCheck;
-  
+
   editId: number;
-  
+
   //regex = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*((\\.([a-z]{2,5}))(:[0-9]{1,5})?|(:[0-9]{1,5}))(\\/.*)?$");
   regex = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*((\\.([a-z]{2,5}))(:[0-9]{1,5})?|(:[0-9]{1,5})?)(\\/.*)?$");
   websites: IWebsite[];
@@ -31,7 +31,7 @@ export class WebsitesComponent implements OnInit {
   pageSize = 10;
   total: number;
   searchTerm = '';
-  
+
   constructor(
     private route: ActivatedRoute,
     private api: WebsiteResourceService,
@@ -126,8 +126,9 @@ export class WebsitesComponent implements OnInit {
   }
 
   refreshWebsites(): void {
+    let start = (this.page - 1) * this.pageSize;
     this.websitesPage = this.websites
-      .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+      .slice(start, start + this.pageSize);
     this.total = this.websites.length;
   }
 
@@ -166,7 +167,7 @@ export class WebsitesComponent implements OnInit {
     this.editId = null;
     this.formRow.reset();
   }
-  
+
   get websiteId(): AbstractControl {
     return this.formRow.get('websiteId');
   }
