@@ -39,10 +39,7 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    if (this.isLoggedIn()) {
-      return this.getUserToken().role === 'ADMIN';
-    }
-    return false;
+    return this.isLoggedIn() && this.getUserToken().role === 'ADMIN';
   }
 
   getDecodedToken(): unknown{
