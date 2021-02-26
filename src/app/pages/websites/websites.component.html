@@ -9,8 +9,8 @@
         <div class="col-md-12 col-12 mx-auto rounded">
             <div class="col-md-5 col-12 mb-5">
                 <label for="search" class="lead font-weight-bold">Buscar Página:</label>
-                <input id="search" class="form-control custom-rounded" type="text" placeholder="google.com" (keyup)="search(true)"
-                    name="searchTerm" [(ngModel)]="searchTerm" />
+                <input id="search" class="form-control custom-rounded" type="text" placeholder="google.com"
+                    (keyup)="search(true)" name="searchTerm" [(ngModel)]="searchTerm" />
             </div>
             <form [formGroup]="formRow">
                 <div class="table-responsive">
@@ -44,7 +44,8 @@
                                 <td colspan="2" class="text-center px-5">
                                     <button class="btn btn-success btn-block" (click)="addWebsite()"
                                         [disabled]="formRow.invalid || formRow.pending">
-                                        Insertar Página
+                                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="formRow.pending"></div>
+                                         Insertar Página
                                     </button>
                                 </td>
                             </tr>
@@ -72,7 +73,8 @@
                                                     {{website.indexed ? 'Indexada' : 'A Indexar'}}
                                                 </span>
                                             </h5>
-                                            <small *ngIf="website.indexDate">Indexada el: {{website.indexDate | date:'dd/MM/yyyy' }} </small>
+                                            <small *ngIf="website.indexDate">Indexada el: {{website.indexDate |
+                                                date:'dd/MM/yyyy' }} </small>
                                         </ng-template>
                                         <ng-template [ngIf]="!website.isUp">
                                             <h5>
@@ -118,7 +120,8 @@
                                     <td>
                                         <button class="btn btn-success btn-block" (click)="updateWebsite(website)"
                                             [disabled]="formRow.invalid || formRow.pending">
-                                            <fa-icon [icon]="faUpdate"></fa-icon>
+                                            <fa-icon [icon]="faUpdate" *ngIf="!formRow.pending"></fa-icon>
+                                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="formRow.pending"></div>
                                             Actualizar
                                         </button>
                                     </td>

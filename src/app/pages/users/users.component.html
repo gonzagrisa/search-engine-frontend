@@ -95,12 +95,7 @@
                                             Nombre de Usuario no disponible
                                         </small>
                                     </td>
-                                    <td> <input type="password" class="form-control" formControlName="password">
-                                        <small class="invalid-input"
-                                            *ngIf="password.invalid && password.touched && password.value == ''">
-                                            Ingrese una contraseña para el Usuario
-                                        </small>
-                                    </td>
+                                    <td> <input type="password" class="form-control" formControlName="password"></td>
                                 </ng-container>
                                 <ng-container *ngIf="editId != user.userId">
                                     <td>

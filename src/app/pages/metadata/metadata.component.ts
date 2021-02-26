@@ -65,7 +65,13 @@ export class MetadataComponent implements OnInit {
 
   selectAll(): void {
     if (this.checked) {
-      this.form.controls.map(control => control.get('selected').setValue(true));
+      if (this.selectApproved) {
+        this.form.controls.filter(control => control.get('approved').value == true).map(control => control.get('selected').setValue(true));
+      } else if (this.selectApproved === false) {
+        this.form.controls.filter(control => control.get('approved').value == false).map(control => control.get('selected').setValue(true));
+      } else{
+        this.form.controls.map(control => control.get('selected').setValue(true));
+      }
     }
     else {
       this.unselectAll();

@@ -82,13 +82,13 @@ export class WebsitesComponent implements OnInit {
     this.api.updateWebsite({ websiteId: website.websiteId, url: this.url.value }).subscribe(
       () => {
         this.updateListWebsites();
-        this.cancelEdit();
         Swal.fire({
           icon: 'success',
           title: 'Página Actualizada con Éxito',
           showConfirmButton: false,
           timer: 1500
         });
+        this.cancelEdit();
       }
     )
   }

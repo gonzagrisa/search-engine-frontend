@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { IStats } from 'src/app/api/models/i-stats';
 
 @Component({
