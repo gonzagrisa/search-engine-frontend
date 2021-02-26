@@ -101,8 +101,8 @@ export class ServicesComponent implements OnInit {
 
   deleteService(service: IService): void {
     Swal.fire({
-      title: `Estás Seguro de querer eliminar el servicio?`, text: `${service.url}`,
-      icon: 'warning', showCancelButton: true, confirmButtonText: 'Sí, eliminar'
+      title: `Estás seguro de querer dar de baja el servicio?`, text: `${service.url}`,
+      icon: 'warning', showCancelButton: true, confirmButtonText: 'Sí, dar de baja'
     })
       .then((result) => {
         if (result.isDismissed) {
@@ -114,7 +114,7 @@ export class ServicesComponent implements OnInit {
               () => {
                 this.updateListServices();
                 this.cancelEdit();
-                Swal.fire('Servicio Eliminado!', '', 'success');
+                Swal.fire('Servicio dado de baja!', '', 'success');
               }
             )
           } else {
@@ -129,7 +129,7 @@ export class ServicesComponent implements OnInit {
                     () => {
                       this.updateListServices();
                       this.cancelEdit();
-                      Swal.fire('Servicio Eliminado!', '', 'success');
+                      Swal.fire('Servicio dado de baja!|', '', 'success');
                     }
                   )
                 } else {
@@ -137,7 +137,7 @@ export class ServicesComponent implements OnInit {
                     () => {
                       this.updateListServices();
                       this.cancelEdit();
-                      Swal.fire('Servicio Eliminado!', '', 'success');
+                      Swal.fire('Servicio dado de baja!|', '', 'success');
                     }
                   )
                 }
